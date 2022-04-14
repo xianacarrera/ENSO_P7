@@ -25,17 +25,24 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 			alarma = new Alarma("id????", TipoAlarma.MANUAL, centro, zona);
 			//List<Protocolo> protocolos = buscarProtocolo(alarma);
 		} catch(Exception eo) {
-			alarma = null;
+			return null;
 		}
+		
+		List<Protocolo> prots = buscarProtocolos(alarma);
+		
 		return alarma;
 	}
 	
-	public List<Protocolo> buscarProtocolo(Alarma al){
+	public Protocolo emitirProtocolo(Protocolo protocolo) {
+		
+	}
+	
+	public List<Protocolo> buscarProtocolos(Alarma al){
 		if (al == null || al.getTipoAlarma() == null) return null;
 		
 		List<Protocolo> prots = protocolos.values().stream().collect(Collectors.toList());
 		// Podemos hacer un getTipo().equals porque el tipo de un protocolo nunca es null
-		prots.stream().filter(prot -> prot.getTipo().equals(al.getTipoAlarma()) && (prot.getCentro() == null || prot.getCentro().equals(al.getCentro())));
+		prots.stream().filter(prot -> prot.getTipo().equals(al.getTipoAlarma()) && (prot.getLocalizacion() == null || prot.getLocalizacion().equals(al.getCentro().getNombre())));
 		return prots;
 	}
 	

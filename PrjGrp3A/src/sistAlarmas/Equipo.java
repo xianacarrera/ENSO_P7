@@ -32,6 +32,10 @@ public class Equipo {
 		Equipo other = (Equipo) obj;
 		return Objects.equals(idEquipo, other.idEquipo);
 	}
+	
+	public boolean estaOcupado() {
+		return alarmaEnEjecucion != null;
+	}
 
 	public List<String> getResponsabilidades() {
 		return responsabilidades;

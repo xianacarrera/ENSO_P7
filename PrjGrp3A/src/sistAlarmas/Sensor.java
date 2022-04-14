@@ -117,8 +117,7 @@ public class Sensor {
 	}
 	
 	public Alarma dispararAlarma() {
-		GestorAlarmas.getInstancia().activarAlarma(this);
-		return null;
+		return GestorAlarmas.getInstancia().activarAlarma(this);
 	}
 
 
