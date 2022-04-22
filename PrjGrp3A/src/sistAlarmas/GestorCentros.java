@@ -57,9 +57,12 @@ public class GestorCentros implements ItfGestorCentros {
 	}
 
 	@Override
-	public Sensor addSensor(Sensor sensor, Centro centro) {
-		// TODO Auto-generated method stub
-		return null;
+	public Sensor addSensor(Sensor sensor) {
+		if (sensor == null) return null; 
+		if (sensores.containsKey(sensor.getIdSensor())) return null;
+		
+		sensores.put(sensor.getIdSensor(), sensor);
+		return sensor;
 	}
 
 	@Override

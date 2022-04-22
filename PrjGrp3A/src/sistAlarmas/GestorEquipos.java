@@ -48,7 +48,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 
 	@Override
 	public Equipo eliminarEquipo(String idEquipo) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
