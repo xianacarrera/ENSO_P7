@@ -8,11 +8,14 @@ import java.util.stream.Collectors;
 public class GestorAlarmas implements ItfGestorAlarmas {
 
 	private static GestorAlarmas instancia;
-	private HashMap<String, Alarma> alarmas;
-	private HashMap<String, Protocolo> protocolos;
+	private static HashMap<String, Alarma> alarmasEnEjecucion;
+	private static HashMap<String, Protocolo> protocolos;
 	
 	
-	private GestorAlarmas(){}
+	private GestorAlarmas(){
+		alarmasEnEjecucion = new HashMap<>();
+		protocolos = new HashMap<>();
+	}
 
 	public static GestorAlarmas getInstancia() {
 		if (instancia == null) instancia = new GestorAlarmas();
@@ -22,7 +25,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	public Alarma activarAlarma(Centro centro, String zona) {
 		Alarma alarma;
 		try {
-			alarma = new Alarma("id????", TipoAlarma.MANUAL, centro, zona);
+			alarma = new Alarma("id????", , centro, zona);
 			//List<Protocolo> protocolos = buscarProtocolo(alarma);
 		} catch(Exception eo) {
 			return null;
@@ -47,14 +50,18 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	}
 	
 	public Alarma activarAlarma(Sensor sensor) {
+		if (sensor == null) return null;
 		Alarma alarma = null;
 		try {
 			// Hacer switch en función del tipo de sensor para conseguir el tipo de alarma
 			//alarma = new Alarma("id????", , sensor.getCentro(), sensor.getZona());
-
+			alarma = new Alarma("uwu", ItfGestorAlarmas.tipoSensorToTipoAlarma(sensor.getTipoSensor()), sensor.getCentro(), sensor.getZona());
 		} catch (Exception eo) {
 			return null;
 		}
+		
+		GestorEquipos.getInstancia().recibirProtocolos(buscarProtocolos(alarma), alarma);
+		
 		return alarma;
 	}
 	

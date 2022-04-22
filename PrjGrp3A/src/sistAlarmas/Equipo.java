@@ -33,6 +33,8 @@ public class Equipo {
 		return Objects.equals(idEquipo, other.idEquipo);
 	}
 	
+	public Equipo recibirOrden()
+	
 	public boolean estaOcupado() {
 		return alarmaEnEjecucion != null;
 	}

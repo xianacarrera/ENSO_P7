@@ -49,4 +49,18 @@ public interface ItfGestorAlarmas {
 		return false;
 	}
 	
+	static TipoAlarma tipoSensorToTipoAlarma(TipoSensor ts) {
+		HUMO, CALOR, BAROMETRO, SISMO, PRESENCIA, OTRO
+		if (ts == null) return null;
+		switch (ts) {
+			case HUMO: return TipoAlarma.INCENDIOS;
+			case CALOR: return TipoAlarma.INCENDIOS;
+			case BAROMETRO: return TipoAlarma.HURACAN;
+			case SISMO: return TipoAlarma.SISMICA;
+			case PRESENCIA: return TipoAlarma.INTRUSOS;
+			case OTRO: return TipoAlarma.OTRO;
+		}
+		return null;
+	}
+	
 }

@@ -19,8 +19,12 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return instancia;
 	}
 	
-	public Equipo recibirProtocolo(Protocolo prot, Alarma al) {
+	public Equipo recibirProtocolos(List<Protocolo> prots, Alarma al) {
 		// MÉTODO MUY DADO A COMPLEJIDAD CICLOMÁTICA ALTA POR EL ALGORITMO DE BÚSQUEDA DE EQUIPOS
+		
+		if (prots == null || prots.isEmpty() || al == null) return null;
+		
+		// List<Accion> 
 		
 		List<Equipo> candidatos = equipos.values().stream().collect(Collectors.toList());
 		// DEFINIR ALGORITMO
@@ -29,6 +33,8 @@ public class GestorEquipos implements ItfGestorEquipos{
 		if (candidatos.isEmpty()) return null;
 		
 		Equipo elegido = candidatos.get(0);  // Hay que poner esto bien
+		
+		candidatos.
 		
 		
 		return candidatos.get(0);		
