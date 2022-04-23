@@ -22,6 +22,13 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return instancia;
 	}
 	
+	public boolean esAlarmaEnEjecucion(String idAlarma) {
+		if (idAlarma == null) return false;
+		if (!alarmasEnEjecucion.containsKey(idAlarma)) return false;
+		if (alarmasEnEjecucion.get(idAlarma) == null) return false;
+		return true;
+	}
+	
 	public Alarma activarAlarma(Centro centro, String zona) {
 		Alarma alarma;
 
@@ -76,5 +83,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return al;
 	}
 	
+	public List<Alarma> getAlarmasActivas(){
+		return alarmasEnEjecucion.values().stream().collect(Collectors.toList());
+	}
 	
 }

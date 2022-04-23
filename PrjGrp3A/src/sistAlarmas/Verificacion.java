@@ -11,6 +11,8 @@ public class Verificacion {
 	private Alarma alarma;
 	private Equipo emisor;
 	
+	public Verificacion() {}
+	
 	public Verificacion(String idVerif, String mensaje) {
 		this.idVerif = idVerif;
 		this.mensaje = mensaje;
@@ -39,8 +41,15 @@ public class Verificacion {
 
 	public Verificacion setAccion(Accion accion) throws Exception {
 		if (accion == null) throw new Exception("Accion no valida: es nula");
-		// La alarma de esta verificacion debe haber 
-		if (accion.getAlarma().equals(this.alarma)) throw new Exception
+		
+		// Si la alarma de esta 
+		if (this.alarma != null) {
+			if (!this.alarma.equals(accion.getAlarma())) 
+				throw new Exception("La alarma asociada a la accion no coincide con la de la verificacion");
+		} else {
+			if (accion.getAlarma() != null) this.alarma = accion.getAlarma();
+		}
+		
 		this.accion = accion;
 	}
 

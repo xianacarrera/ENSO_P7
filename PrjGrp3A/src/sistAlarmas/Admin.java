@@ -8,8 +8,12 @@ public class Admin {
 	
 	private UsuarioRegistrado usuario;
 	
-	public Admin(UsuarioRegistrado usuario) throws Exception {
-		if (usuario == null) throw new Exception("Usuario no valido");
-		this.usuario = usuario;
+	public Admin(UsuarioRegistrado usuario) {}
+	
+	public Admin setUsuarioRegistrado(UsuarioRegistrado usuarioR) throws Exception {
+		if (this.usuario != null) throw new Exception("El administrador ya estaba vinculado a un perfil de usuario");
+		if (usuarioR == null) throw new Exception("Usuario no valido");
+		this.usuario = usuarioR;
+		return this;
 	}
 }

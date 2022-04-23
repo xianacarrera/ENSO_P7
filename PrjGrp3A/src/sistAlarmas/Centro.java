@@ -1,5 +1,6 @@
 package sistAlarmas;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +11,7 @@ public class Centro {
 	private String nombre;
 	private String campus;
 	private String servicio;
-	private float[] coordenadas = new float[2];
+	private float[] coordenadas;
 	private String ciudad;
 	private String calle;
 	private int numero;
@@ -20,29 +21,22 @@ public class Centro {
 	
 	protected Centro(){
 		sensores = new HashMap<>();
+		coordenadas = new float[2];
+		coordenadas[0] = coordenadas[1] = (float) 0.0;
 	}
 	
-	
-	@Override
-	public int hashCode() {
-		return Objects.hash(idCentro);
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!(obj instanceof Centro))
-			return false;
-		Centro other = (Centro) obj;
-		return Objects.equals(idCentro, other.idCentro);
+	private void comprobarValoresSensor(Sensor sensor) throws Exception {
+		if (!ItfIdChecker.checkIdSensor(sensor.getIdSensor())) throw new Exception("El identificador del sensor no es valido");
+		if (sensor.getTipoSensor() == null) throw new Exception("Sensor no valido: no tiene tipo");
 	}
 	
-	public Centro addSensor(Sensor sensor) {
-		if (sensor == null) return null;
-		if (sensores.containsKey(sensor.getIdSensor())) return null;
+	public Centro addSensor(Sensor sensor) throws Exception {
+		if (sensor == null) throw new Exception("Sensor no valido: es inexistente");
+		if (sensores.containsKey(sensor.getIdSensor())) throw new Exception("El sensor ya habia sido registrado en este centro");
+		if (sensor.getFechaInstalacion() != null || sensor.getCentro() != null) throw new Exception("El sensor ya ha sido asignado a un centro");
+		comprobarValoresSensor(sensor);
 		
+		sensor.setCentro(this);
 		sensores.put(sensor.getIdSensor(), sensor);
 		return this;
 	}
@@ -171,8 +165,6 @@ public class Centro {
 	}
 
 
-
-
 	public static class Builder{
 		private Centro centro;
 		
@@ -238,6 +230,23 @@ public class Centro {
 			if (centro == null || centro.getIdCentro() == null) return null;
 			return centro;
 		}
+	}
+
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(idCentro);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Centro))
+			return false;
+		Centro other = (Centro) obj;
+		return Objects.equals(idCentro, other.idCentro);
 	}
 	
 }

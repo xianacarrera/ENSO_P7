@@ -1,9 +1,9 @@
 package sistAlarmas;
 
 public interface ItfGestorCentros {
-	public Centro addCentro(Centro centro);
-	public Centro modificarCentro(Centro centro);
-	public Centro borrarCentro(String idCentro);
+	public Centro addCentro(Centro centro) throws Exception;
+	public Centro modificarCentro(Centro centro) throws Exception;
+	public Centro borrarCentro(String idCentro) throws Exception;
 	public Centro leerCentro(String idCentro);
 	
 	public Sensor addSensor(Sensor sensor, Centro centro);
