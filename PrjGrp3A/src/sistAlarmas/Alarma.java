@@ -11,6 +11,7 @@ public class Alarma {
 	private String zona;
 	private Float valorActivacion;
 	private TipoAlarma tipoAlarma;
+	private EstadoAlarma estado;
 	
 	public Alarma(String idAlarma, TipoAlarma tipoAlarma) throws Exception {
 		if (!ItfIdChecker.checkIdAlarma(idAlarma)) throw new Exception("Identificador de alarma no valido");
@@ -19,6 +20,7 @@ public class Alarma {
 		this.idAlarma = idAlarma;
 		this.fechaIncidencia = new Date(System.currentTimeMillis());
 		this.tipoAlarma = tipoAlarma;
+		this.estado = EstadoAlarma.CREADA;
 	}
 	
 	public Alarma(String idAlarma, TipoAlarma tipoAlarma, Centro centro, String zona) throws Exception {
@@ -30,6 +32,8 @@ public class Alarma {
 		
 		this.idAlarma = idAlarma;
 		this.fechaIncidencia = new Date(System.currentTimeMillis());
+		this.estado = EstadoAlarma.CREADA;
+		
 		if (setTipoAlarma(tipoAlarma) == null) throw new Exception("Tipo de alarma no valido");
 		if (centro != null)	{
 			// Comprobamos que el centro es válido y lo guardamos si es así

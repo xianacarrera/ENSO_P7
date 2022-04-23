@@ -24,14 +24,15 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	
 	public Alarma activarAlarma(Centro centro, String zona) {
 		Alarma alarma;
-		try {
-			alarma = new Alarma("id????", , centro, zona);
-			//List<Protocolo> protocolos = buscarProtocolo(alarma);
-		} catch(Exception eo) {
-			return null;
-		}
+
+		alarma = new Alarma("id????", , centro, zona);
+		//List<Protocolo> protocolos = buscarProtocolo(alarma);
 		
+		alarma.set>
+		alarmasEnEjecucion.put(alarma.getIdAlarma(), alarma);
 		List<Protocolo> prots = buscarProtocolos(alarma);
+		
+		if (prots.isEmpty()) al
 		
 		return alarma;
 	}
@@ -63,6 +64,16 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		GestorEquipos.getInstancia().recibirProtocolos(buscarProtocolos(alarma), alarma);
 		
 		return alarma;
+	}
+	
+	public Alarma desactivarAlarma(String idAlarma) throws Exception {
+		if (!ItfIdChecker.checkIdAlarma(idAlarma)) throw new Exception("Identificador no válido");
+		if (!alarmasEnEjecucion.containsKey(idAlarma)) throw new Exception("La alarma no está en ejecución");
+		
+		Alarma al = alarmasEnEjecucion.get(idAlarma);
+		alarmasEnEjecucion.remove(idAlarma);
+		
+		return al;
 	}
 	
 	
