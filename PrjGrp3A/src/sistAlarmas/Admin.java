@@ -1,8 +1,8 @@
 package sistAlarmas;
 
-// Si tenéis dudas de por qué esta clase extiende/no extiende a
-// UsuarioRegistrado, preguntadle a Xiana, que no escribe aquí
-// la justificación porque está cambiando de opinión al respecto
+// Si tenï¿½is dudas de por quï¿½ esta clase extiende/no extiende a
+// UsuarioRegistrado, preguntadle a Xiana, que no escribe aquï¿½
+// la justificaciï¿½n porque estï¿½ cambiando de opiniï¿½n al respecto
 // cada 5 minutos :)
 public class Admin {
 	
@@ -12,5 +12,4 @@ public class Admin {
 		if (usuario == null) throw new Exception("Usuario no valido");
 		this.usuario = usuario;
 	}
-	
 }
