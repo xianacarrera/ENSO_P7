@@ -1,3 +1,5 @@
+package sistAlarmas;
+
 import java.util.Date;
 
 public class Estadistica {
@@ -5,13 +7,15 @@ public class Estadistica {
     private Float duracion;
     private Date fechaInsercion;
     private String id;
+    private String centro;
 
 
-    public Estadistica(String tipo, Float duración, Date fechaInsercion, String id) {
+    public Estadistica(String tipo, Float duración, Date fechaInsercion, String id, String centro) {
         this.tipo = tipo;
         this.duración = duración;
         this.fechaInsercion = fechaInsercion;
         this.id = id;
+        this.centro = centro;
     }
 
     public String getTipo() {
@@ -27,5 +31,8 @@ public class Estadistica {
     }
     public String getId() {
         return id;
+    }
+    public String getCentro() {
+        return centro;
     }
 }
