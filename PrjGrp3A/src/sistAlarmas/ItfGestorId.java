@@ -1,6 +1,6 @@
 package sistAlarmas;
 
-public interface ItfIdChecker {
+public interface ItfGestorId {
 
     // Todos los método estáticos se pueden implementar directamente
     // en la interfaz desde Java 8
@@ -174,6 +174,54 @@ public interface ItfIdChecker {
             return false;
         }
         return true;
+    }
+
+    static String getTipo(String tipo) {
+        switch (tipo.getCharAt(0)) {
+            case 'S':
+                return "Sensor";
+            case 'A':
+                if (tipo.getCharAt(1) == 'C') {
+                    return "Accion";
+                }
+                return "Alarma";
+            case 'C':
+                return "Centro";
+            case 'U':
+                return "Usuario";
+            case 'E':
+                return "Equipo";
+            case 'V':
+                return "Verificacion";
+            default:
+                return "";
+        }
+    }
+
+    /**
+     * GENERADOR DE IDENTIFICADORES
+     **/
+
+    static String generarId(String tipo) {
+        switch (tipo.getCharAt(0)) {
+            case 'S':
+                return "S-" + UUID.randomUUID().toString();
+            case 'A':
+                if (tipo.getCharAt(1) == 'C') {
+                    return "AC-" + UUID.randomUUID().toString();
+                }
+                return "A-" + UUID.randomUUID().toString();
+            case 'C':
+                return "C-" + UUID.randomUUID().toString();
+            case 'U':
+                return "U-" + UUID.randomUUID().toString();
+            case 'E':
+                return "E-" + UUID.randomUUID().toString();
+            case 'V':
+                return "V-" + UUID.randomUUID().toString();
+            default:
+                return "";
+        }
     }
 
 }
