@@ -36,10 +36,11 @@ public class Accion {
 		return recibida;
 	}
 
-	private Boolean cambiarRecibida() {
+	public Accion recibir() {
 		// Una alarma recibida no puede "desrecibirse"
 		if (this.recibida == true) return null;
-		return this.recibida = true;
+		this.recibida = true;
+		return this;
 	}
 
 	public Alarma getAlarma() {

@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Verificacion {
 	private final String idVerif;
 	private final String mensaje;
-	private boolean recibida;
+	private boolean recibida = false;
 	
 	private Accion accion;
 	private Alarma alarma;
@@ -14,6 +14,13 @@ public class Verificacion {
 	public Verificacion(String idVerif, String mensaje) {
 		this.idVerif = idVerif;
 		this.mensaje = mensaje;
+	}
+	
+	public Verificacion(Accion accion) {
+		this.idVerif = "???";
+		this.mensaje = accion.getMensaje();
+		this.alarma = accion.getAlarma();
+		this.accion = accion;
 	}
 
 	public boolean isRecibida() {
@@ -44,8 +51,9 @@ public class Verificacion {
 		return emisor;
 	}
 
-	public void setEmisor(Equipo emisor) {
+	public Verificacion setEmisor(Equipo emisor) {
 		this.emisor = emisor;
+		return this;
 	}
 
 	public String getIdVerif() {

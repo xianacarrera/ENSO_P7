@@ -189,7 +189,4 @@ public class UsuarioRegistrado extends Usuario {
 			return user;
 		}
 	}
-	
-	
-	
 }

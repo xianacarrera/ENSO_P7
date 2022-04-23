@@ -40,6 +40,12 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return candidatos.get(0);		
 	}
 	
+	public GestorEquipos enviarAcciones(Equipo equipo, List<Accion> acciones, Alarma alarma) throws Exception {
+		for (Accion ac : acciones) ac.setDestinatario(equipo);
+		equipo.recibirOrden(acciones, alarma);
+		return this;
+	}
+	
 	@Override
 	public Equipo addEquipo(Equipo equipo) {
 		// TODO Auto-generated method stub
