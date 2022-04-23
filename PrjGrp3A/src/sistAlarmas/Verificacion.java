@@ -3,8 +3,8 @@ package sistAlarmas;
 import java.util.Objects;
 
 public class Verificacion {
-	private final String idVerif;
-	private final String mensaje;
+	private String idVerif;
+	private String mensaje;
 	private boolean recibida = false;
 	
 	private Accion accion;
@@ -27,15 +27,20 @@ public class Verificacion {
 		return recibida;
 	}
 
-	public void setRecibida(boolean recibida) {
-		this.recibida = recibida;
+	public Verificacion recibir() throws Exception {
+		if (this.recibida) throw new Exception("La verificacion ya habia sido recibida");
+		this.recibida = true;
+		return this;
 	}
 
 	public Accion getAccion() {
 		return accion;
 	}
 
-	public void setAccion(Accion accion) {
+	public Verificacion setAccion(Accion accion) throws Exception {
+		if (accion == null) throw new Exception("Accion no valida: es nula");
+		// La alarma de esta verificacion debe haber 
+		if (accion.getAlarma().equals(this.alarma)) throw new Exception
 		this.accion = accion;
 	}
 
@@ -59,9 +64,21 @@ public class Verificacion {
 	public String getIdVerif() {
 		return idVerif;
 	}
+	
+	public Verificacion setIdVerif(String idVerif) throws Exception{
+		if (!ItfIdChecker.checkIdVerificacion(idVerif)) throw new Exception("Identificador de verificacion no valido");
+		this.idVerif = idVerif;
+		return this;
+	}
 
 	public String getMensaje() {
 		return mensaje;
+	}
+	
+	public Verificacion setMensaje(String mensaje) {
+		if (mensaje == null) throw new Exception("Mensaje de verificacion no valido: es nulo");
+		this.mensaje = mensaje;
+		return this;
 	}
 
 	@Override
