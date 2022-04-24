@@ -36,7 +36,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     public int recuperarTotal(String tipo) throws Exception {
         int contador = 0;
         if(datos.isEmpty()) throw new Exception("No hay datos");
-        for (Estadisticas e : datos.values()) {
+        for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 contador++;
             }
@@ -49,7 +49,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
         float total = 0;
         int contador = 0;
         if(datos.isEmpty()) throw new Exception("No hay datos");
-        for (Estadisticas e : datos.values()) {
+        for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 total += e.getDuracion();
                 contador++;
@@ -102,7 +102,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     public int distribucionTotal(String filtro, String tipo) throws Exception {
         int contador;
 
-        for (Estadisticas e : datos.values()) {
+        for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 if (isMonth(filtro) != null || isYear(filtro) != null || isCentro(filtro) != null) {
                     if (e.getFecha().getMonth() == isMonth(filtro) || e.getFecha().getYear() == isYear(filtro) || e.getCentro().equals(filtro)) {
@@ -121,7 +121,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     public float distribucionMedia(String filtro, String tipo) {
         float total = 0;
         int contador = 0;
-        for (Estadisticas e : datos.values()) {
+        for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 if (isMonth(filtro) != null || isYear(filtro) != null || isCentro(filtro) != null) {
                     if (e.getFecha().getMonth() == isMonth(filtro) || e.getFecha().getYear() == isYear(filtro) || e.getCentro().equals(filtro)) {
