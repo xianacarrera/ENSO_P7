@@ -2,7 +2,7 @@ package sistAlarmas;
 
 import java.util.Objects;
 
-public class Accion {
+public class Accion implements ItfAccion {
 	//Declaracion de variables
 	private String idAccion;
 	private String mensaje;
@@ -12,6 +12,12 @@ public class Accion {
 
 	//Constructor
 	public Accion() {}
+	
+	//Metodo para determinar si la accion ha llegado a su destinatario
+	@Override
+	public boolean esRecibida() {
+		return this.recibida;
+	}
 
 	//Metodo para establecer el id de una accion
 	public Accion setIdAccion(String idAccion) throws Exception {
@@ -30,9 +36,10 @@ public class Accion {
 	}
 
 	//Metodo para establecer una accion como recibida
+	@Override
 	public Accion recibir() throws Exception {
 		// Una alarma recibida no puede "desrecibirse"
-		if (this.recibida) throw new Exception("La acci�n ya hab�a sido recibida");
+		if (this.recibida) throw new Exception("La accion ya habia sido recibida");
 		this.recibida = true;
 		return this;
 	}

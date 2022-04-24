@@ -41,7 +41,7 @@ public class Protocolo {
 	//Método para establecer el id de un protocolo
 	public Protocolo setIdProtocolo(String idProt) throws Exception {
 		if (this.idProtocolo != null) throw new Exception("Este protocolo ya tiene un identificador");
-		if (!ItfGestorId.checkIdProtocolo(idProtocolo)) throw new Exception("Identificador de protocolo no valido");
+		if (!ItfGestorId.checkIdProtocolo(idProt)) throw new Exception("Identificador de protocolo no valido");
 		this.idProtocolo = idProt;
 		return this;
 	}

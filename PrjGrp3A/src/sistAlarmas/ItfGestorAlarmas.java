@@ -32,19 +32,19 @@ public interface ItfGestorAlarmas {
 				return false;
 			case CALOR:
 				// Comprobamos que el valor esté en el rango [-5, 45)
-				if (Float.compare(valorMedido, -5) >= 0 && valorMedido < 45) return true;
+				if (Float.compare(-5, valorMedido) >= 0 && valorMedido < 45) return true;
 				return false;
 			case BAROMETRO:
 				// Comprobamos que el valor esté en el rango [960, 1060)
-				if (Float.compare(valorMedido, 960) >= 0 && valorMedido < 1060) return true;
+				if (Float.compare(960, valorMedido) >= 0 && valorMedido < 1060) return true;
 				return false;
 			case SISMO:
 				// Comprobamos que el valor esté en el rango [0, 10)
-				if (Float.compare(valorMedido, 0) >= 0 && valorMedido < 10) return true;
+				if (Float.compare(0, valorMedido) >= 0 && valorMedido < 10) return true;
 				return false;
 			default:
 				// Comprobamos que el valor esté en el rango [-1000, 1000)
-				if (Float.compare(valorMedido, -1000) >= 0 && valorMedido < 1000) return true;
+				if (Float.compare(-1000, valorMedido) >= 0 && valorMedido < 1000) return true;
 		}
 		return false;
 	}

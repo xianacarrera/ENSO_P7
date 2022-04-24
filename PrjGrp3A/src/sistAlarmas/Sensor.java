@@ -9,8 +9,8 @@ public class Sensor implements ItfSensor {
 	private String idSensor;
 	private Date fechaInstalacion;
 	private String zona;
-	private Float umbralActivacion;
-	private Float valorActual;
+	private float umbralActivacion;
+	private float valorActual;
 	private TipoSensor tipoSensor;
 	
 	private Centro centro;
@@ -76,13 +76,14 @@ public class Sensor implements ItfSensor {
 
 	//Método para establecer el centro donde se encuentra un sensor
 	public Sensor setCentro(Centro centro) throws Exception {
-		if (this.centro != null) throw new Exception("Este sensor ya estaba instalado en un centro");
-		if (centro == null) throw new Exception("Sensor no valido: es inexistente");
-		if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro())) throw new Exception("El centro no esta registrado");
+		if (centro != null) {
+			if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro())) throw new Exception("El centro no esta registrado");
+			setFechaInstalacion();
+		} else {
+			this.fechaInstalacion = null;
+		}
 
-		centro.addSensor(this);
 		this.centro = centro;
-		setFechaInstalacion();
 		return this;
 	}
 
@@ -146,7 +147,7 @@ public class Sensor implements ItfSensor {
 				// Genera un float en el rango [-1000, 1000)
 				nuevoValor = -1000 + rand.nextFloat() * 2000;
 		}
-
+		
 		if (ItfGestorAlarmas.esValidoValorSensor(this.getTipoSensor(), nuevoValor)) 
 			throw new Exception("Valor de sensor incompatible con su tipo");
 		

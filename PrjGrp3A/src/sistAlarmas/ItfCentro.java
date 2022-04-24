@@ -8,6 +8,6 @@ public interface ItfCentro {
     Sensor leerSensor(String idSensor) throws Exception;
     Sensor modificarSensor(Sensor sensor) throws Exception;
     Sensor borrarSensor(String idSensor) throws Exception;
-    ItfCentro borrarTodosSensores();
+    ItfCentro borrarTodosSensores() throws Exception;
     boolean tieneSensor(TipoSensor tipo);
 }

@@ -23,7 +23,7 @@ public class Alarma {
 	//Metodo para establecer el id de la alarma
 	public Alarma setIdAlarma(String idAlarma) throws Exception {
 		if (this.idAlarma != null) throw new Exception("Esta alarma ya tiene un identificador");
-		if (!ItfGestorId.checkIdAccion(idAlarma)) throw new Exception("Identificador de alarma no valido");
+		if (!ItfGestorId.checkIdAlarma(idAlarma)) throw new Exception("Identificador de alarma no valido");
 		this.idAlarma = idAlarma;
 		return this;
 	}
@@ -31,8 +31,8 @@ public class Alarma {
 	//Metodo para establecer el centro vinculado a una alarma. Este ha de estar registrado
 	public Alarma setCentro(Centro centro) throws Exception {
 		if (this.centro != null) throw new Exception("Esta alarma ya esta vinculada a un centro");
-		if (centro == null) throw new Exception("Centro no valido: es inexistente");
-		if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro())) throw new Exception("El centro no esta registrado");
+		if (centro != null)
+			if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro())) throw new Exception("El centro no esta registrado");
 		
 		this.centro = centro;
 		return this;

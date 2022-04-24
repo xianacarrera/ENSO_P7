@@ -2,7 +2,7 @@ package sistAlarmas;
 
 import java.util.Objects;
 
-public class Verificacion {
+public class Verificacion implements ItfVerificacion {
 	//Declaracion de variables
 	private String idVerif;
 	private String mensaje;
@@ -14,17 +14,20 @@ public class Verificacion {
 
 	//Constructor
 	public Verificacion() {}
-
-	/**Getters y Setters**/
-	public boolean isRecibida() {
-		return recibida;
-	}
-
+	
+	@Override
 	public Verificacion recibir() throws Exception {
 		if (this.recibida) throw new Exception("La verificacion ya habia sido recibida");
 		this.recibida = true;
 		return this;
 	}
+
+	@Override
+	public boolean esRecibida() {
+		return recibida;
+	}
+
+	/**Getters y Setters**/
 
 	public Accion getAccion() {
 		return accion;

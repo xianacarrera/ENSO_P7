@@ -36,8 +36,9 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	//Método para activar una alarma: debe tener asignada un centro o una zona
 	public Alarma activarAlarma(Centro centro, String zona) throws Exception {
 		if (centro == null && zona == null) throw new Exception("Una alarma debe tener o bien un centro o bien una zona");
-		if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro()))
-			throw new Exception("El centro no ha sido registrado en el sistema");
+		if (centro != null)
+			if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro()))
+				throw new Exception("El centro no ha sido registrado en el sistema");
 		
 		Alarma alarma = new Alarma();
 		boolean flag = false;
@@ -80,10 +81,14 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	public Alarma activarAlarma(Sensor sensor) throws Exception {
 		if (sensor == null) throw new Exception("El sensor no existe");
 		if (sensor.getCentro() == null && sensor.getZona() == null) throw new Exception("El sensor no tiene ubicacion (ni centro ni zona)");
-		if (!GestorCentros.getInstancia().esCentroRegistrado(sensor.getCentro().getIdCentro()))
-			throw new Exception("El centro del sensor no esta registrado en el sistema");
-		if (!GestorCentros.getInstancia().leerSensor(sensor.getIdSensor()).equals(sensor)) 
-			throw new Exception("El sensor no esta registrado en el sistema");
+		if (sensor.getCentro() != null) {
+			if (!GestorCentros.getInstancia().esCentroRegistrado(sensor.getCentro().getIdCentro()))
+				throw new Exception("El centro del sensor no esta registrado en el sistema");
+			if (!GestorCentros.getInstancia().leerSensor(sensor.getIdSensor()).equals(sensor)) 
+				throw new Exception("El sensor no esta registrado en el sistema");
+		} else {
+			if (sensor.getIdSensor() == null || sensor.getTipoSensor() == null) throw new Exception("La informacion del sensor no esta completa");
+		}
 
 		Alarma alarma = new Alarma();
 		boolean flag = false;
@@ -99,6 +104,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		alarma.setTipoAlarma(ItfGestorAlarmas.tipoSensorToTipoAlarma(sensor.getTipoSensor()));
 		alarma.setCentro(sensor.getCentro());
 		alarma.setZona(sensor.getZona());
+		alarma.setValorActivacion(sensor.getValorActual());
 		
 		Equipo equipoEncargado = GestorEquipos.getInstancia().recibirProtocolos(buscarProtocolos(alarma), alarma);
 		if (equipoEncargado == null) alarmasPendientes.put(alarma.getIdAlarma(), alarma);

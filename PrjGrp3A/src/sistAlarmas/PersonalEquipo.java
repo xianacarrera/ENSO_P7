@@ -41,12 +41,12 @@ public class PersonalEquipo {
 
 	//Método para añadir un usuario a un equipo de emergencias
 	public PersonalEquipo setEquipo(Equipo equipo) throws Exception {
-		if (equipo == null) throw new Exception("El equipo no es valido: no existe");
-		if (!estaDisponible()) throw new Exception("El usuario ya pertenece a un equipo");
-		if (!GestorEquipos.getInstancia().esEquipoRegistrado(equipo.getIdEquipo())) throw new Exception("El equipo no esta registrado");
-		if ("Insuficiente".equals(this.nivelFormacion)) throw new Exception("El usuario no tiene el nivel de formacion suficiente");
-		if (this.capacitacion == null) throw new Exception("El usuario no esta capacitado");
-		if (this.nivelFormacion == null) throw new Exception("El usuario no tiene formacion");
+		if (equipo != null) {
+			if (!estaDisponible()) throw new Exception("El usuario ya pertenece a un equipo");
+			if ("Insuficiente".equals(this.nivelFormacion)) throw new Exception("El usuario no tiene el nivel de formacion suficiente");
+			if (this.capacitacion == null) throw new Exception("El usuario no esta capacitado");
+			if (this.nivelFormacion == null) throw new Exception("El usuario no tiene formacion");
+		}
 
 		this.equipo = equipo;
 		return this;
@@ -66,7 +66,7 @@ public class PersonalEquipo {
 	}
 	
 	public boolean estaDisponible() {
-		return this.equipo != null;
+		return this.equipo == null;
 	}
 	/** FIN GETTERS**/
 }

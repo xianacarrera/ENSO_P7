@@ -33,6 +33,7 @@ public class Centro implements ItfCentro {
     @Override
     public ItfCentro addUsuarioActual(String idUsuario) throws Exception {
         if (idUsuario == null) throw new Exception("Identificador de usuario no valido: no existe");
+        if (!GestorCentros.getInstancia().esCentroRegistrado(idCentro)) throw new Exception("El centro debe estar registrado");
         if (usuariosActuales.contains(idUsuario)) throw new Exception("El usuario ya se encuentra en el centro");
         if (!GestorUsuarios.getInstancia().existeUsuario(idUsuario))
             throw new Exception("El usuario no est� registrado");
@@ -45,6 +46,7 @@ public class Centro implements ItfCentro {
     @Override
     public String salirUsuarioActual(String idUsuario) throws Exception {
         if (idUsuario == null) throw new Exception("Identificador no valido: es inexistente");
+        if (!GestorCentros.getInstancia().esCentroRegistrado(idCentro)) throw new Exception("El centro debe estar registrado");
         if (!usuariosActuales.contains(idUsuario)) throw new Exception("El usuario no se encuentra en el centro");
 
         usuariosActuales.remove(idUsuario);
@@ -69,6 +71,7 @@ public class Centro implements ItfCentro {
         comprobarValoresSensor(sensor);
 
         sensores.put(sensor.getIdSensor(), sensor);
+        sensor.setCentro(this);
         return this;
     }
 
@@ -106,13 +109,14 @@ public class Centro implements ItfCentro {
             throw new Exception("Error fatal: el sensor correspondiente al identificador no existe");
 
         sensores.remove(idSensor);   // Si no hab�a mapping o idSensor era null, no hace nada
+        sensor.setCentro(null);
         return sensor;                 // Devuelve null si el mapping era null o idSensor era null
     }
 
     //Método para eliminar todos los sensores registrados
     @Override
-    public ItfCentro borrarTodosSensores() {
-        sensores.clear();
+    public ItfCentro borrarTodosSensores() throws Exception {
+        for (Sensor sensor : sensores.values()) borrarSensor(sensor.getIdSensor());
         return this;
     }
     

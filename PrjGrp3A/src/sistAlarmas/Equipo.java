@@ -2,6 +2,7 @@ package sistAlarmas;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class Equipo {
 	//Constructor
 	public Equipo() {
 		miembros = new ArrayList<>();
+		responsabilidades = new ArrayList<>();
 	}
 
 	//Método para establecer el id del equipo
@@ -95,7 +97,7 @@ public class Equipo {
 
 	//Método para establecer si un equipo está ocupado
 	public boolean estaOcupado() {
-		return alarmaEnEjecucion != null || !accionesEnEjecucion.isEmpty();
+		return !(alarmaEnEjecucion == null || accionesEnEjecucion.isEmpty());
 	}
 
 	//Método para establecer las responsabilidades de un equipo
@@ -177,8 +179,10 @@ public class Equipo {
 
 	//Método para eliminar los datos de un equipo
 	public Equipo borrarDatosEquipo() throws Exception {
-		for (UsuarioRegistrado u : miembros) {
-			miembros.remove(u);
+		Iterator<UsuarioRegistrado> it = miembros.iterator(); 
+		while (it.hasNext()) {
+			UsuarioRegistrado u = it.next();
+			it.remove();
 			u.getPersonalEquipo().setEquipo(null);
 		}
 		return this;

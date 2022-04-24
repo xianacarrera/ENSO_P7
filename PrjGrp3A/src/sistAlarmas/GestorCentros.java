@@ -84,11 +84,11 @@ public class GestorCentros implements ItfGestorCentros {
             throw new Exception("Error fatal: el centro correspondiente al identificador no existe");
 
         if (!centro.getListaSensores().isEmpty())
-            throw new Exception("No se puede borrar el centro: existen sensores asociados a �l");
+            throw new Exception("No se puede borrar el centro: existen sensores asociados a el");
         GestorAlarmas ga = GestorAlarmas.getInstancia();
         if (ga.getAlarmasEnEjecucion().values().stream().anyMatch(alarma -> centro.equals(alarma.getCentro()))
                 || ga.getAlarmasPendientes().values().stream().anyMatch(alarma -> centro.equals(alarma.getCentro())))
-            throw new Exception("No se puede borrar el centro: existen alarmas activas relacionadas con �l");
+            throw new Exception("No se puede borrar el centro: existen alarmas activas relacionadas con el");
 
         centros.remove(idCentro);
 
