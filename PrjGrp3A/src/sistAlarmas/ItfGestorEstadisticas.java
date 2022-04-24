@@ -4,13 +4,13 @@ import java.util.Date;
 
 public interface ItfGestorEstadisticas {
 
-    public void agregar(Date inicio, Date fin, Date fechaInsercion, String id);
+    public void agregar(Date inicio, Date fin, Date fechaInsercion, String id) throws Exception;
 
-    public int recuperarTotal(String tipo);
+    public int recuperarTotal(String tipo) throws Exception;
 
-    public float mediaDuracion(String tipo);
+    public float mediaDuracion(String tipo) throws Exception;
 
-    public int distribucionTotal(String filtro, String tipo);
+    public int distribucionTotal(String filtro, String tipo) throws Exception;
 
-    public float distribucionMedia(String filtro, String tipo);
+    public float distribucionMedia(String filtro, String tipo) throws Exception;
 }

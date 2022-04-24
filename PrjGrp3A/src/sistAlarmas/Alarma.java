@@ -4,26 +4,31 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Alarma {
+
+	//Declaracion de variables
 	private String idAlarma;
-	private Date fechaIncidencia;		// Se inicializa automáticamente cuando se crea la alarma
+	private Date fechaIncidencia;		// Se inicializa automï¿½ticamente cuando se crea la alarma
 	private Date fechaCierre;			// No se puede modificar manualmente, se cambia al transicionar al estado DESACTIVADA
 	private Centro centro;
 	private String zona;
 	private Float valorActivacion;
 	private TipoAlarma tipoAlarma;
 	private EstadoAlarma estado;
-	
+
+	// Constructor
 	public Alarma() {
 		this.fechaIncidencia = new Date(System.currentTimeMillis());
 	}
-	
+
+	//Metodo para establecer el id de la alarma
 	public Alarma setIdAlarma(String idAlarma) throws Exception {
 		if (this.idAlarma != null) throw new Exception("Esta alarma ya tiene un identificador");
 		if (!ItfGestorId.checkIdAccion(idAlarma)) throw new Exception("Identificador de alarma no valido");
 		this.idAlarma = idAlarma;
 		return this;
 	}
-	
+
+	//Metodo para establecer el centro vinculado a una alarma. Este ha de estar registrado
 	public Alarma setCentro(Centro centro) throws Exception {
 		if (this.centro != null) throw new Exception("Esta alarma ya esta vinculada a un centro");
 		if (centro == null) throw new Exception("Centro no valido: es inexistente");
@@ -33,6 +38,7 @@ public class Alarma {
 		return this;
 	}
 
+	//Metodo para establecer la zona vinculada a una alarma.
 	public Alarma setZona(String zona) throws Exception {
 		if (this.zona != null) throw new Exception("Ya se ha registrado una zona para esta alarma");
 		
@@ -40,8 +46,9 @@ public class Alarma {
 		return this;
 	}
 
+	//Metodo para establecer el valor de activacion de la alarma siempre que esta tenga tipo y no sea manual
 	public Alarma setValorActivacion(Float valorActivacion) throws Exception {
-		// El valor de activación, una vez establecido, es definitivo
+		// El valor de activaciï¿½n, una vez establecido, es definitivo
 		if (this.valorActivacion != null) throw new Exception("Ya se ha registrado un valor de activacion para esta alarma");
 		if (this.tipoAlarma == null) throw new Exception("Esta alarma aun no tiene un tipo");
 		switch (this.tipoAlarma) {
@@ -57,19 +64,24 @@ public class Alarma {
 		return this;
 	}
 
-	
+	//Metodo para establecer el tipo de alarma
 	public Alarma setTipoAlarma(TipoAlarma tipoAlarma) throws Exception {
 		if (this.tipoAlarma != null) throw new Exception("Esta alarma ya tiene un tipo");
 		if (tipoAlarma == null) throw new Exception("Tipo de alarma no valido: es inexistente");
 		this.tipoAlarma = tipoAlarma;
 		return this;
 	}
-	
+
+	//Metodo para establecer la fecha de cierre de la alarma
 	private void setFechaCierre() {
 		// La fecha de cierre, una vez establecida, es definitiva
 		this.fechaCierre = new Date(System.currentTimeMillis());
 	}
-	
+
+	/* Metodo para establecer el estado de la alarma:
+	 * El nuevo estado debe ser diferente al estado actual
+	 * La transicion debe ser valida
+	 * */
 	public Alarma setEstadoAlarma(EstadoAlarma estado) throws Exception {
 		if (estado == null) throw new Exception("Estado no valido: es inexistente");
 		if (estado.equals(this.estado)) throw new Exception("El nuevo estado es igual al estado en el que se encuentra la alarma");
@@ -91,6 +103,7 @@ public class Alarma {
 	}
 	
 
+	/** Getters **/
 	public String getIdAlarma() {
 		return idAlarma;
 	}
@@ -122,7 +135,9 @@ public class Alarma {
 	public EstadoAlarma getEstado() {
 		return this.estado;
 	}
-	
+	/** Fin getters **/
+
+	/** Sobreescritura de metodos **/
 	@Override
 	public int hashCode() {
 		return Objects.hash(idAlarma);
@@ -137,4 +152,5 @@ public class Alarma {
 		Alarma other = (Alarma) obj;
 		return Objects.equals(idAlarma, other.idAlarma);
 	}
+	/** Fin sobreescritura de metodos **/
 }

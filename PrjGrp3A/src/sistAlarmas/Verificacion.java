@@ -3,6 +3,7 @@ package sistAlarmas;
 import java.util.Objects;
 
 public class Verificacion {
+	//Declaracion de variables
 	private String idVerif;
 	private String mensaje;
 	private boolean recibida = false;
@@ -10,9 +11,11 @@ public class Verificacion {
 	private Accion accion;
 	private Alarma alarma;
 	private Equipo emisor;
-	
+
+	//Constructor
 	public Verificacion() {}
 
+	/**Getters y Setters**/
 	public boolean isRecibida() {
 		return recibida;
 	}
@@ -65,6 +68,7 @@ public class Verificacion {
 	}
 	
 	public Verificacion setIdVerif(String idVerif) throws Exception{
+		//Se emplea el método checkIdVerif para comprobar que el idVerif sea valido
 		if (!ItfGestorId.checkIdVerificacion(idVerif)) throw new Exception("Identificador de verificacion no valido");
 		this.idVerif = idVerif;
 		return this;
@@ -80,6 +84,9 @@ public class Verificacion {
 		return this;
 	}
 
+	/**FIN Getters y Setters**/
+
+	/**Sobreescritura de metodos**/
 	@Override
 	public int hashCode() {
 		return Objects.hash(idVerif);
@@ -94,5 +101,5 @@ public class Verificacion {
 		Verificacion other = (Verificacion) obj;
 		return Objects.equals(idVerif, other.idVerif);
 	}
-	
+	/**FIN Sobreescritura de metodos**/
 }

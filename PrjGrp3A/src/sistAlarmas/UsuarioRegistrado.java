@@ -1,6 +1,7 @@
 package sistAlarmas;
 
 public class UsuarioRegistrado extends Usuario {
+	//Declaracion de variables
 	private String nombrePropio;
 	private String apellido1;
 	private String apellido2;
@@ -11,9 +12,11 @@ public class UsuarioRegistrado extends Usuario {
 	
 	private PersonalEquipo personalEquipo;
 	private Admin admin;
-	
+
+	//Constructor
 	protected UsuarioRegistrado() {}
-	
+
+	//Método para establecer el nomre propio del usuario
 	public UsuarioRegistrado setNombrePropio(String nombrePropio) throws Exception {
 		if (nombrePropio == null) throw new Exception("Nombre no valido: no existe");
 		if (this.nombrePropio != null) throw new Exception("Este usuario ya tiene registrado un nombre");
@@ -22,6 +25,7 @@ public class UsuarioRegistrado extends Usuario {
 		return this;
 	}
 
+	//Método para establecer el primer apellido del usuario
 	public UsuarioRegistrado setApellido1(String apellido1) throws Exception {
 		if (apellido1 == null) throw new Exception("Primer apellido no valido: no existe");
 		if (this.apellido1 != null) throw new Exception("Este usuario ya tiene registrado un primer apellido");
@@ -29,13 +33,15 @@ public class UsuarioRegistrado extends Usuario {
 		this.apellido1 = apellido1;
 		return this;
 	}
-	
+
+	//Método para establecer el segundo apellido del usuario
 	public UsuarioRegistrado setApellido2(String apellido2) throws Exception {
 		if (this.apellido2 != null) throw new Exception("Este usuario ya tiene registrado un segundo apellido");
 		this.apellido2 = apellido2;
 		return this;
 	}
 
+	//Método para establecer el DNI del usuario: comprueba que el DNI sea correcto
 	public UsuarioRegistrado setDNI(String DNI) throws Exception {
 		if (DNI == null) throw new Exception("DNI no valido: no existe");
 		if (this.DNI != null) throw new Exception("Este usuario ya tiene registrado un DNI");
@@ -43,12 +49,13 @@ public class UsuarioRegistrado extends Usuario {
 		boolean esValido = true;
 		String letraSegunResto = "TRWAGMYFPDXBNJZSQVHLCKE";
 
-		if (DNI.length() != 9) esValido = false;
-		char ultimaLetra = DNI.charAt(8);
+		if (DNI.length() != 9) esValido = false; //Comprueba que el DNI tenga 9 caracteres
+		char ultimaLetra = DNI.charAt(8); //Almacena la letra del DNI
 		if (!Character.isLetter(ultimaLetra) || !Character.isUpperCase(ultimaLetra)) esValido = false;
 		for (int i = 0; i < 8; i++) {
-			if (!Character.isDigit(DNI.charAt(i))) esValido = false;
+			if (!Character.isDigit(DNI.charAt(i))) esValido = false; //Comprueba que los 8 primeros caracteres sean digitos
 		}
+		//Comprueba que la letra del DNI sea correcta
 		if (letraSegunResto.charAt(Integer.parseInt(DNI.substring(0, 8)) % 23) != ultimaLetra) esValido = false;
 		
 		if (!esValido) throw new Exception("El DNI no sigue un formato valido");
@@ -56,12 +63,14 @@ public class UsuarioRegistrado extends Usuario {
 		return this;
 	}
 
+	//Método para establecer el teléfono del usuario
 	public UsuarioRegistrado setTelefono(int telefono) throws Exception {
 		if (String.valueOf(telefono).length() != 9) throw new Exception("Numero de telefono no valido");
 		this.telefono = telefono;
 		return this;
 	}
 
+	//Método para establecer el correo del usuario: comprueba que el correo sea correcto
 	public UsuarioRegistrado setCorreo(String correo) throws Exception {
 		boolean esValido = true;
 		if (!correo.contains("@") || !correo.contains(".")) esValido = false;
@@ -77,24 +86,28 @@ public class UsuarioRegistrado extends Usuario {
 		return this;
 	}
 
+	//Método para establecer un usuario como administrador: comprueba que el usuario no sea administrador
 	public UsuarioRegistrado volverAdmin() throws Exception {
 		if (this.esAdmin()) throw new Exception("Este usuario ya es administrador");
 		this.admin = new Admin().setUsuarioRegistrado(this);
 		return this;
 	}
-	
+
+	//Método para eliminar un usuario como administrador: comprueba que el usuario sea administrador
 	public UsuarioRegistrado desactivarAdmin() throws Exception {
 		if (!this.esAdmin()) throw new Exception("Este usuario no es un administrador");
 		this.admin = null;
 		return this;
 	}
-	
+
+	//Método para establecer un usuario como personal de equipo: comprueba que el usuario no sea personal de equipo
 	public UsuarioRegistrado volverPersonalEquipo() throws Exception {
 		if (this.ayudaEnEmergencias()) throw new Exception("Este usuario ya es personal de equipo");
 		this.personalEquipo = new PersonalEquipo().setCapacitacion("Predeterminada").setNivelFormacion("Basico");
 		return this;
 	}
-	
+
+	//Método para eliminar un usuario como personal de equipo: comprueba que el usuario sea personal de equipo
 	public UsuarioRegistrado desactivarPersonalEquipo() throws Exception {
 		if (!this.ayudaEnEmergencias()) throw new Exception("Este usuario no es personal de equipo");
 		this.personalEquipo = null;
@@ -102,6 +115,7 @@ public class UsuarioRegistrado extends Usuario {
 	}
 
 
+	/**OTROS SETTERS Y GETTERS**/
 	public void setZona(String zona) {
 		this.zona = zona;
 	}
@@ -145,6 +159,8 @@ public class UsuarioRegistrado extends Usuario {
 	public String getZona() {
 		return zona;
 	}
+
+	/**fin de los setters y getters**/
 
 	public static class Builder {
 		private UsuarioRegistrado user;

@@ -8,31 +8,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GestorAlarmas implements ItfGestorAlarmas {
-
+	// Declaracion de variables
 	private static GestorAlarmas instancia;
 	private HashMap<String, Alarma> alarmasEnEjecucion;
 	private HashMap<String, Alarma> alarmasPendientes;
 	private HashMap<String, Protocolo> protocolos;
 	
-	
+	// Constructor
 	private GestorAlarmas(){
 		alarmasEnEjecucion = new HashMap<>();
 		protocolos = new HashMap<>();
 		alarmasPendientes = new HashMap<>();
 	}
-
+	// Patron Singleton
 	public static GestorAlarmas getInstancia() {
 		if (instancia == null) instancia = new GestorAlarmas();
 		return instancia;
 	}
-	
+	//Método que comprueba si una alarma está en ejecución
 	public boolean esAlarmaEnEjecucion(String idAlarma) {
 		if (idAlarma == null) return false;
 		if (!alarmasEnEjecucion.containsKey(idAlarma)) return false;
 		if (alarmasEnEjecucion.get(idAlarma) == null) return false;
 		return true;
 	}
-	
+
+	//Método para activar una alarma: debe tener asignada un centro o una zona
 	public Alarma activarAlarma(Centro centro, String zona) throws Exception {
 		if (centro == null && zona == null) throw new Exception("Una alarma debe tener o bien un centro o bien una zona");
 		if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro()))
@@ -62,7 +63,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		
 		return alarma;
 	}
-	
+
+	//Método para buscar los protocolos de una alarma
 	public List<Protocolo> buscarProtocolos(Alarma al){
 		if (al == null || al.getTipoAlarma() == null) return null;
 		
@@ -73,7 +75,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 				.collect(Collectors.toList());
 		return prots;
 	}
-	
+
+	//Método para activar una alarma, esta vez empleando un sensor: debe tener asignado un centro o una zona
 	public Alarma activarAlarma(Sensor sensor) throws Exception {
 		if (sensor == null) throw new Exception("El sensor no existe");
 		if (sensor.getCentro() == null && sensor.getZona() == null) throw new Exception("El sensor no tiene ubicacion (ni centro ni zona)");
@@ -106,7 +109,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		
 		return alarma;
 	}
-	
+
+	//Método para despachar las alarmas pendientes en caso de que existan
 	public List<Alarma> despacharAlarmasPendientes() throws Exception {
 		if (alarmasPendientes.isEmpty()) throw new Exception("No hay alarmas pendientes");
 		List<Alarma> alarmasDespachadas = new ArrayList<>();
@@ -121,17 +125,19 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		}
 		return alarmasDespachadas;
 	}
-	
+
+	//Método para desactivar una alarma
 	public Alarma desactivarAlarma(String idAlarma) throws Exception {
-		if (!ItfGestorId.checkIdAlarma(idAlarma)) throw new Exception("Identificador no v�lido");
-		if (!alarmasEnEjecucion.containsKey(idAlarma)) throw new Exception("La alarma no est� en ejecuci�n");
+		if (!ItfGestorId.checkIdAlarma(idAlarma)) throw new Exception("Identificador no v�lido");
+		if (!alarmasEnEjecucion.containsKey(idAlarma)) throw new Exception("La alarma no est� en ejecuci�n");
 		
 		Alarma al = alarmasEnEjecucion.get(idAlarma);
 		alarmasEnEjecucion.remove(idAlarma);
 		
 		return al;
 	}
-	
+
+	//Método para leer una alarma
 	public Alarma leerAlarma(String idAlarma) throws Exception {
 		if (idAlarma == null) throw new Exception("Identificador no valido: es inexistente");
 		Alarma al = null;
@@ -143,7 +149,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		
 		return al;
 	}
-	
+
+	//Sobreescritura del método addProtocolo de la clase ItfGestorAlarmas
 	@Override
 	public GestorAlarmas addProtocolo(Protocolo prot) throws Exception {
 		if (prot == null) throw new Exception("Protocolo no valido: es inexistente");
@@ -155,6 +162,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return this;
 	}
 
+	//Sobreescritura del método modificarProtocolo de la clase ItfGestorAlarmas
 	@Override
 	public GestorAlarmas modificarProtocolo(Protocolo prot) throws Exception {
 		if (prot == null) throw new Exception("Protocolo no valido: es inexistente");
@@ -165,9 +173,10 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return this;
 	}
 
+	//Sobreeescritura del método borrarProtocolo de la clase ItfGestorAlarmas
 	@Override
 	public GestorAlarmas borrarProtocolo(String idProt) throws Exception {
-		// Corroboramos tanto que la key (idCentro) est� en el HashMap como que su valor asociado
+		// Corroboramos tanto que la key (idCentro) est� en el HashMap como que su valor asociado
 		// (el centro) no sea nulo
 		Protocolo prot;
 		if (idProt == null) throw new Exception("Identificador no valido: es inexistente");
@@ -186,6 +195,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return this;
 	}
 
+	//Sobreeescritura del método leerProtocolo de la clase ItfGestorAlarmas
 	@Override
 	public Protocolo leerProtocolo(String idProt) throws Exception {
 		if (idProt == null) throw new Exception("Identificador no valido: es inexistente");
@@ -194,7 +204,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return protocolos.get(idProt);
 	}
 	
-	
+	/**GETTERS**/
 	public HashMap<String, Alarma> getAlarmasEnEjecucion(){
 		return this.alarmasEnEjecucion;
 	}
@@ -206,4 +216,5 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	public HashMap<String, Protocolo> getProtocolos(){
 		return this.protocolos;
 	}
+	/**FIN GETTERS**/
 }

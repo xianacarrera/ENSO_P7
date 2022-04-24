@@ -5,29 +5,37 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class GestorEstadisticas implements ItfGestorEstadisticas {
-
+    //Declaración de variables
     private static GestorEstadisticas instancia;
-    private HashMap<Date, Estadistica> datos;
+    private HashMap<String, Estadistica> datos;
     final int MAXIMO_ANO = 2023;
 
+    //Constructor
     public GestorEstadisticas() {
-        datos = new HashMap<Date, Estadistica>();
+        datos = new HashMap<String, Estadistica>();
     }
 
+    //Patrón Singleton
     public static GestorEstadisticas getInstancia() {
         if (instancia == null) instancia = new GestorEstadisticas();
         return instancia;
     }
 
-    public void agregar(Date inicio, Date fin, Date fechaInsercion, String id) {
+    //Método para añadir una estadística: el tipo se obtendrá a partir del id
+    public void agregar(Date inicio, Date fin, Date fechaInsercion, String id) throws Exception{
         String tipo = ItfGestorId.getTipo(id);
+        if(tipo == null) throw new Exception("El id no es válido -> Tipo no encontrado");
+        if(inicio==null || fin==null || fechaInsercion==null) throw new Exception("Alguna fecha es nula");
+        if(inicio.after(fin)) throw new Exception("La fecha de inicio no puede ser posterior a la fecha de fin");
         Float duracion = Float.valueOf(fin.getTime() - inicio.getTime());
-        Estadistica = new Estadistica(tipo, duracion, fechaInsercion);
-        datos.put(fechaInsercion, Estadistica);
+        Estadistica e = new Estadistica(tipo, duracion, fechaInsercion);
+        datos.put(e.getId(), e);
     }
 
-    public int recuperarTotal(String tipo) {
+    //Método para recuperar el total de valores asociadas a un tipo
+    public int recuperarTotal(String tipo) throws Exception {
         int contador = 0;
+        if(datos.isEmpty()) throw new Exception("No hay datos");
         for (Estadisticas e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 contador++;
@@ -36,9 +44,11 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
         return contador;
     }
 
-    public float mediaDuracion(String tipo) {
+    //Método para calcular la duración média de un tipo
+    public float mediaDuracion(String tipo) throws Exception {
         float total = 0;
         int contador = 0;
+        if(datos.isEmpty()) throw new Exception("No hay datos");
         for (Estadisticas e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 total += e.getDuracion();
@@ -88,7 +98,8 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
      * ==============================
      **/
 
-    public int distribucionTotal(String filtro, String tipo) {
+    //Método para calcular la distribución total de un tipo en función de un filtro: mes, año o centro
+    public int distribucionTotal(String filtro, String tipo) throws Exception {
         int contador;
 
         for (Estadisticas e : datos.values()) {
@@ -98,11 +109,15 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
                         contador++;
                     }
                 }
+                else{
+                    throw new Exception("El filtro no es válido");
+                }
             }
             return contador;
         }
     }
 
+    //Método para calcular la distribución media de un tipo en función de un filtro: mes, año o centro
     public float distribucionMedia(String filtro, String tipo) {
         float total = 0;
         int contador = 0;
@@ -114,9 +129,11 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
                         contador++;
                     }
                 }
+                else{
+                    throw new Exception("El filtro no es válido");
+                }
             }
             return total / contador;
         }
     }
-
 }

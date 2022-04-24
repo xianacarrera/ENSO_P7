@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Sensor {
+	//Declaración de variables
 	private String idSensor;
 	private Date fechaInstalacion;
 	private String zona;
@@ -13,20 +14,23 @@ public class Sensor {
 	private TipoSensor tipoSensor;
 	
 	private Centro centro;
-	
+
+	//Constructor
 	protected Sensor() {
 	}
-	
+
+	//Método para establecer la fecha de instalación de un sensor
 	private Sensor setFechaInstalacion() {
 		this.fechaInstalacion = new Date(System.currentTimeMillis());
 		return this;
 	}
 	
-	
+	//Método para obtener el identificador de un sensor
 	public String getIdSensor() {
 		return idSensor;
 	}
 
+	//Método para establecer el identificador de un sensor
 	public Sensor setIdSensor(String idSensor) throws Exception {
 		if (this.idSensor != null) throw new Exception("Este sensor ya tiene un identificador");
 		if (!ItfGestorId.checkIdSensor(idSensor)) throw new Exception("Identificador de sensor no valido");
@@ -34,19 +38,22 @@ public class Sensor {
 		return this;
 	}
 
+	//Método para establecer la zona en la que está instalado un sensor
 	public void setZona(String zona) {
 		this.zona = zona;
 	}
 
+	//Método para obtener el umbral de activación de un sensor
 	public Float getUmbralActivacion() {
 		return umbralActivacion;
 	}
 
+	//Método para establecer el umbral de activación de un sensor
 	public Sensor setUmbralActivacion(Float umbralActivacion) throws Exception {
 		if (tipoSensor == null) throw new Exception("No se puede asignar un umbral de activacion a un sensor sin tipo");
 		boolean esValido = true;
 		switch(tipoSensor) {
-			case HUMO:
+			case HUMO: //todo: incompleto?
 			case PRESENCIA:
 				if (Float.compare(umbralActivacion, (float) 1.0) != 0) esValido = false;
 				break;
@@ -62,10 +69,12 @@ public class Sensor {
 		return this;
 	}
 
+	//Método para obtener el centro donde se encuentra un sensor
 	public Centro getCentro() {
 		return centro;
 	}
 
+	//Método para establecer el centro donde se encuentra un sensor
 	public Sensor setCentro(Centro centro) throws Exception {
 		if (this.centro != null) throw new Exception("Este sensor ya estaba instalado en un centro");
 		if (centro == null) throw new Exception("Sensor no valido: es inexistente");
@@ -77,10 +86,12 @@ public class Sensor {
 		return this;
 	}
 
+	//Método para obtener el valor actual de un sensor
 	public Float getValorActual() {
 		return valorActual;
 	}
 
+	//Método para establecer el valor actual de un sensor
 	public Sensor setValorActual(Float valorActual) throws Exception {
 		if (ItfGestorAlarmas.esValidoValorSensor(this.getTipoSensor(), valorActual)) 
 			throw new Exception("Valor de sensor incompatible con su tipo");
@@ -88,29 +99,34 @@ public class Sensor {
 		return this;
 	}
 
+	//Método para obtener el tipo de sensor
 	public TipoSensor getTipoSensor() {
 		return tipoSensor;
 	}
 
+	//Método para establecer el tipo de sensor
 	public void setTipoSensor(TipoSensor tipoSensor) {
 		this.tipoSensor = tipoSensor;
 	}
 
+	//Método para obtener la fecha de instalación de un sensor
 	public Date getFechaInstalacion() {
 		return fechaInstalacion;
 	}
-	
+
+	//Método para obtener la zona en la que está instalado un sensor
 	public String getZona() {
 		return zona;
 	}
 
+	//Método para analizar el entorno y asignar un valor al sensor
 	public Sensor analizarEntorno() throws Exception {
 		Random rand = new Random();
 		float nuevoValor;
 		switch (tipoSensor) {
 			case HUMO:
 			case PRESENCIA:
-				// Genera un entero en [0, 2), esto es, un 0 � un 1
+				// Genera un entero en [0, 2), esto es, un 0 � un 1
 				nuevoValor = (float) rand.nextInt(2);
 				break;
 			case CALOR:
@@ -129,7 +145,7 @@ public class Sensor {
 				// Genera un float en el rango [-1000, 1000)
 				nuevoValor = -1000 + rand.nextFloat() * 2000;
 		}
-		
+
 		if (ItfGestorAlarmas.esValidoValorSensor(this.getTipoSensor(), nuevoValor)) 
 			throw new Exception("Valor de sensor incompatible con su tipo");
 		
@@ -139,7 +155,8 @@ public class Sensor {
 		
 		return this;
 	}
-	
+
+	//Método para disparar una alarma
 	public Alarma dispararAlarma() throws Exception {
 		return GestorAlarmas.getInstancia().activarAlarma(this);
 	}
@@ -185,7 +202,8 @@ public class Sensor {
 			return sensor;
 		}
 	}
-	
+
+	/**SOBREESCRITURA DE MÉTODOS**/
 	@Override
 	public int hashCode() {
 		return Objects.hash(idSensor);
@@ -200,5 +218,5 @@ public class Sensor {
 		Sensor other = (Sensor) obj;
 		return Objects.equals(idSensor, other.idSensor);
 	}
-	
+	/** FIN SOBREESCRITURA DE MÉTODOS**/
 }

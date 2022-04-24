@@ -1,19 +1,21 @@
 package sistAlarmas;
 
-//Si tenéis dudas de por qué esta clase extiende/no extiende a
-//UsuarioRegistrado, preguntadle a Xiana, que no escribe aquí
-//la justificación porque está cambiando de opinión al respecto
+//Si tenï¿½is dudas de por quï¿½ esta clase extiende/no extiende a
+//UsuarioRegistrado, preguntadle a Xiana, que no escribe aquï¿½
+//la justificaciï¿½n porque estï¿½ cambiando de opiniï¿½n al respecto
 //cada 5 minutos :)
 public class PersonalEquipo {
-	
+	//DeclaraciÃ³n de variables
 	private String capacitacion;
 	private String nivelFormacion;
 	
 	private UsuarioRegistrado usuario;
 	private Equipo equipo;
-	
+
+	//Constructor
 	public PersonalEquipo(){}
-	
+
+	//MÃ©todo para aÃ±adir un usuario al personal de un equipo de emergencias
 	public PersonalEquipo setUsuarioRegistrado(UsuarioRegistrado usuario) throws Exception {
 		if (usuario == null) throw new Exception("Usuario no valido: no existe");
 		if (!GestorUsuarios.getInstancia().existeUsuario(usuario.getIdUsuario())) throw new Exception("No hay datos almacenados del usuario");
@@ -22,19 +24,22 @@ public class PersonalEquipo {
 		this.usuario = usuario;
 		return this;
 	}
-	
+
+	//MÃ©todo para establecer el nivel de formaciÃ³n del personal de un equipo de emergencias
 	public PersonalEquipo setNivelFormacion(String nivelFormacion) throws Exception {
 		if (nivelFormacion == null) throw new Exception("Nivel de formacion no valido: no existe");
 		this.nivelFormacion = nivelFormacion;
 		return this;
 	}
-	
+
+	//MÃ©todo para aÃ±adir la capacitaciÃ³n del personal de un equipo de emergencias
 	public PersonalEquipo setCapacitacion(String capacitacion) throws Exception {
 		if (capacitacion == null) throw new Exception("Capacitacion no valida: no existe");
 		this.capacitacion = capacitacion;
 		return this;
 	}
-	
+
+	//MÃ©todo para aÃ±adir un usuario a un equipo de emergencias
 	public PersonalEquipo setEquipo(Equipo equipo) throws Exception {
 		if (equipo == null) throw new Exception("El equipo no es valido: no existe");
 		if (!estaDisponible()) throw new Exception("El usuario ya pertenece a un equipo");
@@ -47,6 +52,7 @@ public class PersonalEquipo {
 		return this;
 	}
 
+	/**GETTERS**/
 	public String getCapacitacion() {
 		return capacitacion;
 	}
@@ -62,5 +68,5 @@ public class PersonalEquipo {
 	public boolean estaDisponible() {
 		return this.equipo != null;
 	}
-	
+	/** FIN GETTERS**/
 }
