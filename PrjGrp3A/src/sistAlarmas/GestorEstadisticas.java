@@ -27,7 +27,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
         if(tipo == null) throw new Exception("El id no es válido -> Tipo no encontrado");
         if(inicio==null || fin==null || fechaInsercion==null) throw new Exception("Alguna fecha es nula");
         if(inicio.after(fin)) throw new Exception("La fecha de inicio no puede ser posterior a la fecha de fin");
-        Float duracion = Float.valueOf(fin.getTime() - inicio.getTime());
+        Float duracion = (float) (fin.getTime() - inicio.getTime());
         Estadistica e = new Estadistica(tipo, duracion, fechaInsercion);
         datos.put(e.getId(), e);
     }
@@ -82,8 +82,8 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
         return null;
     }
 
-    private int isYear(String filtro) {
-        Integer valor = Integer.parseInt(filtro);
+    private Integer isYear(String filtro) {
+        int valor = Integer.parseInt(filtro);
         if (valor >= 1 && valor <= MAXIMO_ANO) {
             return valor;
         }
@@ -100,7 +100,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
 
     //Método para calcular la distribución total de un tipo en función de un filtro: mes, año o centro
     public int distribucionTotal(String filtro, String tipo) throws Exception {
-        int contador;
+        int contador=0;
 
         for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
@@ -113,12 +113,12 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
                     throw new Exception("El filtro no es válido");
                 }
             }
-            return contador;
         }
+        return contador;
     }
 
     //Método para calcular la distribución media de un tipo en función de un filtro: mes, año o centro
-    public float distribucionMedia(String filtro, String tipo) {
+    public float distribucionMedia(String filtro, String tipo) throws Exception {
         float total = 0;
         int contador = 0;
         for (Estadistica e : datos.values()) {
@@ -133,7 +133,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
                     throw new Exception("El filtro no es válido");
                 }
             }
-            return total / contador;
         }
+        return total / contador;
     }
 }
