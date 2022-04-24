@@ -4,7 +4,7 @@ import java.util.Date;
 
 public interface ItfGestorEstadisticas {
 
-    public void agregar(Date inicio, Date fin, Date fechaInsercion, String id, String centro, Date fechaOcurrencia) throws Exception;
+    public void agregar(Date inicio, Date fin, Date fechaInsercion, String id, String centro, Date fechaOcurrencia) throws Exception; //
 
     public int recuperarTotal(String tipo) throws Exception;
 
