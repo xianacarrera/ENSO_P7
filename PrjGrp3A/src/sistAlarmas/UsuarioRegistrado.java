@@ -17,7 +17,7 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	protected UsuarioRegistrado() {}
 
 	//Método para establecer el nomre propio del usuario
-	public ItfUsuarioRegistrado setNombrePropio(String nombrePropio) throws Exception {
+	public UsuarioRegistrado setNombrePropio(String nombrePropio) throws Exception {
 		if (nombrePropio == null) throw new Exception("Nombre no valido: no existe");
 		if (this.nombrePropio != null) throw new Exception("Este usuario ya tiene registrado un nombre");
 		
@@ -26,7 +26,7 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	}
 
 	//Método para establecer el primer apellido del usuario
-	public ItfUsuarioRegistrado setApellido1(String apellido1) throws Exception {
+	public UsuarioRegistrado setApellido1(String apellido1) throws Exception {
 		if (apellido1 == null) throw new Exception("Primer apellido no valido: no existe");
 		if (this.apellido1 != null) throw new Exception("Este usuario ya tiene registrado un primer apellido");
 		
@@ -35,14 +35,14 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	}
 
 	//Método para establecer el segundo apellido del usuario
-	public ItfUsuarioRegistrado setApellido2(String apellido2) throws Exception {
+	public UsuarioRegistrado setApellido2(String apellido2) throws Exception {
 		if (this.apellido2 != null) throw new Exception("Este usuario ya tiene registrado un segundo apellido");
 		this.apellido2 = apellido2;
 		return this;
 	}
 
 	//Método para establecer el DNI del usuario: comprueba que el DNI sea correcto
-	public ItfUsuarioRegistrado setDNI(String DNI) throws Exception {
+	public UsuarioRegistrado setDNI(String DNI) throws Exception {
 		if (DNI == null) throw new Exception("DNI no valido: no existe");
 		if (this.DNI != null) throw new Exception("Este usuario ya tiene registrado un DNI");
 		
@@ -64,14 +64,14 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	}
 
 	//Método para establecer el teléfono del usuario
-	public ItfUsuarioRegistrado setTelefono(int telefono) throws Exception {
+	public UsuarioRegistrado setTelefono(int telefono) throws Exception {
 		if (String.valueOf(telefono).length() != 9) throw new Exception("Numero de telefono no valido");
 		this.telefono = telefono;
 		return this;
 	}
 
 	//Método para establecer el correo del usuario: comprueba que el correo sea correcto
-	public ItfUsuarioRegistrado setCorreo(String correo) throws Exception {
+	public UsuarioRegistrado setCorreo(String correo) throws Exception {
 		boolean esValido = true;
 		if (!correo.contains("@") || !correo.contains(".")) esValido = false;
 		int i = 0;
@@ -87,6 +87,7 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	}
 
 	//Método para establecer un usuario como administrador: comprueba que el usuario no sea administrador
+	@Override
 	public ItfUsuarioRegistrado volverAdmin() throws Exception {
 		if (this.esAdmin()) throw new Exception("Este usuario ya es administrador");
 		this.admin = new Admin().setUsuarioRegistrado(this);
@@ -94,6 +95,7 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	}
 
 	//Método para eliminar un usuario como administrador: comprueba que el usuario sea administrador
+	@Override
 	public ItfUsuarioRegistrado desactivarAdmin() throws Exception {
 		if (!this.esAdmin()) throw new Exception("Este usuario no es un administrador");
 		this.admin = null;
@@ -101,6 +103,7 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	}
 
 	//Método para establecer un usuario como personal de equipo: comprueba que el usuario no sea personal de equipo
+	@Override
 	public ItfUsuarioRegistrado volverPersonalEquipo() throws Exception {
 		if (this.ayudaEnEmergencias()) throw new Exception("Este usuario ya es personal de equipo");
 		this.personalEquipo = new PersonalEquipo().setCapacitacion("Predeterminada").setNivelFormacion("Basico");
@@ -108,24 +111,27 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	}
 
 	//Método para eliminar un usuario como personal de equipo: comprueba que el usuario sea personal de equipo
+	@Override
 	public ItfUsuarioRegistrado desactivarPersonalEquipo() throws Exception {
 		if (!this.ayudaEnEmergencias()) throw new Exception("Este usuario no es personal de equipo");
 		this.personalEquipo = null;
 		return this;
+	}
+	
+	@Override
+	public boolean esAdmin() {
+		return this.admin != null;
+	}
+	
+	@Override
+	public boolean ayudaEnEmergencias() {
+		return this.personalEquipo != null;
 	}
 
 
 	/**OTROS SETTERS Y GETTERS**/
 	public void setZona(String zona) {
 		this.zona = zona;
-	}
-	
-	public boolean ayudaEnEmergencias() {
-		return this.personalEquipo != null;
-	}
-	
-	public boolean esAdmin() {
-		return this.admin != null;
 	}
 	
 	public PersonalEquipo getPersonalEquipo() {

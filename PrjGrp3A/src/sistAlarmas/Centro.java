@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Centro {
+public class Centro implements ItfCentro {
     //Declaracion de variables
     private String idCentro;
     private String nombre;
@@ -30,7 +30,8 @@ public class Centro {
     }
 
     //Método para añadir un usuario registrado al centro
-    public Centro addUsuarioActual(String idUsuario) throws Exception {
+    @Override
+    public ItfCentro addUsuarioActual(String idUsuario) throws Exception {
         if (idUsuario == null) throw new Exception("Identificador de usuario no valido: no existe");
         if (usuariosActuales.contains(idUsuario)) throw new Exception("El usuario ya se encuentra en el centro");
         if (!GestorUsuarios.getInstancia().existeUsuario(idUsuario))
@@ -41,20 +42,13 @@ public class Centro {
     }
 
     //Método para eliminar un usuario del centro
+    @Override
     public String salirUsuarioActual(String idUsuario) throws Exception {
         if (idUsuario == null) throw new Exception("Identificador no valido: es inexistente");
         if (!usuariosActuales.contains(idUsuario)) throw new Exception("El usuario no se encuentra en el centro");
 
         usuariosActuales.remove(idUsuario);
         return idUsuario;
-    }
-
-    //Método para añadir un identificador a un centro
-    public Centro setIdCentro(String idCentro) throws Exception {
-        if (this.idCentro != null) throw new Exception("Este centro ya tiene un identificador");
-        if (!ItfGestorId.checkIdAccion(idCentro)) throw new Exception("Identificador de centro no valido");
-        this.idCentro = idCentro;
-        return this;
     }
 
     //Método para comprobar los valores de un sensor
@@ -65,7 +59,8 @@ public class Centro {
     }
 
     //Método para añadir un sensor a un centro
-    public Centro addSensor(Sensor sensor) throws Exception {
+    @Override
+    public ItfCentro addSensor(Sensor sensor) throws Exception {
         if (sensor == null) throw new Exception("Sensor no valido: es inexistente");
         if (sensores.containsKey(sensor.getIdSensor()))
             throw new Exception("El sensor ya habia sido registrado en este centro");
@@ -73,15 +68,15 @@ public class Centro {
             throw new Exception("El sensor ya ha sido asignado a un centro");
         comprobarValoresSensor(sensor);
 
-        sensor.setCentro(this);
         sensores.put(sensor.getIdSensor(), sensor);
         return this;
     }
 
     //Método para leer los datos de un sensor
+    @Override
     public Sensor leerSensor(String idSensor) throws Exception {
         if (idSensor == null) throw new Exception("Identificador no valido: es inexistente");
-        if (!sensores.containsKey(idCentro))
+        if (!sensores.containsKey(idSensor))
             throw new Exception("El identificador no se corresponde con ningun sensor registrado");
 
         return sensores.get(idSensor);
@@ -89,6 +84,7 @@ public class Centro {
 
 
     //Método para modificar los datos de un sensor registrado
+    @Override
     public Sensor modificarSensor(Sensor sensor) throws Exception {
         if (sensor == null) throw new Exception("Sensor no valido: es inexistente");
         if (!sensores.containsKey(sensor.getIdSensor()))
@@ -100,6 +96,7 @@ public class Centro {
     }
     
     //Método para eliminar un sensor registrado
+    @Override
     public Sensor borrarSensor(String idSensor) throws Exception {
         Sensor sensor;
         if (idSensor == null) throw new Exception("Identificador no valido: es inexistente");
@@ -113,20 +110,29 @@ public class Centro {
     }
 
     //Método para eliminar todos los sensores registrados
-    public Centro borrarTodosSensores() {
+    @Override
+    public ItfCentro borrarTodosSensores() {
         sensores.clear();
         return this;
     }
+    
+    // M�todo para comprobar si en el centro hay un sensor de un tipo determinado
+    @Override
+	public boolean tieneSensor(TipoSensor tipo) {
+		return sensores.values().stream().anyMatch(sensor -> sensor.getTipoSensor().equals(tipo));
+	}
 
-    //Métodos para obtener los sensores
-    public HashMap<String, Sensor> getSensores() {
-        return sensores;
+    
+
+    //Método para añadir un identificador a un centro
+    public Centro setIdCentro(String idCentro) throws Exception {
+        if (this.idCentro != null) throw new Exception("Este centro ya tiene un identificador");
+        if (!ItfGestorId.checkIdCentro(idCentro)) throw new Exception("Identificador de centro no valido");
+        this.idCentro = idCentro;
+        return this;
     }
 
-    public List<Sensor> getListaSensores() {
-        return sensores.values().stream().collect(Collectors.toList());
-    }
-
+    
     //Método para establecer el identificador de un centro
     public Centro setNombre(String nombre) throws Exception {
         if (nombre == null) throw new Exception("Nombre no valido: no existe");
@@ -187,6 +193,17 @@ public class Centro {
     }
 
     /** GETTERS **/
+
+    //Métodos para obtener los sensores
+    public HashMap<String, Sensor> getSensores() {
+        return sensores;
+    }
+    
+    public List<Sensor> getListaSensores() {
+        return sensores.values().stream().collect(Collectors.toList());
+    }
+
+    
     public float[] getCoordenadas() {
         return coordenadas;
     }

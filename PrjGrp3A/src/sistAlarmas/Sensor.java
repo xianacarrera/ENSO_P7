@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
 
-public class Sensor {
+public class Sensor implements ItfSensor {
 	//Declaración de variables
 	private String idSensor;
 	private Date fechaInstalacion;
@@ -120,7 +120,8 @@ public class Sensor {
 	}
 
 	//Método para analizar el entorno y asignar un valor al sensor
-	public Sensor analizarEntorno() throws Exception {
+	@Override
+	public ItfSensor analizarEntorno() throws Exception {
 		Random rand = new Random();
 		float nuevoValor;
 		switch (tipoSensor) {
@@ -157,6 +158,7 @@ public class Sensor {
 	}
 
 	//Método para disparar una alarma
+	@Override
 	public Alarma dispararAlarma() throws Exception {
 		return GestorAlarmas.getInstancia().activarAlarma(this);
 	}
@@ -182,6 +184,12 @@ public class Sensor {
 		public Builder setZona(String zona) {
 			if (sensor == null) this.reset();
 			sensor.setZona(zona);
+			return this;
+		}
+		
+		public Builder setTipoSensor(TipoSensor tipo) throws Exception{
+			if (sensor == null) this.reset();
+			sensor.setTipoSensor(tipo);
 			return this;
 		}
 		

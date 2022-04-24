@@ -5,34 +5,35 @@ public class Principal {
 
 	public static void main(String[] args) {
 		// Interfaz ItfGestorId
-		String idAccion, idAlarma, idCentro, idEquipo, idProt, idSensor, idUsuario, idVerif;
+		String idAccion = null, idAlarma = null, idCentro = null, idEquipo = null, 
+				idProt = null, idSensor = null, idUsuario = null, idVerif = null;
 		try {
-			idAccion = ItfGestorId.generarId("Accion");
+			idAccion = ItfGestorId.generarId("ACCION");
 			System.out.println("¿Id de accion valido? " + ItfGestorId.checkIdAccion(idAccion));
-			idAlarma = ItfGestorId.generarId("Alarma");
+			idAlarma = ItfGestorId.generarId("ALARMA");
 			System.out.println("¿Id de alarma valido? " + ItfGestorId.checkIdAlarma(idAlarma));
-			idCentro = ItfGestorId.generarId("Centro");
+			idCentro = ItfGestorId.generarId("CENTRO");
 			System.out.println("¿Id de centro valido? " + ItfGestorId.checkIdCentro(idCentro));
-			idEquipo = ItfGestorId.generarId("Equipo");
+			idEquipo = ItfGestorId.generarId("EQUIPO");
 			System.out.println("¿Id de equipo valido? " + ItfGestorId.checkIdEquipo(idEquipo));
-			idProt = ItfGestorId.generarId("Protocolo");
+			idProt = ItfGestorId.generarId("PROTOCOLO");
 			System.out.println("¿Id de protocolo valido? " + ItfGestorId.checkIdProtocolo(idProt));
-			idSensor = ItfGestorId.generarId("Sensor");
+			idSensor = ItfGestorId.generarId("SENSOR");
 			System.out.println("¿Id de sensor valido? " + ItfGestorId.checkIdSensor(idSensor));
-			idUsuario = ItfGestorId.generarId("Usuario");
+			idUsuario = ItfGestorId.generarId("USUARIO");
 			System.out.println("¿Id de usuario valido? " + ItfGestorId.checkIdUsuario(idUsuario));
-			idVerif = ItfGestorId.generarId("Verificacion");
+			idVerif = ItfGestorId.generarId("VERIFICACION");
 			System.out.println("¿Id de verificacion valido? " + ItfGestorId.checkIdVerificacion(idVerif));
 		} catch(Exception e) {
 			System.out.println("Error en la interfaz ItfGestorId");
 			e.printStackTrace();
 		}
-		
 
-		// Interfaz UsuarioRegistrado
+		// Interfaz ItfUsuarioRegistrado
+		UsuarioRegistrado user = null;
 		try {
-			UsuarioRegistrado user = new UsuarioRegistrado.Builder().reset()
-					.setIdUsuario(idUsuario).setNombre("Caminha", "Sio", null).setCorreo("carminhasio@gmail.com").build();
+			user = new UsuarioRegistrado.Builder().reset()
+					.setIdUsuario(idUsuario).build();
 			user.volverAdmin();
 			user.desactivarAdmin();
 			System.out.println("¿El usuario es un administrador? " + user.esAdmin());
@@ -45,6 +46,99 @@ public class Principal {
 			e.printStackTrace();
 		}
 		
+		// Interfaz GestorUsuarios
+		GestorUsuarios gu = GestorUsuarios.getInstancia();
+		Usuario usuario = new Usuario();
+		UsuarioRegistrado usuario2 = new UsuarioRegistrado();
+		Centro centro = new Centro();
+		try {
+			usuario.setIdUsuario(ItfGestorId.generarId("USUARIO"));
+			gu.addUsuario(usuario);
+			usuario2.setIdUsuario(usuario.getIdUsuario());
+			usuario2.setNombrePropio("Marcos");
+			gu.modificarUsuario(usuario2);
+			
+			UsuarioRegistrado uTemp = (UsuarioRegistrado) gu.leerUsuario(usuario.getIdUsuario());
+			System.out.println("El nombre del usuario modificado es " + uTemp.getNombrePropio());
+			
+			System.out.println("¿Existe el usuario de nombre " + uTemp.getNombrePropio() + "? " + gu.existeUsuario(uTemp.getIdUsuario()));
+			gu.borrarUsuario(uTemp.getIdUsuario());
+			System.out.println("Usuario Marcos borrado");
+			System.out.println("¿Existe el usuario de nombre " + uTemp.getNombrePropio() + "? " + gu.existeUsuario(uTemp.getIdUsuario()));
+		} catch(Exception e) {
+			System.out.println("Error en la interfaz ItfGestorUsuarios");
+			e.printStackTrace();
+		}
+		
+		
+		// Interfaz GestorCentros
+		Sensor sensor = null;
+		Sensor sensor2 = null;
+		Centro centro2 = new Centro();
+		GestorCentros gc = GestorCentros.getInstancia();
+		try {
+			sensor = new Sensor.Builder().setIdSensor(idSensor).setTipoSensor(TipoSensor.CALOR).build();
+			sensor2 = new Sensor.Builder().setIdSensor(idSensor).setTipoSensor(TipoSensor.BAROMETRO).build();
+
+			centro.setIdCentro(idCentro);
+			centro.setNombre("Facultad de matematicas");
+			centro.setCampus("Campus sur");
+			centro.setServicio("Educativo");
+			centro.setCoordenadas(new float[] {(float) 45.15, (float) 48.98});
+			centro.setCalle("Rua de Lope Gomez de Marzoa");
+			centro.setCodigoPostal(15705);
+			centro.setNumero(24);
+			centro.setCiudad("Santiago de Compostela");
+
+			centro2.setIdCentro(idCentro);
+			centro2.setNombre("ETSE");
+			centro2.setCampus("Campus sur");
+			centro2.setServicio("Educativo");
+			centro2.setCoordenadas(new float[] {(float) 04.15, (float) -12.98});
+			centro2.setCalle("Rua de Lope Gomez de Marzoa");
+			centro2.setCodigoPostal(15705);
+			centro2.setNumero(45);
+			centro2.setCiudad("Santiago de Compostela");
+			
+			gc.addCentro(centro);
+			gc.modificarCentro(centro2);
+			Centro cTemp = gc.leerCentro(idCentro);
+			System.out.println("Nombre del centro modificado: " + cTemp.getNombre());
+			
+			gc.addSensor(sensor, centro2.getIdCentro());
+			gc.modificarSensor(sensor2);
+			Sensor sTemp = gc.leerSensor(idSensor);
+			System.out.println("Tipo del sensor modificado " + sTemp.getTipoSensor());
+			
+			gu.addUsuario(usuario2);
+			gc.cambiarCentroUsuario(usuario2, centro2);
+			gc.cambiarCentroUsuario(usuario2, null);
+			
+			gc.eliminarSensor(idSensor);
+			gc.borrarCentro(idCentro);
+			
+		} catch(Exception e) {
+			System.out.println("Error en la interfaz ItfSensor");
+			e.printStackTrace();
+		}
+		
+		// Interfaz ItfCentro
+		/*
+		Centro centro = null;
+			centro = new Centro();
+			centro.setIdCentro(idCentro);
+			centro.addUsuarioActual(idUsuario);
+			centro.salirUsuarioActual(idUsuario);
+		
+	    ItfCentro addUsuarioActual(String idUsuario) throws Exception;
+	    String salirUsuarioActual(String idUsuario) throws Exception;
+	    ItfCentro addSensor(Sensor sensor) throws Exception;
+	    Sensor leerSensor(String idSensor) throws Exception;
+	    Sensor modificarSensor(Sensor sensor) throws Exception;
+	    Sensor borrarSensor(String idSensor) throws Exception;
+	    ItfCentro borrarTodosSensores();
+	    boolean tieneSensor(TipoSensor tipo);
+	    */
 		
 		// Interfaz UsuarioRegistrado
 		//Usuario usuario = new Usuario();

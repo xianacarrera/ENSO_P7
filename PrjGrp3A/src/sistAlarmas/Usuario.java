@@ -13,15 +13,16 @@ public class Usuario {
 	//Método para establecer el id del usuario
 	public Usuario setIdUsuario(String idUsuario) throws Exception{
 		if (this.idUsuario != null) throw new Exception("Este usuario ya tiene un identificador");
-		if (!ItfGestorId.checkIdAccion(idUsuario)) throw new Exception("Identificador de usuario no valido");
+		if (!ItfGestorId.checkIdUsuario(idUsuario)) throw new Exception("Identificador de usuario no valido");
 		this.idUsuario = idUsuario;
 		return this;
 	}
 
 	//Método para establecer el centro actual del usuario
 	public Usuario setCentroActual(Centro centroActual) throws Exception {
-		if (centroActual == null) throw new Exception("Centro no valido: no existe");
-		if (!GestorCentros.getInstancia().esCentroRegistrado(centroActual.getIdCentro())) throw new Exception("Centro no valido: no esta registrado");
+		if (centroActual != null)
+			if (!GestorCentros.getInstancia().esCentroRegistrado(centroActual.getIdCentro())) 
+				throw new Exception("Centro no valido: no esta registrado");
 
 		this.centroActual = centroActual;
 		return this;

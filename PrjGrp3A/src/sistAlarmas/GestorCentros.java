@@ -150,17 +150,18 @@ public class GestorCentros implements ItfGestorCentros {
     @Override
     public Usuario cambiarCentroUsuario(Usuario usuario, Centro nuevoCentro) throws Exception {
         if (usuario == null) throw new Exception("El usuario no existe");
-        if (nuevoCentro == null) throw new Exception("El nuevo centro no existe");
         if (!GestorUsuarios.getInstancia().existeUsuario(usuario.getIdUsuario()))
             throw new Exception("El usuario no est� registrado");
-        if (!GestorCentros.getInstancia().esCentroRegistrado(nuevoCentro.getIdCentro()))
-            throw new Exception("El nuevo centro no est� registrado");
-        comprobarValoresCentro(nuevoCentro);
+        if (nuevoCentro != null) {
+	        if (!GestorCentros.getInstancia().esCentroRegistrado(nuevoCentro.getIdCentro()))
+	            throw new Exception("El nuevo centro no est� registrado");
+	        comprobarValoresCentro(nuevoCentro);
+        }
 
         Centro centroAnterior = usuario.getCentroActual();
         if (centroAnterior != null) centroAnterior.salirUsuarioActual(usuario.getIdUsuario());
         usuario.setCentroActual(nuevoCentro);
-        nuevoCentro.addUsuarioActual(usuario.getIdUsuario());
+        if (nuevoCentro != null) nuevoCentro.addUsuarioActual(usuario.getIdUsuario());
 
         return null;
     }
