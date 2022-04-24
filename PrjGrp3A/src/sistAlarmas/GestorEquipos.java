@@ -79,12 +79,12 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return GestorEquipos.getInstancia().leerEquipo(idMax);		
 	}
 	
-	public GestorEquipos enviarAcciones(Equipo equipo, List<Accion> acciones, Alarma alarma) throws Exception {
+	public Equipo enviarAcciones(Equipo equipo, List<Accion> acciones, Alarma alarma) throws Exception {
 		for (Accion ac : acciones) {
 			ac.setDestinatario(equipo);
 		}
 		equipo.recibirOrden(acciones, alarma);
-		return this;
+		return equipo;
 	}
 	
 	public GestorEquipos recibirVerificacion(Equipo equipo, Verificacion verif) throws Exception {
@@ -98,27 +98,27 @@ public class GestorEquipos implements ItfGestorEquipos{
 	}
 	
 	@Override
-	public Equipo addEquipo(Equipo equipo) throws Exception {
+	public GestorEquipos addEquipo(Equipo equipo) throws Exception {
 		if (equipo == null) throw new Exception("Equipo no valido: es inexistente");
 		if (!ItfGestorId.checkIdEquipo(equipo.getIdEquipo())) throw new Exception("El identificador del equipo no es valido");
 		if (equipo.getMiembros().size() < 1) throw new Exception("El equipo no tiene miembros");
 		if (equipos.containsKey(equipo.getIdEquipo())) throw new Exception("El centro ya habia sido registrado");
 		
 		equipos.put(equipo.getIdEquipo(), equipo);
-		return equipo;
+		return this;
 	}
 
 	@Override
-	public Equipo modificarEquipo(Equipo equipo) throws Exception {
+	public GestorEquipos modificarEquipo(Equipo equipo) throws Exception {
 		if (equipo == null) throw new Exception("Equipo no valido: es inexistente");
 		if (!equipos.containsKey(equipo.getIdEquipo())) throw new Exception("El equipo no habia sido registrado previamente");
 	
 		equipos.put(equipo.getIdEquipo(), equipo);
-		return equipo;
+		return this;
 	}
 
 	@Override
-	public Equipo eliminarEquipo(String idEquipo) throws Exception {
+	public GestorEquipos eliminarEquipo(String idEquipo) throws Exception {
 		Equipo equipo;
 		if (idEquipo == null) throw new Exception("Identificador no valido: es inexistente");
 		if (!equipos.containsKey(idEquipo)) throw new Exception("El identificador no se corresponde con ningun equipo registrado");
@@ -127,7 +127,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		if (equipo.estaOcupado()) throw new Exception("El equipo esta ejecutando tareas; no se puede borrar");
 		
 		equipo.borrarDatosEquipo();
-		return equipo;
+		return this;
 	}
 
 	@Override
@@ -138,7 +138,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return equipos.get(idEquipo);
 	}
 	
-	public Verificacion addVerificacion(Verificacion verif) throws Exception {
+	public GestorEquipos addVerificacion(Verificacion verif) throws Exception {
 		if (verif == null) throw new Exception("Verificacion no valida: es inexistente");
 		if (!ItfGestorId.checkIdVerificacion(verif.getIdVerif())) throw new Exception("El identificador de la verificacion no es valido");
 		if (verif.getMensaje() == null || verif.getAlarma() == null || verif.getEmisor() == null) 
@@ -147,7 +147,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		if (verificaciones.containsKey(verif.getIdVerif())) throw new Exception("La verificacion ya habia sido registrada");
 		
 		verificaciones.put(verif.getIdVerif(), verif);
-		return verif;
+		return this;
 	}
 	
 	public Verificacion leerVerif(String idVerif) throws Exception {
@@ -159,24 +159,24 @@ public class GestorEquipos implements ItfGestorEquipos{
 	}
 	
 	@Override
-	public Accion addAccion(Accion accion) throws Exception {
+	public GestorEquipos addAccion(Accion accion) throws Exception {
 		if (accion == null) throw new Exception("Accion no valida: es inexistente");
 		if (!ItfGestorId.checkIdAccion(accion.getIdAccion())) throw new Exception("El identificador de la accion no es valido");
 		if (accion.getMensaje() == null) throw new Exception("La accion no tiene mensaje");
 		if (acciones.containsKey(accion.getIdAccion())) throw new Exception("La accion ya habia sido registrada");
 		
 		acciones.put(accion.getIdAccion(), accion);
-		return accion;
+		return this;
 	}
 
 	@Override
-	public Accion modificarAccion(Accion accion) throws Exception {
+	public GestorEquipos modificarAccion(Accion accion) throws Exception {
 		if (accion == null) throw new Exception("Accion no valida: es inexistente");
 		if (!acciones.containsKey(accion.getIdAccion())) throw new Exception("La accion no habia sido registrada previamente");
 		if (accion.getMensaje() == null) throw new Exception("La accion no tiene mensaje");
 		
 		acciones.put(accion.getIdAccion(), accion);
-		return accion;
+		return this;
 	}
 	
 	// No se permite borrar acciones ni verificaciones

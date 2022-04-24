@@ -78,23 +78,23 @@ public class Centro {
 		return sensores;
 	}
 	
-	public Sensor modificarSensor(Sensor sensor) throws Exception {
+	public Centro modificarSensor(Sensor sensor) throws Exception {
 		if (sensor == null) throw new Exception("Sensor no valido: es inexistente");
 		if (!sensores.containsKey(sensor.getIdSensor())) throw new Exception("El sensor no habia sido registrado previamente");
 		comprobarValoresSensor(sensor);
 		
 		sensores.put(sensor.getIdSensor(), sensor);
-		return sensor;
+		return this;
 	}
 	
-	public Sensor borrarSensor(String idSensor) throws Exception {
+	public Centro borrarSensor(String idSensor) throws Exception {
 		Sensor sensor;
 		if (idSensor == null) throw new Exception("Identificador no valido: es inexistente");
 		if (!sensores.containsKey(idSensor)) throw new Exception("El identificador no se corresponde con ningun sensor registrado");
 		if ((sensor = sensores.get(idSensor)) == null) throw new Exception("Error fatal: el sensor correspondiente al identificador no existe");
 		
 		sensores.remove(idSensor);   // Si no había mapping o idSensor era null, no hace nada
-		return sensor;				 // Devuelve null si el mapping era null o idSensor era null
+		return this;				 // Devuelve null si el mapping era null o idSensor era null
 	}
 	
 	public Centro borrarTodosSensores() {
@@ -104,6 +104,10 @@ public class Centro {
 	
 	public List<Sensor> getListaSensores(){
 		return sensores.values().stream().collect(Collectors.toList());
+	}
+	
+	public boolean tieneSensor(TipoSensor tipo) {
+		return sensores.values().stream().anyMatch(sensor -> sensor.getTipoSensor().equals(tipo));
 	}
 
 
@@ -199,6 +203,11 @@ public class Centro {
 	public String getNombre() {
 		return nombre;
 	}
+	
+	public List<String> getUsuariosActuales(){
+		return usuariosActuales;
+	}
+	
 
 	public static class Builder{
 		private Centro centro;
