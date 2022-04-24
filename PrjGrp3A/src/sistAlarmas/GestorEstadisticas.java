@@ -22,20 +22,22 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     }
 
     //Método para añadir una estadística: el tipo se obtendrá a partir del id
-    public void agregar(Date inicio, Date fin, Date fechaInsercion, String id) throws Exception{
+    public void agregar(Date inicio, Date fin, Date fechaInsercion, String id, String centro) throws Exception {
+        if (id == null) throw new Exception("El id no puede ser nulo");
         String tipo = ItfGestorId.getTipo(id);
-        if(tipo == null) throw new Exception("El id no es válido -> Tipo no encontrado");
-        if(inicio==null || fin==null || fechaInsercion==null) throw new Exception("Alguna fecha es nula");
-        if(inicio.after(fin)) throw new Exception("La fecha de inicio no puede ser posterior a la fecha de fin");
+        if (tipo == null) throw new Exception("El id no es válido -> Tipo no encontrado");
+        if (inicio == null || fin == null || fechaInsercion == null) throw new Exception("Alguna fecha es nula");
+        if (inicio.after(fin)) throw new Exception("La fecha de inicio no puede ser posterior a la fecha de fin");
+        if (centro == null) throw new Exception("El centro no puede ser nulo");
         Float duracion = (float) (fin.getTime() - inicio.getTime());
-        Estadistica e = new Estadistica(tipo, duracion, fechaInsercion);
+        Estadistica e = new Estadistica(tipo, duracion, fechaInsercion, id, centro, inicio);
         datos.put(e.getId(), e);
     }
 
     //Método para recuperar el total de valores asociadas a un tipo
     public int recuperarTotal(String tipo) throws Exception {
         int contador = 0;
-        if(datos.isEmpty()) throw new Exception("No hay datos");
+        if (datos.isEmpty()) throw new Exception("No hay datos");
         for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 contador++;
@@ -48,7 +50,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     public float mediaDuracion(String tipo) throws Exception {
         float total = 0;
         int contador = 0;
-        if(datos.isEmpty()) throw new Exception("No hay datos");
+        if (datos.isEmpty()) throw new Exception("No hay datos");
         for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 total += e.getDuracion();
@@ -91,7 +93,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     }
 
     private String isCentro(String filtro) {
-        return ItfGestorCentros.getCentros().contains(filtro) ? filtro : null;
+        return GestorCentros.getInstancia().getCentros().containsKey(filtro) ? filtro : null;
     }
 
     /**
@@ -100,16 +102,15 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
 
     //Método para calcular la distribución total de un tipo en función de un filtro: mes, año o centro
     public int distribucionTotal(String filtro, String tipo) throws Exception {
-        int contador=0;
+        int contador = 0;
 
         for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 if (isMonth(filtro) != null || isYear(filtro) != null || isCentro(filtro) != null) {
-                    if (e.getFecha().getMonth() == isMonth(filtro) || e.getFecha().getYear() == isYear(filtro) || e.getCentro().equals(filtro)) {
+                    if (e.getFechaOcurrencia().getMonth() == isMonth(filtro) || e.getFechaOcurrencia().getYear() == isYear(filtro) || e.getCentro().equals(filtro)) {
                         contador++;
                     }
-                }
-                else{
+                } else {
                     throw new Exception("El filtro no es válido");
                 }
             }
@@ -124,12 +125,11 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
         for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
                 if (isMonth(filtro) != null || isYear(filtro) != null || isCentro(filtro) != null) {
-                    if (e.getFecha().getMonth() == isMonth(filtro) || e.getFecha().getYear() == isYear(filtro) || e.getCentro().equals(filtro)) {
+                    if (e.getFechaOcurrencia().getMonth() == isMonth(filtro) || e.getFechaOcurrencia().getYear() == isYear(filtro) || e.getCentro().equals(filtro)) {
                         total += e.getDuracion();
                         contador++;
                     }
-                }
-                else{
+                } else {
                     throw new Exception("El filtro no es válido");
                 }
             }
