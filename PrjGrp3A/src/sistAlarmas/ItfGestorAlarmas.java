@@ -62,4 +62,9 @@ public interface ItfGestorAlarmas {
 		return null;
 	}
 	
+	GestorAlarmas addProtocolo(Protocolo prot) throws Exception;
+	GestorAlarmas modificarProtocolo(Protocolo prot) throws Exception;
+	GestorAlarmas borrarProtocolo(String idProt) throws Exception;
+	Protocolo leerProtocolo(String idProt) throws Exception;
+	
 }

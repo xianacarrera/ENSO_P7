@@ -11,5 +11,5 @@ public interface ItfGestorCentros {
 	public Sensor eliminarSensor(String idSensor) throws Exception;
 	public Sensor leerSensor(String idSensor) throws Exception;
 	
-	public Usuario cambiarCentroUsuario(Usuario usuario, Centro centro);
+	public Usuario cambiarCentroUsuario(Usuario usuario, Centro nuevoCentro) throws Exception;
 }

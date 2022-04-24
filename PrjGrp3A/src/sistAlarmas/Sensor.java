@@ -140,11 +140,9 @@ public class Sensor {
 		return this;
 	}
 	
-	public Alarma dispararAlarma() {
+	public Alarma dispararAlarma() throws Exception {
 		return GestorAlarmas.getInstancia().activarAlarma(this);
 	}
-
-
 
 	public static class Builder{
 		private Sensor sensor;

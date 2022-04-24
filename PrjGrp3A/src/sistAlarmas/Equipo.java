@@ -39,29 +39,49 @@ public class Equipo {
 		return this;
 	}
 	
-	public Equipo gestionarAlarma() {
+	public Equipo gestionarAlarma() throws Exception {
+		GestorEquipos ge = GestorEquipos.getInstancia();
+		boolean flag = false;
+		
+		List<Verificacion> verifs = new ArrayList<>();
 		
 		for (Accion accion : accionesEnEjecucion) {
 			Verificacion verif = new Verificacion();
-			verif.setIdVerif("aaaa");
+
+			do {
+				verif.setIdVerif(ItfGestorId.generarId("Verificacion"));
+				try {
+					ge.leerVerif(verif.getIdVerif());
+				} catch (Exception e) {
+					flag = true;
+				}
+			} while (!flag);
 			verif.setMensaje("Verificacion de accion");
-			verif.set
+			verif.setAccion(accion);
+			verif.setEmisor(this);
+			ge.addVerificacion(verif);
+			verifs.add(verif);
 		}
 		
-		List<Verificacion> verificaciones = accionesEnEjecucion.stream()
-				.map(accion -> new Verificacion(accion))
-				.map(verif -> verif.setEmisor(this))
-				.collect(Collectors.toList());
-		
-		Verificacion verifFinal = new Verificacion("??", "Alarma gestionada");
+		Verificacion verifFinal = new Verificacion();
+		flag = false;
+		do {
+			verifFinal.setIdVerif(ItfGestorId.generarId("Verificacion"));
+			try {
+				ge.leerVerif(verifFinal.getIdVerif());
+			} catch (Exception e) {
+				flag = true;
+			}
+		} while (!flag);
 		verifFinal.setAlarma(alarmaEnEjecucion);
 		verifFinal.setEmisor(this);
-		verificaciones.add(verifFinal);
+		ge.addVerificacion(verifFinal);
+		verifs.add(verifFinal);
 		
 		accionesEnEjecucion.clear();
 		
-		GestorEquipos ge = GestorEquipos.getInstancia();
-		verificaciones.forEach(verif -> ge.recibirVerificacion(this, verif));
+		for (Verificacion v : verifs) ge.recibirVerificacion(this, v);
+		this.alarmaEnEjecucion = null;
 		
 		return this;
 	}
@@ -121,15 +141,35 @@ public class Equipo {
 		return transportePrimario;
 	}
 	
-	public void setAlarmaEnEjecucion(Alarma alarmaEnEjecucion) {
+	public Equipo setAlarmaEnEjecucion(Alarma alarmaEnEjecucion) throws Exception {
+		if (alarmaEnEjecucion != null && !GestorAlarmas.getInstancia().esAlarmaEnEjecucion(alarmaEnEjecucion.getIdAlarma()))
+			throw new Exception("La alarma indicada no esta siendo ejecutada");
 		this.alarmaEnEjecucion = alarmaEnEjecucion;
+		return this;
 	}
-
-
 	
-	public Equipo addMiembro(UsuarioRegistrado miembro) {
-		if (miembro == null || !miembro.ayudaEnEmergencias()) return null;
+	public Equipo addMiembro(UsuarioRegistrado miembro) throws Exception {
+		if (miembro == null || !miembro.ayudaEnEmergencias()) throw new Exception("El nuevo miembro no es valido");
+		miembro.getPersonalEquipo().setEquipo(this);
 		this.miembros.add(miembro);
+		return this;
+	}
+	
+	public Equipo quitarMiembro(UsuarioRegistrado miembro) throws Exception{
+		if (miembro == null) throw new Exception("El usuario seleccionado no existe");
+		if (!miembros.contains(miembro)) throw new Exception("El usuario seleccionado no forma parte del equipo");
+		if (miembros.size() - 1 < 1) throw new Exception("No se puede eliminar el miembro: el equipo no puede quedar vacio");
+		
+		miembros.remove(miembro);
+		miembro.getPersonalEquipo().setEquipo(null);
+		return this;
+	}
+	
+	public Equipo borrarDatosEquipo() throws Exception {
+		for (UsuarioRegistrado u : miembros) {
+			miembros.remove(u);
+			u.getPersonalEquipo().setEquipo(null);
+		}
 		return this;
 	}
 	

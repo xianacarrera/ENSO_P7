@@ -114,10 +114,6 @@ public class UsuarioRegistrado extends Usuario {
 		return this.admin != null;
 	}
 	
-	public String getZona() {
-		return zona;
-	}
-	
 	public PersonalEquipo getPersonalEquipo() {
 		return this.personalEquipo;
 	}
@@ -145,6 +141,10 @@ public class UsuarioRegistrado extends Usuario {
 	public int getTelefono() {
 		return telefono;
 	}
+	
+	public String getZona() {
+		return zona;
+	}
 
 	public static class Builder {
 		private UsuarioRegistrado user;
@@ -159,10 +159,10 @@ public class UsuarioRegistrado extends Usuario {
 		}
 		
 		public Builder fromUsuario(Usuario usuario) throws Exception {
-			if (usuario == null) return null;
+			if (usuario == null) throw new Exception("Usuario no valido: no existe");
 			if (user == null) this.reset();
 			user.setIdUsuario(usuario.getIdUsuario());
-			//user.setCentroActual(usuario.getCentroActual());
+			user.setCentroActual(usuario.getCentroActual());
 			return this;
 		}
 		
@@ -171,12 +171,12 @@ public class UsuarioRegistrado extends Usuario {
 			user.setIdUsuario(idUsuario);
 			return this;
 		}
-		/*
-		public Builder setCentroActual(Centro centroActual){
+		
+		public Builder setCentroActual(Centro centroActual) throws Exception {
 			if (user == null) this.reset();
 			user.setCentroActual(centroActual);
 			return this;
-		}*/
+		}
 		
 		public Builder setNombrePropio(String nombrePropio) throws Exception {
 			if (user == null) this.reset();
@@ -210,7 +210,7 @@ public class UsuarioRegistrado extends Usuario {
 			return this;
 		}
 		
-		public Builder setTelefono(int tlf) {
+		public Builder setTelefono(int tlf) throws Exception {
 			if (user == null) this.reset();
 			user.setTelefono(tlf);
 			return this;

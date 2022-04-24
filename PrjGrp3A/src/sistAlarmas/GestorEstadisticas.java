@@ -73,7 +73,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     }
 
     private int isYear(String filtro) {
-        Integer valor = Integer.parseInt(filtro)
+        Integer valor = Integer.parseInt(filtro);
         if (valor >= 1 && valor <= MAXIMO_ANO) {
             return valor;
         }

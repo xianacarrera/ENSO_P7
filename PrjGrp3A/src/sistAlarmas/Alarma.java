@@ -119,6 +119,10 @@ public class Alarma {
 		return this.centro;
 	}
 	
+	public EstadoAlarma getEstado() {
+		return this.estado;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(idAlarma);

@@ -1,6 +1,8 @@
 package sistAlarmas;
 
-public interface ITfGestorEstadisticas {
+import java.util.Date;
+
+public interface ItfGestorEstadisticas {
 
     public void agregar(Date inicio, Date fin, Date fechaInsercion, String id);
 

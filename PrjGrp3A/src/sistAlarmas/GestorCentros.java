@@ -65,9 +65,10 @@ public class GestorCentros implements ItfGestorCentros {
 		if (!centros.containsKey(idCentro)) throw new Exception("El identificador no se corresponde con ningun centro registrado");
 		if ((centro = centros.get(idCentro)) == null) throw new Exception("Error fatal: el centro correspondiente al identificador no existe");
 		
-		if (!centro.getListaSensores().isEmpty()) throw new Exception("No se puede borrar el centro: existen alarmas asociadas a él");
-		if (GestorAlarmas.getInstancia().getAlarmasEnEjecucion().values().stream()
-				.anyMatch(alarma -> centro.equals(alarma.getCentro())))
+		if (!centro.getListaSensores().isEmpty()) throw new Exception("No se puede borrar el centro: existen sensores asociados a él");
+		GestorAlarmas ga = GestorAlarmas.getInstancia();
+		if (ga.getAlarmasEnEjecucion().values().stream().anyMatch(alarma -> centro.equals(alarma.getCentro()))
+			|| ga.getAlarmasPendientes().values().stream().anyMatch(alarma -> centro.equals(alarma.getCentro())))
 			throw new Exception("No se puede borrar el centro: existen alarmas activas relacionadas con él");
 		
 		centros.remove(idCentro);
@@ -86,6 +87,7 @@ public class GestorCentros implements ItfGestorCentros {
 	@Override
 	public Centro addSensor(Sensor sensor, String idCentro) throws Exception {
 		Centro centro = leerCentro(idCentro);
+		comprobarValoresCentro(centro);
 		centro.addSensor(sensor);
 		return centro;
 	}
@@ -124,6 +126,7 @@ public class GestorCentros implements ItfGestorCentros {
 		if (nuevoCentro == null) throw new Exception("El nuevo centro no existe");
 		if (!GestorUsuarios.getInstancia().existeUsuario(usuario.getIdUsuario())) throw new Exception("El usuario no está registrado");
 		if (!GestorCentros.getInstancia().esCentroRegistrado(nuevoCentro.getIdCentro())) throw new Exception("El nuevo centro no está registrado");
+		comprobarValoresCentro(nuevoCentro);
 		
 		Centro centroAnterior = usuario.getCentroActual();
 		if (centroAnterior != null) centroAnterior.salirUsuarioActual(usuario.getIdUsuario());

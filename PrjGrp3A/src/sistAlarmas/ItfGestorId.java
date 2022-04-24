@@ -1,16 +1,18 @@
 package sistAlarmas;
 
+import java.util.Random;
+
 public interface ItfGestorId {
 
-    // Todos los mÃ©todo estÃ¡ticos se pueden implementar directamente
+    // Todos los métodos estáticos se pueden implementar directamente
     // en la interfaz desde Java 8
 
 
-    //TODO AÃ‘ADIR AL DICCIONARIO LOS FORMATOS
+    //TODO AÑADIR AL DICCIONARIO LOS FORMATOS
 
     /*
-     * LAS COMPROBACIONES A REALIZAR BUSCARÃN SER SIMILARES A LAS ESTABLECIDAS
-     * EN EL DICCIONARIO DE DATOS ASOCIADO A LA PRÃCTICA. POR ELLO, SE COMPROBARÃ:
+     * LAS COMPROBACIONES A REALIZAR BUSCARÁN SER SIMILARES A LAS ESTABLECIDAS
+     * EN EL DICCIONARIO DE DATOS ASOCIADO A LA PRÁCTICA. POR ELLO, SE COMPROBARÁN:
      * -> ID DISTINTO DE NULL
      * -> LONGITUD DEL IDENTIFICADOR
      * -> FORMATO DEL MISMO
@@ -24,7 +26,7 @@ public interface ItfGestorId {
         if (idSensor == null) {
             return false;
         }
-        // 2- LONGITUD (mÃ¡ximo 15):
+        // 2- LONGITUD (máximo 15):
         if (idSensor.length() > 15) {
             return false;
         }
@@ -46,7 +48,7 @@ public interface ItfGestorId {
         if (idAlarma == null) {
             return false;
         }
-        // 2- LONGITUD (mÃ¡ximo 15):
+        // 2- LONGITUD (máximo 15):
         if (idAlarma.length() > 15) {
             return false;
         }
@@ -90,7 +92,7 @@ public interface ItfGestorId {
         if (idUsuario == null) {
             return false;
         }
-        // 2- LONGITUD (mÃ¡ximo 15):
+        // 2- LONGITUD (máximo 15):
         if (idUsuario.length() > 15) {
             return false;
         }
@@ -112,7 +114,7 @@ public interface ItfGestorId {
         if (idEquipo == null) {
             return false;
         }
-        // 2- LONGITUD (mÃ¡ximo 15):
+        // 2- LONGITUD (máximo 15):
         if (idEquipo.length() > 15) {
             return false;
         }
@@ -134,7 +136,7 @@ public interface ItfGestorId {
         if (idAccion == null) {
             return false;
         }
-        // 2- LONGITUD (mÃ¡ximo 15):
+        // 2- LONGITUD (máximo 15):
         if (idAccion.length() > 15) {
             return false;
         }
@@ -151,7 +153,7 @@ public interface ItfGestorId {
         return true;
     }
 
-    /*TODO AÃ‘ADIR AL DICCIONARIO DE DATOS*/
+    /*TODO AÑADIR AL DICCIONARIO DE DATOS*/
 
     /**
      * FORMATO ESPERADO: "V-XX...XX"
@@ -162,7 +164,7 @@ public interface ItfGestorId {
         if (idVerif == null) {
             return false;
         }
-        // 2- LONGITUD (mÃ¡ximo 15):
+        // 2- LONGITUD (máximo 15):
         if (idVerif.length() > 15) {
             return false;
         }
@@ -176,12 +178,15 @@ public interface ItfGestorId {
         return true;
     }
 
+    static boolean checkIdProtocolo(String idProt) { return true;}
+    
     static String getTipo(String tipo) {
-        switch (tipo.getCharAt(0)) {
+    	if (tipo == null) return "";
+        switch (tipo.charAt(0)) {
             case 'S':
                 return "Sensor";
             case 'A':
-                if (tipo.getCharAt(1) == 'C') {
+                if (tipo.charAt(1) == 'C') {
                     return "Accion";
                 }
                 return "Alarma";
@@ -203,22 +208,24 @@ public interface ItfGestorId {
      **/
 
     static String generarId(String tipo) {
-        switch (tipo.getCharAt(0)) {
+    	if (tipo == null) return "";
+    	long num = (long) ((long) Math.random() * Math.pow(10, 12));
+        switch (tipo.charAt(0)) {
             case 'S':
-                return "S-" + UUID.randomUUID().toString();
+                return "S-" + num;
             case 'A':
-                if (tipo.getCharAt(1) == 'C') {
-                    return "AC-" + UUID.randomUUID().toString();
+                if (tipo.charAt(1) == 'C') {
+                    return "AC-" + num;
                 }
-                return "A-" + UUID.randomUUID().toString();
+                return "A-" + num;
             case 'C':
-                return "C-" + UUID.randomUUID().toString();
+                return "C-" + (long) ((long) Math.random() * Math.pow(10, 15));
             case 'U':
-                return "U-" + UUID.randomUUID().toString();
+                return "U-" + num;
             case 'E':
-                return "E-" + UUID.randomUUID().toString();
+                return "E-" + num;
             case 'V':
-                return "V-" + UUID.randomUUID().toString();
+                return "V-" + num;
             default:
                 return "";
         }
