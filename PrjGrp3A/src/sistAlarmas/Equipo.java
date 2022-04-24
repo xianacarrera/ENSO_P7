@@ -66,6 +66,7 @@ public class Equipo {
 			} while (!flag);
 			verif.setMensaje("Verificacion de accion"); //Se establece el mensaje de la verificación
 			verif.setAccion(accion); //Se establece la acción de la verificación
+			verif.setAlarma(alarmaEnEjecucion);
 			verif.setEmisor(this); //Se establece el emisor de la verificación
 			ge.addVerificacion(verif); //Se añade la verificación al gestor de equipos
 			verifs.add(verif); //Se añade la verificación a la lista de verificaciones
@@ -81,12 +82,13 @@ public class Equipo {
 				flag = true; //Se establece el flag en true para que se trate de generar un id nuevo (si falla)
 			}
 		} while (!flag);
+		verifFinal.setMensaje("Verificacion final; se cierra la gestion de la alarma");
 		verifFinal.setAlarma(alarmaEnEjecucion); //Se establece la alarma de la verificación final
 		verifFinal.setEmisor(this); //Se establece el emisor de la verificación final
 		ge.addVerificacion(verifFinal); //Se añade la verificación final al gestor de equipos
 		verifs.add(verifFinal); //Se añade la verificación final a la lista de verificaciones
 		
-		accionesEnEjecucion.clear(); //Se limpia la lista de acciones en ejecución
+		accionesEnEjecucion = new ArrayList<>(); //Se limpia la lista de acciones en ejecución
 		
 		for (Verificacion v : verifs) ge.recibirVerificacion(this, v);  //Se llama a la función recibirVerificacion del gestor de equipos
 		this.alarmaEnEjecucion = null; //Se establece la alarma en ejecución a null

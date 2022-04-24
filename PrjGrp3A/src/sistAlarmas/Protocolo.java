@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Protocolo {
+public class Protocolo implements ItfProtocolo {
 
 	//Declaración de variables
 	private String idProtocolo;
@@ -22,6 +22,7 @@ public class Protocolo {
 	}
 
 	//Método para añadir un mensaje de acción a un protocolo
+	@Override
 	public Protocolo addMensajeAccion(String msg) throws Exception {
 		if (msg == null) throw new Exception("El mensaje de la accion no puede ser nulo");
 		if (mensajesAcciones.contains(msg)) throw new Exception("El protocolo ya habia regitrado este mensaje");
@@ -30,7 +31,8 @@ public class Protocolo {
 	}
 
 	//Método para eliminar un mensaje de acción de un protocolo
-	public Protocolo borrarMensajeAccion(String msg) throws Exception{
+	@Override
+	public Protocolo borrarMensajeAccion(String msg) throws Exception {
 		if (msg == null) throw new Exception("El mensaje de la accion no puede ser nulo");
 		if (!mensajesAcciones.contains(msg)) throw new Exception("El protocolo no tiene regitrado este mensaje");
 		

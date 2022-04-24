@@ -222,8 +222,6 @@ public class Principal {
 			equipo.recibirOrden(listaAc, al);
 			equipo.gestionarAlarma();
 			
-
-			
 			equipo.quitarMiembro(user);
 			
 			equipo.borrarDatosEquipo();
@@ -253,28 +251,14 @@ public class Principal {
 			e.printStackTrace();
 		}
 		
-		// Interfaz UsuarioRegistrado
-		//Usuario usuario = new Usuario();
-		//usuario.setIdUsuario(Itf)
-		/*
-		// En primer lugar se crea un par de usuarios y se imprimen sus idenrificadores
-		Usuario usuario1 = new Usuario("id1");
-		System.out.println(usuario1.getIdUsuario());
-		
-		Usuario usuario2 = new Usuario("id1");
-		System.out.println(usuario1.equals(usuario2));
-
-		// A continuación se define un usuarioRegistrado añadiendo sus datos (dni y telefono ya que son los obligatorios)
-		UsuarioRegistrado usuario3 = new UsuarioRegistrado.Builder().fromUsuario(usuario2)
-				.setDNI("123456").setTelefono(123456).build();
-		System.out.println(usuario3.getIdUsuario() + " " + usuario3.getTelefono());
-
-		//Se convierte el suuario registrado en administrador y se comprueba si se hizo correctamente
-		usuario3.volverAdmin();
-		System.out.println(usuario3.esAdmin());
-		//Se elimina de admnistrador a dicho usuario
-		usuario3.desactivarAdmin();
-		System.out.println(usuario3.esAdmin());*/
+		Protocolo protocolo = new Protocolo();
+		try {
+			protocolo.addMensajeAccion("Ir a un punto de reunion cercano");
+			protocolo.borrarMensajeAccion("Ir a un punto de reunion cercano");
+		} catch(Exception e) {
+			System.out.println("Error en la interfaz ItfProtocolo");
+			e.printStackTrace();
+		}
 	}
 
 }
