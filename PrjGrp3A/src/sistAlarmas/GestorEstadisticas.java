@@ -1,5 +1,6 @@
 package sistAlarmas;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -51,8 +52,8 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
      * MÉTODOS AUXILIARES PRIVADOS
      **/
 
-    private int isMonth(String filtro) {
-        private ArrayList<String> meses = new ArrayList<String>();
+    private Integer isMonth(String filtro) {
+        ArrayList<String> meses = new ArrayList<String>();
         meses.add("Enero");
         meses.add("Febrero");
         meses.add("Marzo");

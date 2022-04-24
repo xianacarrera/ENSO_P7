@@ -50,7 +50,6 @@ public interface ItfGestorAlarmas {
 	}
 	
 	static TipoAlarma tipoSensorToTipoAlarma(TipoSensor ts) {
-		HUMO, CALOR, BAROMETRO, SISMO, PRESENCIA, OTRO
 		if (ts == null) return null;
 		switch (ts) {
 			case HUMO: return TipoAlarma.INCENDIOS;

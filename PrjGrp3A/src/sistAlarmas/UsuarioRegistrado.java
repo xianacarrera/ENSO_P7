@@ -56,7 +56,7 @@ public class UsuarioRegistrado extends Usuario {
 		return this;
 	}
 
-	public UsuarioRegistrado setTelefono(int telefono) {
+	public UsuarioRegistrado setTelefono(int telefono) throws Exception {
 		if (String.valueOf(telefono).length() != 9) throw new Exception("Numero de telefono no valido");
 		this.telefono = telefono;
 		return this;

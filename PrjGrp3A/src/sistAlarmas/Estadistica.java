@@ -10,9 +10,9 @@ public class Estadistica {
     private String centro;
 
 
-    public Estadistica(String tipo, Float duración, Date fechaInsercion, String id, String centro) {
+    public Estadistica(String tipo, Float duracion, Date fechaInsercion, String id, String centro) {
         this.tipo = tipo;
-        this.duración = duración;
+        this.duracion = duracion;
         this.fechaInsercion = fechaInsercion;
         this.id = id;
         this.centro = centro;
