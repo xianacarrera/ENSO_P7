@@ -98,7 +98,9 @@ public class Centro {
         sensores.put(sensor.getIdSensor(), sensor);
         return sensor;
     }
-
+    public HashMap<String, Sensor> getSensores(){
+        return sensores;
+    }
     //Método para eliminar un sensor registrado
     public Sensor borrarSensor(String idSensor) throws Exception {
         Sensor sensor;
