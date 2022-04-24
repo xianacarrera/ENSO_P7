@@ -4,12 +4,12 @@ public interface ItfGestorCentros {
 	public Centro addCentro(Centro centro) throws Exception;
 	public Centro modificarCentro(Centro centro) throws Exception;
 	public Centro borrarCentro(String idCentro) throws Exception;
-	public Centro leerCentro(String idCentro);
+	public Centro leerCentro(String idCentro) throws Exception;
 	
-	public Sensor addSensor(Sensor sensor, Centro centro);
-	public Sensor modificarSensor(Sensor sensor);
-	public Sensor eliminarSensor(String idSensor);
-	public Sensor leerSensor(String idSensor);
+	public Centro addSensor(Sensor sensor, String idCentro) throws Exception;
+	public Sensor modificarSensor(Sensor sensor) throws Exception;
+	public Sensor eliminarSensor(String idSensor) throws Exception;
+	public Sensor leerSensor(String idSensor) throws Exception;
 	
 	public Usuario cambiarCentroUsuario(Usuario usuario, Centro centro);
 }

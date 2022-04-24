@@ -19,6 +19,13 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return instancia;
 	}
 	
+	public boolean esEquipoRegistrado(String idEquipo) {
+		if (idEquipo == null) return false;
+		if (!equipos.containsKey(idEquipo)) return false;
+		if (equipos.get(idEquipo) == null) return false;
+		return true;
+	}
+	
 	public Equipo recibirProtocolos(List<Protocolo> prots, Alarma al) {
 		// MÉTODO MUY DADO A COMPLEJIDAD CICLOMÁTICA ALTA POR EL ALGORITMO DE BÚSQUEDA DE EQUIPOS
 		
@@ -43,6 +50,16 @@ public class GestorEquipos implements ItfGestorEquipos{
 	public GestorEquipos enviarAcciones(Equipo equipo, List<Accion> acciones, Alarma alarma) throws Exception {
 		for (Accion ac : acciones) ac.setDestinatario(equipo);
 		equipo.recibirOrden(acciones, alarma);
+		return this;
+	}
+	
+	public GestorEquipos recibirVerificacion(Equipo equipo, Verificacion verif) {
+		// En caso de una aplicación con gui, se imprimiría el mensaje
+		String mensFinal = "Alarma gestionada";
+		if (mensFinal.equals(verif.getMensaje()))){
+			GestorAlarmas.getInstancia().desactivarAlarma();
+			equipo.setAlarmaEnEjecucion(null);
+		}
 		return this;
 	}
 	

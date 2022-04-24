@@ -14,7 +14,7 @@ public class Accion {
 	
 	public Accion setIdAccion(String idAccion) throws Exception {
 		if (this.idAccion != null) throw new Exception("Esta accion ya tiene un identificador");
-		if (!ItfIdChecker.checkIdAccion(idAccion)) throw new Exception("Identificador de accion no valido");
+		if (!ItfGestorId.checkIdAccion(idAccion)) throw new Exception("Identificador de accion no valido");
 		this.idAccion = idAccion;
 		return this;
 	}

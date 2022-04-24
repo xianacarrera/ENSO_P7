@@ -19,7 +19,7 @@ public class Alarma {
 	
 	public Alarma setIdAlarma(String idAlarma) throws Exception {
 		if (this.idAlarma != null) throw new Exception("Esta alarma ya tiene un identificador");
-		if (!ItfIdChecker.checkIdAccion(idAlarma)) throw new Exception("Identificador de alarma no valido");
+		if (!ItfGestorId.checkIdAccion(idAlarma)) throw new Exception("Identificador de alarma no valido");
 		this.idAlarma = idAlarma;
 		return this;
 	}

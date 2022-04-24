@@ -27,7 +27,7 @@ public class GestorCentros implements ItfGestorCentros {
 	@Override
 	public Centro addCentro(Centro centro) throws Exception {
 		if (centro == null) throw new Exception("Centro no valido: es inexistente");
-		if (!ItfIdChecker.checkIdCentro(centro.getIdCentro())) throw new Exception("El identificador del centro no es valido");
+		if (!ItfGestorId.checkIdCentro(centro.getIdCentro())) throw new Exception("El identificador del centro no es valido");
 		comprobarValoresCentro(centro);
 		if (centros.containsKey(centro.getIdCentro())) throw new Exception("El centro ya habia sido registrado");
 		
@@ -36,7 +36,7 @@ public class GestorCentros implements ItfGestorCentros {
 	}
 	
 	private void comprobarValoresCentro(Centro centro) throws Exception{
-		if (!ItfIdChecker.checkIdCentro(centro.getIdCentro())) throw new Exception("El identificador del centro no es valido");
+		if (!ItfGestorId.checkIdCentro(centro.getIdCentro())) throw new Exception("El identificador del centro no es valido");
 		if (centro.getNombre() == null) throw new Exception("Centro no valido: no tiene nombre");
 		if (centro.getCampus() == null) throw new Exception("Centro no valido: no tiene campus");
 		if (Arrays.equals(centro.getCoordenadas(), new float[]{(float) 0.0, (float) 0.0})) 
@@ -63,14 +63,14 @@ public class GestorCentros implements ItfGestorCentros {
 		Centro centro;
 		if (idCentro == null) throw new Exception("Identificador no valido: es inexistente");
 		if (!centros.containsKey(idCentro)) throw new Exception("El identificador no se corresponde con ningun centro registrado");
-		if ((centro = centros.get(idCentro)) == null) throw new Exception("Error fatal: el centro correspondiente al identificador no existe")
+		if ((centro = centros.get(idCentro)) == null) throw new Exception("Error fatal: el centro correspondiente al identificador no existe");
 		
-		if (!centro.getAllSensores().isEmpty()) throw new Exception("No se puede borrar el centro: existen alarmas asociadas a él");
+		if (!centro.getListaSensores().isEmpty()) throw new Exception("No se puede borrar el centro: existen alarmas asociadas a él");
 		if (GestorAlarmas.getInstancia().getAlarmasEnEjecucion().values().stream()
 				.anyMatch(alarma -> centro.equals(alarma.getCentro())))
 			throw new Exception("No se puede borrar el centro: existen alarmas activas relacionadas con él");
 		
-		centros.remove(centro);
+		centros.remove(idCentro);
 		
 		return centro;
 	}
@@ -84,35 +84,52 @@ public class GestorCentros implements ItfGestorCentros {
 	}
 
 	@Override
-	public Sensor addSensor(Sensor sensor) {
-		if (sensor == null) return null; 
-		if (sensores.containsKey(sensor.getIdSensor())) return null;
+	public Centro addSensor(Sensor sensor, String idCentro) throws Exception {
+		Centro centro = leerCentro(idCentro);
+		centro.addSensor(sensor);
+		return centro;
+	}
+	
+	private Centro getCentroDeSensor(String idSensor) throws Exception {
+		Centro centro = centros.values().stream()
+				.filter(cen -> cen.getListaSensores().stream().anyMatch(sensor -> sensor.getIdSensor().equals(idSensor)))
+				.findFirst()
+				.orElseThrow(() -> new Exception("Ningun centro tiene registrado el sensor"));
+		return centro;
+	}
+
+	@Override
+	public Sensor modificarSensor(Sensor sensor) throws Exception{
+		if (sensor == null) throw new Exception("El sensor pasado como argumento no existe");
+		// No tenemos que comprobar que sensor.getIdSensor no sea null, porque no es posible modificarlo así (tampoco tendría repercusiones)
+		Centro centro = getCentroDeSensor(sensor.getIdSensor());
+		centro.modificarSensor(sensor);
+		return null;
+	}
+
+	@Override
+	public Sensor eliminarSensor(String idSensor) throws Exception {
+		Centro centro = getCentroDeSensor(idSensor);
+		return centro.borrarSensor(idSensor);
+	}
+
+	@Override
+	public Sensor leerSensor(String idSensor) throws Exception {
+		return getCentroDeSensor(idSensor).leerSensor(idSensor);
+	}
+
+	@Override
+	public Usuario cambiarCentroUsuario(Usuario usuario, Centro nuevoCentro) throws Exception {
+		if (usuario == null) throw new Exception("El usuario no existe");
+		if (nuevoCentro == null) throw new Exception("El nuevo centro no existe");
+		if (!GestorUsuarios.getInstancia().existeUsuario(usuario.getIdUsuario())) throw new Exception("El usuario no está registrado");
+		if (!GestorCentros.getInstancia().esCentroRegistrado(nuevoCentro.getIdCentro())) throw new Exception("El nuevo centro no está registrado");
 		
-		sensores.put(sensor.getIdSensor(), sensor);
-		return sensor;
-	}
-
-	@Override
-	public Sensor modificarSensor(Sensor sensor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Sensor eliminarSensor(String idSensor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Sensor leerSensor(String idSensor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Usuario cambiarCentroUsuario(Usuario usuario, Centro centro) {
-		// TODO Auto-generated method stub
+		Centro centroAnterior = usuario.getCentroActual();
+		if (centroAnterior != null) centroAnterior.salirUsuarioActual(usuario.getIdUsuario());
+		usuario.setCentroActual(nuevoCentro);
+		nuevoCentro.addUsuarioActual(usuario.getIdUsuario());
+		
 		return null;
 	}
 

@@ -12,18 +12,6 @@ public class Verificacion {
 	private Equipo emisor;
 	
 	public Verificacion() {}
-	
-	public Verificacion(String idVerif, String mensaje) {
-		this.idVerif = idVerif;
-		this.mensaje = mensaje;
-	}
-	
-	public Verificacion(Accion accion) {
-		this.idVerif = "???";
-		this.mensaje = accion.getMensaje();
-		this.alarma = accion.getAlarma();
-		this.accion = accion;
-	}
 
 	public boolean isRecibida() {
 		return recibida;
@@ -51,6 +39,8 @@ public class Verificacion {
 		}
 		
 		this.accion = accion;
+		
+		return this;
 	}
 
 	public Alarma getAlarma() {
@@ -75,7 +65,7 @@ public class Verificacion {
 	}
 	
 	public Verificacion setIdVerif(String idVerif) throws Exception{
-		if (!ItfIdChecker.checkIdVerificacion(idVerif)) throw new Exception("Identificador de verificacion no valido");
+		if (!ItfGestorId.checkIdVerificacion(idVerif)) throw new Exception("Identificador de verificacion no valido");
 		this.idVerif = idVerif;
 		return this;
 	}
@@ -84,7 +74,7 @@ public class Verificacion {
 		return mensaje;
 	}
 	
-	public Verificacion setMensaje(String mensaje) {
+	public Verificacion setMensaje(String mensaje) throws Exception {
 		if (mensaje == null) throw new Exception("Mensaje de verificacion no valido: es nulo");
 		this.mensaje = mensaje;
 		return this;

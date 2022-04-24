@@ -8,7 +8,7 @@ public class Admin {
 	
 	private UsuarioRegistrado usuario;
 	
-	public Admin(UsuarioRegistrado usuario) {}
+	public Admin() {}
 	
 	public Admin setUsuarioRegistrado(UsuarioRegistrado usuarioR) throws Exception {
 		if (this.usuario != null) throw new Exception("El administrador ya estaba vinculado a un perfil de usuario");

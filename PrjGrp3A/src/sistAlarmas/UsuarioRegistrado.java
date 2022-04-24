@@ -13,58 +13,94 @@ public class UsuarioRegistrado extends Usuario {
 	private Admin admin;
 	
 	protected UsuarioRegistrado() {}
-
-	public String getNombrePropio() {
-		return nombrePropio;
-	}
-
-	public void setNombrePropio(String nombrePropio) {
+	
+	public UsuarioRegistrado setNombrePropio(String nombrePropio) throws Exception {
+		if (nombrePropio == null) throw new Exception("Nombre no valido: no existe");
+		if (this.nombrePropio != null) throw new Exception("Este usuario ya tiene registrado un nombre");
+		
 		this.nombrePropio = nombrePropio;
+		return this;
 	}
 
-	public String getApellido1() {
-		return apellido1;
-	}
-
-	public void setApellido1(String apellido1) {
+	public UsuarioRegistrado setApellido1(String apellido1) throws Exception {
+		if (apellido1 == null) throw new Exception("Primer apellido no valido: no existe");
+		if (this.apellido1 != null) throw new Exception("Este usuario ya tiene registrado un primer apellido");
+		
 		this.apellido1 = apellido1;
+		return this;
 	}
-
-	public String getApellido2() {
-		return apellido2;
-	}
-
-	public void setApellido2(String apellido2) {
+	
+	public UsuarioRegistrado setApellido2(String apellido2) throws Exception {
+		if (this.apellido2 != null) throw new Exception("Este usuario ya tiene registrado un segundo apellido");
 		this.apellido2 = apellido2;
+		return this;
 	}
 
-	public String getDNI() {
-		return DNI;
+	public UsuarioRegistrado setDNI(String DNI) throws Exception {
+		if (DNI == null) throw new Exception("DNI no valido: no existe");
+		if (this.DNI != null) throw new Exception("Este usuario ya tiene registrado un DNI");
+		
+		boolean esValido = true;
+		String letraSegunResto = "TRWAGMYFPDXBNJZSQVHLCKE";
+
+		if (DNI.length() != 9) esValido = false;
+		char ultimaLetra = DNI.charAt(8);
+		if (!Character.isLetter(ultimaLetra) || !Character.isUpperCase(ultimaLetra)) esValido = false;
+		for (int i = 0; i < 8; i++) {
+			if (!Character.isDigit(DNI.charAt(i))) esValido = false;
+		}
+		if (letraSegunResto.charAt(Integer.parseInt(DNI.substring(0, 8)) % 23) != ultimaLetra) esValido = false;
+		
+		if (!esValido) throw new Exception("El DNI no sigue un formato valido");
+		this.DNI = DNI;
+		return this;
 	}
 
-	public void setDNI(String dNI) {
-		DNI = dNI;
-	}
-
-	public int getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(int telefono) {
+	public UsuarioRegistrado setTelefono(int telefono) {
+		if (String.valueOf(telefono).length() != 9) throw new Exception("Numero de telefono no valido");
 		this.telefono = telefono;
+		return this;
 	}
 
-	public String getCorreo() {
-		return correo;
-	}
-
-	public void setCorreo(String correo) {
+	public UsuarioRegistrado setCorreo(String correo) throws Exception {
+		boolean esValido = true;
+		if (!correo.contains("@") || !correo.contains(".")) esValido = false;
+		int i = 0;
+		while (esValido && i < correo.length()) {
+			char c = correo.charAt(i);
+			if (Character.isDigit(c) || Character.isLetter(c) || c == '_' || c == '-' || c == '.') continue;
+			esValido = false;
+			i++;	
+		}
+		if (!esValido) throw new Exception("El correo indicado no tiene un formato valido");
 		this.correo = correo;
+		return this;
 	}
 
-	public String getZona() {
-		return zona;
+	public UsuarioRegistrado volverAdmin() throws Exception {
+		if (this.esAdmin()) throw new Exception("Este usuario ya es administrador");
+		this.admin = new Admin().setUsuarioRegistrado(this);
+		return this;
 	}
+	
+	public UsuarioRegistrado desactivarAdmin() throws Exception {
+		if (!this.esAdmin()) throw new Exception("Este usuario no es un administrador");
+		this.admin = null;
+		return this;
+	}
+	
+	public UsuarioRegistrado volverPersonalEquipo() throws Exception {
+		if (this.ayudaEnEmergencias()) throw new Exception("Este usuario ya es personal de equipo");
+		this.personalEquipo = new PersonalEquipo().setCapacitacion("Predeterminada").setNivelFormacion("Basico");
+		return this;
+	}
+	
+	public UsuarioRegistrado desactivarPersonalEquipo() throws Exception {
+		if (!this.ayudaEnEmergencias()) throw new Exception("Este usuario no es personal de equipo");
+		this.personalEquipo = null;
+		return this;
+	}
+
 
 	public void setZona(String zona) {
 		this.zona = zona;
@@ -78,28 +114,36 @@ public class UsuarioRegistrado extends Usuario {
 		return this.admin != null;
 	}
 	
-	public UsuarioRegistrado volverAdmin() {
-		try {
-			this.admin = new Admin(this);
-		} catch(Exception eo) {
-			return null;
-		}
-		return this;
+	public String getZona() {
+		return zona;
 	}
 	
-	public UsuarioRegistrado desactivarAdmin(){
-		this.admin = null;
-		return this;
+	public PersonalEquipo getPersonalEquipo() {
+		return this.personalEquipo;
 	}
 	
-	public UsuarioRegistrado volverPersonalEquipo() {
-		this.personalEquipo = new PersonalEquipo(this);
-		return this;
+	public String getNombrePropio() {
+		return nombrePropio;
 	}
 	
-	public UsuarioRegistrado desactivarPersonalEquipo() {
-		this.personalEquipo = null;
-		return this;
+	public String getApellido1() {
+		return apellido1;
+	}
+	
+	public String getApellido2() {
+		return apellido2;
+	}
+	
+	public String getDNI() {
+		return DNI;
+	}
+	
+	public String getCorreo() {
+		return correo;
+	}
+	
+	public int getTelefono() {
+		return telefono;
 	}
 
 	public static class Builder {
@@ -114,7 +158,7 @@ public class UsuarioRegistrado extends Usuario {
 			return this;
 		}
 		
-		public Builder fromUsuario(Usuario usuario){
+		public Builder fromUsuario(Usuario usuario) throws Exception {
 			if (usuario == null) return null;
 			if (user == null) this.reset();
 			user.setIdUsuario(usuario.getIdUsuario());
@@ -122,7 +166,7 @@ public class UsuarioRegistrado extends Usuario {
 			return this;
 		}
 		
-		public Builder setIdUsuario(String idUsuario){
+		public Builder setIdUsuario(String idUsuario) throws Exception {
 			if (user == null) this.reset();
 			user.setIdUsuario(idUsuario);
 			return this;
@@ -134,25 +178,25 @@ public class UsuarioRegistrado extends Usuario {
 			return this;
 		}*/
 		
-		public Builder setNombrePropio(String nombrePropio){
+		public Builder setNombrePropio(String nombrePropio) throws Exception {
 			if (user == null) this.reset();
 			user.setNombrePropio(nombrePropio);
 			return this;
 		}
 		
-		public Builder setApellido1(String apellido1) {
+		public Builder setApellido1(String apellido1) throws Exception {
 			if (user == null) this.reset();
 			user.setApellido1(apellido1);
 			return this;
 		}
 		
-		public Builder setApellido2(String apellido2) {
+		public Builder setApellido2(String apellido2) throws Exception {
 			if (user == null) this.reset();
 			user.setApellido2(apellido2);
 			return this;
 		}
 		
-		public Builder setNombre(String nombrePropio, String apellido1, String apellido2) {
+		public Builder setNombre(String nombrePropio, String apellido1, String apellido2) throws Exception {
 			if (user == null) this.reset();
 			user.setNombrePropio(nombrePropio);
 			user.setApellido1(apellido1);
@@ -160,7 +204,7 @@ public class UsuarioRegistrado extends Usuario {
 			return this;
 		}
 		
-		public Builder setDNI(String DNI) {
+		public Builder setDNI(String DNI) throws Exception {
 			if (user == null) this.reset();
 			user.setDNI(DNI);
 			return this;
@@ -172,7 +216,7 @@ public class UsuarioRegistrado extends Usuario {
 			return this;
 		}
 		
-		public Builder setCorreo(String correo){
+		public Builder setCorreo(String correo) throws Exception {
 			if (user == null) this.reset();
 			user.setCorreo(correo);
 			return this;

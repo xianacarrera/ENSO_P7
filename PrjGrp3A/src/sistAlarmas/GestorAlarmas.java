@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 public class GestorAlarmas implements ItfGestorAlarmas {
 
 	private static GestorAlarmas instancia;
-	private static HashMap<String, Alarma> alarmasEnEjecucion;
-	private static HashMap<String, Protocolo> protocolos;
+	private HashMap<String, Alarma> alarmasEnEjecucion;
+	private HashMap<String, Protocolo> protocolos;
 	
 	
 	private GestorAlarmas(){
@@ -74,7 +74,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	}
 	
 	public Alarma desactivarAlarma(String idAlarma) throws Exception {
-		if (!ItfIdChecker.checkIdAlarma(idAlarma)) throw new Exception("Identificador no válido");
+		if (!ItfGestorId.checkIdAlarma(idAlarma)) throw new Exception("Identificador no válido");
 		if (!alarmasEnEjecucion.containsKey(idAlarma)) throw new Exception("La alarma no está en ejecución");
 		
 		Alarma al = alarmasEnEjecucion.get(idAlarma);
@@ -83,8 +83,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return al;
 	}
 	
-	public List<Alarma> getAlarmasActivas(){
-		return alarmasEnEjecucion.values().stream().collect(Collectors.toList());
+	public HashMap<String, Alarma> getAlarmasEnEjecucion(){
+		return this.alarmasEnEjecucion;
 	}
 	
 }

@@ -4,13 +4,31 @@ import java.util.Objects;
 
 public class Usuario {
 	private String idUsuario;
-	//private Centro centroActual;
+	private Centro centroActual;
 	
 	public Usuario(){}
 	
-	public Usuario(String idUsuario) {
+	public Usuario setIdUsuario(String idUsuario) throws Exception{
+		if (this.idUsuario != null) throw new Exception("Este usuario ya tiene un identificador");
+		if (!ItfGestorId.checkIdAccion(idUsuario)) throw new Exception("Identificador de usuario no valido");
 		this.idUsuario = idUsuario;
-		//this.centroActual = centroActual;
+		return this;
+	}
+	
+	public Usuario setCentroActual(Centro centroActual) throws Exception {
+		if (centroActual == null) throw new Exception("Centro no valido: no existe");
+		if (!GestorCentros.getInstancia().esCentroRegistrado(centroActual.getIdCentro())) throw new Exception("Centro no valido: no esta registrado");
+
+		this.centroActual = centroActual;
+		return this;
+	}
+
+	public String getIdUsuario() {
+		return idUsuario;
+	}
+
+	public Centro getCentroActual() {
+		return centroActual;
 	}
 
 	@Override
@@ -27,21 +45,4 @@ public class Usuario {
 		Usuario other = (Usuario) obj;
 		return Objects.equals(idUsuario, other.idUsuario);
 	}
-
-	public String getIdUsuario() {
-		return idUsuario;
-	}
-
-	protected void setIdUsuario(String idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-/*
-	public Centro getCentroActual() {
-		return centroActual;
-	}
-
-	public void setCentroActual(Centro centroActual) {
-		this.centroActual = centroActual;
-	}*/
-	
 }
