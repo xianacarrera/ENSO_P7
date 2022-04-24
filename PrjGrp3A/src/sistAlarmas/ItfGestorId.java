@@ -229,7 +229,7 @@ public interface ItfGestorId {
 
     static String generarId(String tipo) {
         if (tipo == null) return "";
-        long num = (long) ((long) Math.random() * Math.pow(10, 12));
+        long num = (long) ( Math.random() * Math.pow(10, 12));
         switch (tipo.charAt(0)) {
             case 'S':
                 return "S-" + num;
@@ -239,7 +239,7 @@ public interface ItfGestorId {
                 }
                 return "A-" + num;
             case 'C':
-                return "C-" + (long) ((long) Math.random() * Math.pow(10, 15));
+                return "C-" + (long) ( Math.random() * Math.pow(10, 15));
             case 'U':
                 return "U-" + num;
             case 'E':
