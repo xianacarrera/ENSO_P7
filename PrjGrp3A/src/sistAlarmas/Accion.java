@@ -11,7 +11,6 @@ public class Accion {
 	private Equipo destinatario;
 
 	//Constructor
-	//TODO:VACIO?
 	public Accion() {}
 
 	//Metodo para establecer el id de una accion

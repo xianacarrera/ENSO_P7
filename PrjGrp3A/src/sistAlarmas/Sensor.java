@@ -53,7 +53,7 @@ public class Sensor {
 		if (tipoSensor == null) throw new Exception("No se puede asignar un umbral de activacion a un sensor sin tipo");
 		boolean esValido = true;
 		switch(tipoSensor) {
-			case HUMO: //todo: incompleto?
+			case HUMO: 
 			case PRESENCIA:
 				if (Float.compare(umbralActivacion, (float) 1.0) != 0) esValido = false;
 				break;
