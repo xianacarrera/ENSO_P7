@@ -91,7 +91,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     }
 
     private String isCentro(String filtro) {
-        return ItfGestorCentros.getCentros().contains(filtro) ? filtro : null;
+        return GestorCentros.getInstancia().contains(filtro) ? filtro : null;
     }
 
     /**

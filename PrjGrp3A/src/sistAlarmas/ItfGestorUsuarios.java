@@ -1,5 +1,10 @@
 package sistAlarmas;
 
 public interface ItfGestorUsuarios {
-    public boolean existeUsuario(String idUsuario);
+    
+	GestorUsuarios addUsuario(Usuario usuario) throws Exception;
+	GestorUsuarios modificarUsuario(Usuario usuario) throws Exception;
+	GestorUsuarios borrarUsuario(String idUsuario) throws Exception;
+    Usuario leerUsuario(String idUsuario) throws Exception;
+    boolean existeUsuario(String idUsuario);
 }
