@@ -34,7 +34,6 @@ public class Equipo {
 
 	//Método para que un equipo reciba una lista de acciones asociadas a la alarma indicada
 	public Equipo recibirOrden(List<Accion> acciones, Alarma al) throws Exception {
-		if (this.estaOcupado()) throw new Exception("Equipo no disponible");
 		if (al == null) throw new Exception("Alarma no indicada");
 		if (acciones.isEmpty()) throw new Exception("No hay acciones");
 		setAlarmaEnEjecucion(al);

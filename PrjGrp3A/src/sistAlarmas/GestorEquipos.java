@@ -36,17 +36,15 @@ public class GestorEquipos implements ItfGestorEquipos{
 
 	//TODO: ESTO ESTA INCOMPLETO ENTIENDO YO NO?
 	//MÃ©todo para recibir los protocolos para los equipos
-	public Equipo recibirProtocolos(List<Protocolo> prots, Alarma al) throws Exception {
-		// Mï¿½TODO MUY DADO A COMPLEJIDAD CICLOMï¿½TICA ALTA POR EL ALGORITMO DE Bï¿½SQUEDA DE EQUIPOS
+	public Equipo buscarEquipo(Alarma al) throws Exception {
 		
-		if (prots == null || prots.isEmpty() || al == null) return null;
+		if (al == null) throw new Exception("Debe indicarse una alarma");
 		
 		// List<Accion> 
 		
 		List<Equipo> candidatos = equipos.values().stream().collect(Collectors.toList());
-		// DEFINIR ALGORITMO
 		
-		// Si no hay candidatos vï¿½lidos, se devuelve null
+		// Si no hay candidatos válidos, se devuelve null
 		if (candidatos.isEmpty()) return null;
 		
 		HashMap<String, Integer> puntuaciones = new HashMap<>();

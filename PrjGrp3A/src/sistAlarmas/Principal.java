@@ -147,9 +147,9 @@ public class Principal {
 		try {
 			sensor3 = new Sensor.Builder().setIdSensor(ItfGestorId.generarId("SENSOR")).setTipoSensor(TipoSensor.SISMO).build();
 			centro.addSensor(sensor3);
+			sensor3.analizarEntorno();
 			alarma = sensor3.dispararAlarma();
 			System.out.println("Estado de la alarma: " + alarma.getEstado() + " (la alarma no ha podido ser gestionada)");
-			sensor3.analizarEntorno();
 		} catch(Exception e) {
 			System.out.println("Error en la interfaz ItfSensor");
 			e.printStackTrace();
@@ -213,12 +213,18 @@ public class Principal {
 			equipo.addMiembro(usuario2);
 			user.volverPersonalEquipo();
 			equipo.addMiembro(user);
-			equipo.quitarMiembro(user);
 			
+			GestorEquipos.getInstancia().addEquipo(equipo);
+			
+			Alarma al = GestorAlarmas.getInstancia().activarAlarma(null, "Campo de futbol");
 			
 			List<Accion> listaAc = List.of(new Accion().setIdAccion(ItfGestorId.generarId("ACCION")));
-			equipo.recibirOrden(listaAc, alarmaIncendios);
+			equipo.recibirOrden(listaAc, al);
 			equipo.gestionarAlarma();
+			
+
+			
+			equipo.quitarMiembro(user);
 			
 			equipo.borrarDatosEquipo();
 

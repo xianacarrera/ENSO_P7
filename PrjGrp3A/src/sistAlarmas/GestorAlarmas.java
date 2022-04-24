@@ -25,7 +25,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		if (instancia == null) instancia = new GestorAlarmas();
 		return instancia;
 	}
-	//MÃ©todo que comprueba si una alarma estÃ¡ en ejecuciÃ³n
+	//Método que comprueba si una alarma está en ejecución
+	@Override
 	public boolean esAlarmaEnEjecucion(String idAlarma) {
 		if (idAlarma == null) return false;
 		if (!alarmasEnEjecucion.containsKey(idAlarma)) return false;
@@ -33,7 +34,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return true;
 	}
 
-	//MÃ©todo para activar una alarma: debe tener asignada un centro o una zona
+	//Método para activar una alarma: debe tener asignada un centro o una zona
+	@Override
 	public Alarma activarAlarma(Centro centro, String zona) throws Exception {
 		if (centro == null && zona == null) throw new Exception("Una alarma debe tener o bien un centro o bien una zona");
 		if (centro != null)
@@ -55,7 +57,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		alarma.setCentro(centro);
 		alarma.setZona(zona);
 		
-		Equipo equipoEncargado = GestorEquipos.getInstancia().recibirProtocolos(buscarProtocolos(alarma), alarma);
+		Equipo equipoEncargado = GestorEquipos.getInstancia().buscarEquipo(alarma);
 		if (equipoEncargado == null) alarmasPendientes.put(alarma.getIdAlarma(), alarma);
 		else{ 
 			alarma.setEstadoAlarma(EstadoAlarma.ENEJECUCION);
@@ -65,7 +67,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return alarma;
 	}
 
-	//MÃ©todo para buscar los protocolos de una alarma
+	//Método para buscar los protocolos de una alarma
+	@Override
 	public List<Protocolo> buscarProtocolos(Alarma al){
 		if (al == null || al.getTipoAlarma() == null) return null;
 		
@@ -77,7 +80,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return prots;
 	}
 
-	//MÃ©todo para activar una alarma, esta vez empleando un sensor: debe tener asignado un centro o una zona
+	//Método para activar una alarma, esta vez empleando un sensor: debe tener asignado un centro o una zona
+	@Override
 	public Alarma activarAlarma(Sensor sensor) throws Exception {
 		if (sensor == null) throw new Exception("El sensor no existe");
 		if (sensor.getCentro() == null && sensor.getZona() == null) throw new Exception("El sensor no tiene ubicacion (ni centro ni zona)");
@@ -106,7 +110,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		alarma.setZona(sensor.getZona());
 		alarma.setValorActivacion(sensor.getValorActual());
 		
-		Equipo equipoEncargado = GestorEquipos.getInstancia().recibirProtocolos(buscarProtocolos(alarma), alarma);
+		Equipo equipoEncargado = GestorEquipos.getInstancia().buscarEquipo(alarma);
 		if (equipoEncargado == null) alarmasPendientes.put(alarma.getIdAlarma(), alarma);
 		else{ 
 			alarma.setEstadoAlarma(EstadoAlarma.ENEJECUCION);
@@ -117,11 +121,12 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	}
 
 	//MÃ©todo para despachar las alarmas pendientes en caso de que existan
+	@Override
 	public List<Alarma> despacharAlarmasPendientes() throws Exception {
 		if (alarmasPendientes.isEmpty()) throw new Exception("No hay alarmas pendientes");
 		List<Alarma> alarmasDespachadas = new ArrayList<>();
 		for (Alarma al : alarmasPendientes.values()) {
-			Equipo equipoEncargado = GestorEquipos.getInstancia().recibirProtocolos(buscarProtocolos(al), al);
+			Equipo equipoEncargado = GestorEquipos.getInstancia().buscarEquipo(al);
 			if (equipoEncargado != null) {
 				alarmasPendientes.remove(al.getIdAlarma());
 				al.setEstadoAlarma(EstadoAlarma.ENEJECUCION);
@@ -133,6 +138,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	}
 
 	//MÃ©todo para desactivar una alarma
+	@Override
 	public Alarma desactivarAlarma(String idAlarma) throws Exception {
 		if (!ItfGestorId.checkIdAlarma(idAlarma)) throw new Exception("Identificador no vï¿½lido");
 		if (!alarmasEnEjecucion.containsKey(idAlarma)) throw new Exception("La alarma no estï¿½ en ejecuciï¿½n");
@@ -144,6 +150,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	}
 
 	//MÃ©todo para leer una alarma
+	@Override
 	public Alarma leerAlarma(String idAlarma) throws Exception {
 		if (idAlarma == null) throw new Exception("Identificador no valido: es inexistente");
 		Alarma al = null;

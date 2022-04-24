@@ -1,5 +1,7 @@
 package sistAlarmas;
 
+import java.util.List;
+
 public interface ItfGestorAlarmas {
 
 	static boolean esValidoValorAlarma(TipoAlarma tipoAlarma, float valor){
@@ -61,6 +63,15 @@ public interface ItfGestorAlarmas {
 		}
 		return null;
 	}
+	
+	boolean esAlarmaEnEjecucion(String idAlarma);
+	List<Protocolo> buscarProtocolos(Alarma al);
+	
+	Alarma activarAlarma(Sensor sensor) throws Exception;
+	Alarma activarAlarma(Centro centro, String zona) throws Exception;
+	List<Alarma> despacharAlarmasPendientes() throws Exception;
+	Alarma desactivarAlarma(String idAlarma) throws Exception;
+	Alarma leerAlarma(String idAlarma) throws Exception;
 	
 	GestorAlarmas addProtocolo(Protocolo prot) throws Exception;
 	GestorAlarmas modificarProtocolo(Protocolo prot) throws Exception;
