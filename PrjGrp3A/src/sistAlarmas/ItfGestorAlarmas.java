@@ -73,9 +73,9 @@ public interface ItfGestorAlarmas {
 	Alarma desactivarAlarma(String idAlarma) throws Exception;
 	Alarma leerAlarma(String idAlarma) throws Exception;
 	
-	GestorAlarmas addProtocolo(Protocolo prot) throws Exception;
-	GestorAlarmas modificarProtocolo(Protocolo prot) throws Exception;
-	GestorAlarmas borrarProtocolo(String idProt) throws Exception;
+	ItfGestorAlarmas addProtocolo(Protocolo prot) throws Exception;
+	ItfGestorAlarmas modificarProtocolo(Protocolo prot) throws Exception;
+	ItfGestorAlarmas borrarProtocolo(String idProt) throws Exception;
 	Protocolo leerProtocolo(String idProt) throws Exception;
 	
 }

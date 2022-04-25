@@ -2,6 +2,6 @@ package sistAlarmas;
 
 public interface ItfAccion {
 	
-	Accion recibir() throws Exception;
+	ItfAccion recibir() throws Exception;
 	public boolean esRecibida();
 }

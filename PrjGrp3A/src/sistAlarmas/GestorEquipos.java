@@ -25,6 +25,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 	}
 
 	//Método para comprobar si un equipo existe
+	@Override
 	public boolean esEquipoRegistrado(String idEquipo) {
 		if (idEquipo == null) return false;
 		if (!equipos.containsKey(idEquipo)) return false;
@@ -34,11 +35,10 @@ public class GestorEquipos implements ItfGestorEquipos{
 
 	//Método para recibir los protocolos para los equipos
 	// Metodo de elevada complejidad ciclomatica
+	@Override
 	public Equipo buscarEquipo(Alarma al) throws Exception {
 		
 		if (al == null) throw new Exception("Debe indicarse una alarma");
-		
-		// List<Accion> 
 		
 		List<Equipo> candidatos = equipos.values().stream().collect(Collectors.toList());
 		
@@ -47,21 +47,26 @@ public class GestorEquipos implements ItfGestorEquipos{
 		
 		HashMap<String, Integer> puntuaciones = new HashMap<>();
 		for (Equipo cand : candidatos) {
+			// Generamos una puntuacion para cada equipo. Se acabara tomando el equipo de mayor puntuacion
 			if (cand.estaOcupado() || cand.getMiembros().size() == 0) {
+				// El equipo no puede ser escogido
 				puntuaciones.put(cand.getIdEquipo(), 0);
 				continue;
 			}
 			List<UsuarioRegistrado> miembros = cand.getMiembros();
 			if (miembros.size() > 1 && miembros.size() < 6) {
+				// El equipo tiene un tamaño optimo para la gestion de emergencias
 				puntuaciones.put(cand.getIdEquipo(), cand.getMiembros().size());
 			} else if (miembros.size() >= 6) {
+				// El tamaño del equipo entorpece la gestion de emergencias en cierta medida
 				puntuaciones.put(cand.getIdEquipo(), Math.min(2, 11 - miembros.size()));
 			}
 			
 			if (cand.getResponsabilidades().size() >= 3 && cand.getResponsabilidades().size() <= 6) {
+				// El equipo tiene un numero de responsabilidades optimo
 				puntuaciones.put(cand.getIdEquipo(), puntuaciones.get(cand.getIdEquipo()) + 3);
 			}
-			
+			puntuaciones.put(cand.getIdEquipo(), 1);		// Opcion por defecto
 		}  
 		
 		String idMax = puntuaciones.entrySet().stream().max((entry1, entry2) -> Integer.compare(entry1.getValue(), entry2.getValue())).get().getKey();
@@ -81,6 +86,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 	}
 
 	//Método para enviar las acciones (Órdenes) a un equipo
+	@Override
 	public GestorEquipos enviarAcciones(Equipo equipo, List<Accion> acciones, Alarma alarma) throws Exception {
 		for (Accion ac : acciones) {
 			ac.setDestinatario(equipo);
@@ -90,6 +96,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 	}
 
 	// Método para recibir las verificaciones
+	@Override
 	public GestorEquipos recibirVerificacion(Equipo equipo, Verificacion verif) throws Exception {
 		// En caso de una aplicación con gui, se imprimiría el mensaje
 		String mensFinal = "Alarma gestionada";
@@ -146,6 +153,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 	}
 
 	// Sobreescritura del método addVerificacion de la interfaz ItfGestorEquipos
+	@Override
 	public Verificacion addVerificacion(Verificacion verif) throws Exception {
 		if (verif == null) throw new Exception("Verificacion no valida: es inexistente");
 		if (!ItfGestorId.checkIdVerificacion(verif.getIdVerif())) throw new Exception("El identificador de la verificacion no es valido");
@@ -159,6 +167,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 	}
 
 	// Sobreescritura del mÃ©todo leerVerif de la interfaz ItfGestorEquipos
+	@Override
 	public Verificacion leerVerif(String idVerif) throws Exception {
 		if (idVerif == null) throw new Exception("Identificador no valido: es inexistente");
 		if (!verificaciones.containsKey(idVerif)) 
@@ -193,6 +202,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 	// No se permite borrar acciones ni verificaciones
 
 	//Método para leer las acciones a partir de un identificador
+	@Override
 	public Accion leerAccion(String idAccion) throws Exception {
 		if (idAccion == null) throw new Exception("Identificador no valido: es inexistente");
 		if (!acciones.containsKey(idAccion)) 

@@ -2,6 +2,7 @@ package sistAlarmas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -116,7 +117,14 @@ public class Centro implements ItfCentro {
     //Metodo para eliminar todos los sensores registrados
     @Override
     public ItfCentro borrarTodosSensores() throws Exception {
-        for (Sensor sensor : sensores.values()) borrarSensor(sensor.getIdSensor());
+    	// Utilizamos un iterator para poder eliminar elementos mientras recorremos los sensores
+    	Iterator<Sensor> it = sensores.values().iterator();
+        while (it.hasNext()) {
+        	Sensor sensor = it.next();
+        	it.remove();
+        	sensor.setCentro(null);
+        }
+        sensores = new HashMap<>();
         return this;
     }
     

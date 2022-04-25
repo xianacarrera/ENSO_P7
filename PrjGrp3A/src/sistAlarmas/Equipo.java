@@ -25,7 +25,8 @@ public class Equipo implements ItfEquipo {
 	}
 
 	//Método para que un equipo reciba una lista de acciones asociadas a la alarma indicada
-	public Equipo recibirOrden(List<Accion> acciones, Alarma al) throws Exception {
+	@Override
+	public ItfEquipo recibirOrden(List<Accion> acciones, Alarma al) throws Exception {
 		if (al == null) throw new Exception("Alarma no indicada");
 		if (acciones.isEmpty()) throw new Exception("No hay acciones");
 		setAlarmaEnEjecucion(al);
@@ -39,7 +40,7 @@ public class Equipo implements ItfEquipo {
 	//Método para la gestión de una alarma
 	//Metodo de elevada complejidad ciclomatica
 	@Override
-	public Equipo gestionarAlarma() throws Exception {
+	public ItfEquipo gestionarAlarma() throws Exception {
 		// Declaración de variables
 		GestorEquipos ge = GestorEquipos.getInstancia();
 		boolean flag = false;
@@ -98,7 +99,7 @@ public class Equipo implements ItfEquipo {
 
 	//Método para añadir una responsabilidad a la lista de responsabilidades
 	@Override
-	public Equipo addResponsabilidad(String resp) throws Exception {
+	public ItfEquipo addResponsabilidad(String resp) throws Exception {
 		if (resp == null) throw new Exception("Responsabilidad no valida: no existe");
 		responsabilidades.add(resp);
 		return this;
@@ -106,7 +107,7 @@ public class Equipo implements ItfEquipo {
 
 	//Método para eliminar una responsabilidad de la lista de responsabilidades
 	@Override
-	public Equipo quitarResponsabilidad(String resp) throws Exception {
+	public ItfEquipo quitarResponsabilidad(String resp) throws Exception {
 		if (resp == null) throw new Exception("Responsabilidad no valida: no existe");
 		if (!responsabilidades.contains(resp)) throw new Exception("El equipo no tenia la responsabilidad indicada");
 		responsabilidades.remove(resp);
@@ -115,7 +116,7 @@ public class Equipo implements ItfEquipo {
 
 	//Método para añadir un usuario a la lista de miembros de un equipo
 	@Override
-	public Equipo addMiembro(UsuarioRegistrado miembro) throws Exception {
+	public ItfEquipo addMiembro(UsuarioRegistrado miembro) throws Exception {
 		if (miembro == null || !miembro.ayudaEnEmergencias()) throw new Exception("El nuevo miembro no es valido");
 		miembro.getPersonalEquipo().setEquipo(this);
 		this.miembros.add(miembro);
@@ -124,7 +125,7 @@ public class Equipo implements ItfEquipo {
 
 	//Método para eliminar un usuario de la lista de miembros de un equipo
 	@Override
-	public Equipo quitarMiembro(UsuarioRegistrado miembro) throws Exception{
+	public ItfEquipo quitarMiembro(UsuarioRegistrado miembro) throws Exception{
 		if (miembro == null) throw new Exception("El usuario seleccionado no existe");
 		if (!miembros.contains(miembro)) throw new Exception("El usuario seleccionado no forma parte del equipo");
 		if (miembros.size() - 1 < 1) throw new Exception("No se puede eliminar el miembro: el equipo no puede quedar vacio");
@@ -136,7 +137,7 @@ public class Equipo implements ItfEquipo {
 
 	//Método para eliminar los datos de un equipo
 	@Override
-	public Equipo borrarDatosEquipo() throws Exception {
+	public ItfEquipo borrarDatosEquipo() throws Exception {
 		Iterator<UsuarioRegistrado> it = miembros.iterator(); 
 		while (it.hasNext()) {
 			UsuarioRegistrado u = it.next();

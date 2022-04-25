@@ -169,7 +169,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 
 	//Sobreescritura del método addProtocolo de la clase ItfGestorAlarmas
 	@Override
-	public GestorAlarmas addProtocolo(Protocolo prot) throws Exception {
+	public ItfGestorAlarmas addProtocolo(Protocolo prot) throws Exception {
 		if (prot == null) throw new Exception("Protocolo no valido: es inexistente");
 		if (!ItfGestorId.checkIdProtocolo(prot.getIdProtocolo())) throw new Exception("El identificador del protocolo no es valido");
 		if (prot.getTipo() == null || prot.getNombre() == null) throw new Exception("Informacion del protocolo incompleta");
@@ -181,7 +181,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 
 	//Sobreescritura del método modificarProtocolo de la clase ItfGestorAlarmas
 	@Override
-	public GestorAlarmas modificarProtocolo(Protocolo prot) throws Exception {
+	public ItfGestorAlarmas modificarProtocolo(Protocolo prot) throws Exception {
 		if (prot == null) throw new Exception("Protocolo no valido: es inexistente");
 		if (!protocolos.containsKey(prot.getIdProtocolo())) throw new Exception("El protocolo no habia sido registrado previamente");
 		if (prot.getTipo() == null || prot.getNombre() == null) throw new Exception("Informacion del protocolo incompleta");
@@ -192,7 +192,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 
 	//Sobreeescritura del método borrarProtocolo de la clase ItfGestorAlarmas
 	@Override
-	public GestorAlarmas borrarProtocolo(String idProt) throws Exception {
+	public ItfGestorAlarmas borrarProtocolo(String idProt) throws Exception {
 		// Corroboramos tanto que la key (idCentro) está en el HashMap como que su valor asociado
 		// (el centro) no sea nulo
 		Protocolo prot;

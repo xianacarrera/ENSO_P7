@@ -16,7 +16,7 @@ public class Verificacion implements ItfVerificacion {
 	public Verificacion() {}
 	
 	@Override
-	public Verificacion recibir() throws Exception {
+	public ItfVerificacion recibir() throws Exception {
 		if (this.recibida) throw new Exception("La verificacion ya habia sido recibida");
 		this.recibida = true;
 		return this;
@@ -53,8 +53,11 @@ public class Verificacion implements ItfVerificacion {
 		return alarma;
 	}
 
-	public void setAlarma(Alarma alarma) {
+	public Verificacion setAlarma(Alarma alarma) throws Exception{
+		if (alarma == null) throw new Exception("La alarma de una verificacion no puede ser nula");
 		this.alarma = alarma;
+		return this;
+		
 	}
 
 	public Equipo getEmisor() {

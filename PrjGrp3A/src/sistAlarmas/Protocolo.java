@@ -23,7 +23,7 @@ public class Protocolo implements ItfProtocolo {
 
 	//Mtoédo para añadir un mensaje de acción a un protocolo
 	@Override
-	public Protocolo addMensajeAccion(String msg) throws Exception {
+	public ItfProtocolo addMensajeAccion(String msg) throws Exception {
 		if (msg == null) throw new Exception("El mensaje de la accion no puede ser nulo");
 		if (mensajesAcciones.contains(msg)) throw new Exception("El protocolo ya habia regitrado este mensaje");
 		mensajesAcciones.add(msg);
@@ -32,7 +32,7 @@ public class Protocolo implements ItfProtocolo {
 
 	//Método para eliminar un mensaje de acción de un protocolo
 	@Override
-	public Protocolo borrarMensajeAccion(String msg) throws Exception {
+	public ItfProtocolo borrarMensajeAccion(String msg) throws Exception {
 		if (msg == null) throw new Exception("El mensaje de la accion no puede ser nulo");
 		if (!mensajesAcciones.contains(msg)) throw new Exception("El protocolo no tiene regitrado este mensaje");
 		

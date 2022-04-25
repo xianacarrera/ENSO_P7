@@ -18,6 +18,17 @@ public class Accion implements ItfAccion {
 	public boolean esRecibida() {
 		return this.recibida;
 	}
+	
+	//Metodo para establecer una accion como recibida
+	@Override
+	public ItfAccion recibir() throws Exception {
+		// Una alarma recibida no puede "desrecibirse"
+		// Las comprobaciones de que el emisor, la alarma, etc. esten bien establecidos se consideran precondiciones
+		// del metodo y quedan bajo gestion del programador
+		if (this.recibida) throw new Exception("La accion ya habia sido recibida");
+		this.recibida = true;
+		return this;
+	}
 
 	//Metodo para establecer el id de una accion
 	public Accion setIdAccion(String idAccion) throws Exception {
@@ -33,17 +44,6 @@ public class Accion implements ItfAccion {
 		if (this.mensaje != null) throw new Exception("Esta accion ya tiene un mensaje");
 		if (mensaje == null) throw new Exception("Mensaje no valido");
 		this.mensaje = mensaje;
-		return this;
-	}
-
-	//Metodo para establecer una accion como recibida
-	@Override
-	public Accion recibir() throws Exception {
-		// Una alarma recibida no puede "desrecibirse"
-		// Las comprobaciones de que el emisor, la alarma, etc. esten bien establecidos se consideran precondiciones
-		// del metodo y quedan bajo gestion del programador
-		if (this.recibida) throw new Exception("La accion ya habia sido recibida");
-		this.recibida = true;
 		return this;
 	}
 

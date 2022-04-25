@@ -29,7 +29,7 @@ public class GestorUsuarios implements ItfGestorUsuarios {
 	
 	//Sobreescritura del método addCentro de la interfaz ItfGestorCentros
 	@Override
-	public GestorUsuarios addUsuario(Usuario usuario) throws Exception {
+	public ItfGestorUsuarios addUsuario(Usuario usuario) throws Exception {
 		if (usuario == null) throw new Exception("Usuario no valido: es inexistente");
 		if (!ItfGestorId.checkIdUsuario(usuario.getIdUsuario())) throw new Exception("El identificador del usuario no es valido");
 		if (usuarios.containsKey(usuario.getIdUsuario())) throw new Exception("El usuario ya habia sido registrado");
@@ -40,7 +40,7 @@ public class GestorUsuarios implements ItfGestorUsuarios {
 
 	//Sobreescritura del método modificarCentro de la interfaz ItfGestorCentros
 	@Override
-	public GestorUsuarios modificarUsuario(Usuario usuario) throws Exception {
+	public ItfGestorUsuarios modificarUsuario(Usuario usuario) throws Exception {
 		if (usuario == null) throw new Exception("Usuario no valido: es inexistente");
 		if (!usuarios.containsKey(usuario.getIdUsuario())) throw new Exception("El usuario no habia sido registrado previamente");
 		
@@ -50,7 +50,7 @@ public class GestorUsuarios implements ItfGestorUsuarios {
 
 	//Sobreescritura del método borrarCentro de la interfaz ItfGestorCentros
 	@Override
-	public GestorUsuarios borrarUsuario(String idUsuario) throws Exception {
+	public ItfGestorUsuarios borrarUsuario(String idUsuario) throws Exception {
 		// Corroboramos tanto que la key (idCentro) está en el HashMap como que su valor asociado
 		// (el centro) no sea nulo
 		Usuario usuario;
