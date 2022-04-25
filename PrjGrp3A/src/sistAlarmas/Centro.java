@@ -29,20 +29,20 @@ public class Centro implements ItfCentro {
         coordenadas[0] = coordenadas[1] = (float) 0.0;
     }
 
-    //MÃ©todo para aÃ±adir un usuario registrado al centro
+    //Método para añadir un usuario registrado al centro
     @Override
     public ItfCentro addUsuarioActual(String idUsuario) throws Exception {
         if (idUsuario == null) throw new Exception("Identificador de usuario no valido: no existe");
         if (!GestorCentros.getInstancia().esCentroRegistrado(idCentro)) throw new Exception("El centro debe estar registrado");
         if (usuariosActuales.contains(idUsuario)) throw new Exception("El usuario ya se encuentra en el centro");
         if (!GestorUsuarios.getInstancia().existeUsuario(idUsuario))
-            throw new Exception("El usuario no estï¿½ registrado");
+            throw new Exception("El usuario no está registrado");
 
         usuariosActuales.add(idUsuario);
         return this;
     }
 
-    //MÃ©todo para eliminar un usuario del centro
+    //Método para eliminar un usuario del centro
     @Override
     public String salirUsuarioActual(String idUsuario) throws Exception {
         if (idUsuario == null) throw new Exception("Identificador no valido: es inexistente");
@@ -53,14 +53,14 @@ public class Centro implements ItfCentro {
         return idUsuario;
     }
 
-    //MÃ©todo para comprobar los valores de un sensor
+    //Método para comprobar los valores de un sensor
     private void comprobarValoresSensor(Sensor sensor) throws Exception {
         if (!ItfGestorId.checkIdSensor(sensor.getIdSensor()))
             throw new Exception("El identificador del sensor no es valido");
         if (sensor.getTipoSensor() == null) throw new Exception("Sensor no valido: no tiene tipo");
     }
 
-    //MÃ©todo para aÃ±adir un sensor a un centro
+    //Método para añadir un sensor a un centro
     @Override
     public ItfCentro addSensor(Sensor sensor) throws Exception {
         if (sensor == null) throw new Exception("Sensor no valido: es inexistente");
@@ -75,7 +75,7 @@ public class Centro implements ItfCentro {
         return this;
     }
 
-    //MÃ©todo para leer los datos de un sensor
+    //Método para leer los datos de un sensor
     @Override
     public Sensor leerSensor(String idSensor) throws Exception {
         if (idSensor == null) throw new Exception("Identificador no valido: es inexistente");
@@ -86,7 +86,7 @@ public class Centro implements ItfCentro {
     }
 
 
-    //MÃ©todo para modificar los datos de un sensor registrado
+    //Método para modificar los datos de un sensor registrado
     @Override
     public Sensor modificarSensor(Sensor sensor) throws Exception {
         if (sensor == null) throw new Exception("Sensor no valido: es inexistente");
@@ -98,7 +98,7 @@ public class Centro implements ItfCentro {
         return sensor;
     }
     
-    //MÃ©todo para eliminar un sensor registrado
+    //Método para eliminar un sensor registrado
     @Override
     public Sensor borrarSensor(String idSensor) throws Exception {
         Sensor sensor;
@@ -108,12 +108,12 @@ public class Centro implements ItfCentro {
         if ((sensor = sensores.get(idSensor)) == null)
             throw new Exception("Error fatal: el sensor correspondiente al identificador no existe");
 
-        sensores.remove(idSensor);   // Si no habï¿½a mapping o idSensor era null, no hace nada
+        sensores.remove(idSensor);   // Si no había mapping o idSensor era null, no hace nada
         sensor.setCentro(null);
         return sensor;                 // Devuelve null si el mapping era null o idSensor era null
     }
 
-    //MÃ©todo para eliminar todos los sensores registrados
+    //Método para eliminar todos los sensores registrados
     @Override
     public ItfCentro borrarTodosSensores() throws Exception {
         for (Sensor sensor : sensores.values()) borrarSensor(sensor.getIdSensor());
@@ -128,7 +128,7 @@ public class Centro implements ItfCentro {
 
     
 
-    //MÃ©todo para aÃ±adir un identificador a un centro
+    //Método para aÃ±adir un identificador a un centro
     public Centro setIdCentro(String idCentro) throws Exception {
         if (this.idCentro != null) throw new Exception("Este centro ya tiene un identificador");
         if (!ItfGestorId.checkIdCentro(idCentro)) throw new Exception("Identificador de centro no valido");
@@ -137,26 +137,26 @@ public class Centro implements ItfCentro {
     }
 
     
-    //MÃ©todo para establecer el identificador de un centro
+    //Método para establecer el identificador de un centro
     public Centro setNombre(String nombre) throws Exception {
         if (nombre == null) throw new Exception("Nombre no valido: no existe");
         this.nombre = nombre;
         return this;
     }
 
-    //MÃ©todo para establecer el campus de un centro
+    //Método para establecer el campus de un centro
     public Centro setCampus(String campus) throws Exception {
         if (campus == null) throw new Exception("Campus no valido: no existe");
         this.campus = campus;
         return this;
     }
 
-    //MÃ©todo para establecer el servicio
+    //Método para establecer el servicio
     public void setServicio(String servicio) {
         this.servicio = servicio;
     }
 
-    //MÃ©todo para establecer las coordenadas de un centro
+    //Método para establecer las coordenadas de un centro
     public Centro setCoordenadas(float[] coordenadas) throws Exception {
         if (coordenadas.length != 2) return null;
         if (coordenadas[0] < -90 || coordenadas[0] > 90) throw new Exception("Latitud no valida");
@@ -165,28 +165,28 @@ public class Centro implements ItfCentro {
         return this;
     }
 
-    //MÃ©todo para establecer la ciudad de un centro
+    //Método para establecer la ciudad de un centro
     public Centro setCiudad(String ciudad) throws Exception {
         if (ciudad == null) throw new Exception("Ciudad no valida: no existe");
         this.ciudad = ciudad;
         return this;
     }
 
-    //MÃ©todo para establecer la calle de un centro
+    //Método para establecer la calle de un centro
     public Centro setCalle(String calle) throws Exception {
         if (calle == null) throw new Exception("Calle no valida: no existe");
         this.calle = calle;
         return this;
     }
 
-    //MÃ©todo para establecer el nÃºmero de la direcciÃ³n de un centro
+    //Método para establecer el nÃºmero de la direcciÃ³n de un centro
     public Centro setNumero(int numero) throws Exception {
         if (numero < 0) throw new Exception("El numero de la direccion debe ser un entero positivo");
         this.numero = numero;
         return this;
     }
 
-    //MÃ©todo para establecer el cÃ³digo postal de un centro
+    //Método para establecer el cÃ³digo postal de un centro
     public Centro setCodigoPostal(int codigoPostal) throws Exception {
         if (String.valueOf(codigoPostal).length() != 5) throw new Exception("Codigo postal no valido");
         if (codigoPostal < 0) throw new Exception("Codigo postal no valido");
@@ -198,7 +198,7 @@ public class Centro implements ItfCentro {
 
     /** GETTERS **/
 
-    //MÃ©todos para obtener los sensores
+    //Métodos para obtener los sensores
     public HashMap<String, Sensor> getSensores() {
         return sensores;
     }
@@ -312,7 +312,7 @@ public class Centro implements ItfCentro {
         }
     }
 
-    /** SOBREESCRITURA DE MÃ‰TODOS **/
+    /** SOBREESCRITURA DE MÉTODOS **/
     @Override
     public int hashCode() {
         return Objects.hash(idCentro);
@@ -328,5 +328,5 @@ public class Centro implements ItfCentro {
         Centro other = (Centro) obj;
         return Objects.equals(idCentro, other.idCentro);
     }
-    /**FIN SOBREESCRITURA DE MÃ‰TODOS**/
+    /**FIN SOBREESCRITURA DE MÉTODOS**/
 }

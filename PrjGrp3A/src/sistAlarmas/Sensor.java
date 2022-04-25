@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Sensor implements ItfSensor {
-	//DeclaraciÃ³n de variables
+	//Declaración de variables
 	private String idSensor;
 	private Date fechaInstalacion;
 	private String zona;
@@ -19,18 +19,18 @@ public class Sensor implements ItfSensor {
 	protected Sensor() {
 	}
 
-	//MÃ©todo para establecer la fecha de instalaciÃ³n de un sensor
+	//Método para establecer la fecha de instalación de un sensor
 	private Sensor setFechaInstalacion() {
 		this.fechaInstalacion = new Date(System.currentTimeMillis());
 		return this;
 	}
 	
-	//MÃ©todo para obtener el identificador de un sensor
+	//Método para obtener el identificador de un sensor
 	public String getIdSensor() {
 		return idSensor;
 	}
 
-	//MÃ©todo para establecer el identificador de un sensor
+	//Método para establecer el identificador de un sensor
 	public Sensor setIdSensor(String idSensor) throws Exception {
 		if (this.idSensor != null) throw new Exception("Este sensor ya tiene un identificador");
 		if (!ItfGestorId.checkIdSensor(idSensor)) throw new Exception("Identificador de sensor no valido");
@@ -38,17 +38,17 @@ public class Sensor implements ItfSensor {
 		return this;
 	}
 
-	//MÃ©todo para establecer la zona en la que estÃ¡ instalado un sensor
+	//Método para establecer la zona en la que está instalado un sensor
 	public void setZona(String zona) {
 		this.zona = zona;
 	}
 
-	//MÃ©todo para obtener el umbral de activaciÃ³n de un sensor
+	//Método para obtener el umbral de activación de un sensor
 	public Float getUmbralActivacion() {
 		return umbralActivacion;
 	}
 
-	//MÃ©todo para establecer el umbral de activaciÃ³n de un sensor
+	//Método para establecer el umbral de activación de un sensor
 	public Sensor setUmbralActivacion(Float umbralActivacion) throws Exception {
 		if (tipoSensor == null) throw new Exception("No se puede asignar un umbral de activacion a un sensor sin tipo");
 		boolean esValido = true;
@@ -69,12 +69,12 @@ public class Sensor implements ItfSensor {
 		return this;
 	}
 
-	//MÃ©todo para obtener el centro donde se encuentra un sensor
+	//Método para obtener el centro donde se encuentra un sensor
 	public Centro getCentro() {
 		return centro;
 	}
 
-	//MÃ©todo para establecer el centro donde se encuentra un sensor
+	//Método para establecer el centro donde se encuentra un sensor
 	public Sensor setCentro(Centro centro) throws Exception {
 		if (centro != null) {
 			if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro())) throw new Exception("El centro no esta registrado");
@@ -87,12 +87,12 @@ public class Sensor implements ItfSensor {
 		return this;
 	}
 
-	//MÃ©todo para obtener el valor actual de un sensor
+	//Método para obtener el valor actual de un sensor
 	public Float getValorActual() {
 		return valorActual;
 	}
 
-	//MÃ©todo para establecer el valor actual de un sensor
+	//Método para establecer el valor actual de un sensor
 	public Sensor setValorActual(Float valorActual) throws Exception {
 		if (ItfGestorAlarmas.esValidoValorSensor(this.getTipoSensor(), valorActual)) 
 			throw new Exception("Valor de sensor incompatible con su tipo");
@@ -100,27 +100,27 @@ public class Sensor implements ItfSensor {
 		return this;
 	}
 
-	//MÃ©todo para obtener el tipo de sensor
+	//Método para obtener el tipo de sensor
 	public TipoSensor getTipoSensor() {
 		return tipoSensor;
 	}
 
-	//MÃ©todo para establecer el tipo de sensor
+	//Método para establecer el tipo de sensor
 	public void setTipoSensor(TipoSensor tipoSensor) {
 		this.tipoSensor = tipoSensor;
 	}
 
-	//MÃ©todo para obtener la fecha de instalaciÃ³n de un sensor
+	//Método para obtener la fecha de instalación de un sensor
 	public Date getFechaInstalacion() {
 		return fechaInstalacion;
 	}
 
-	//MÃ©todo para obtener la zona en la que estÃ¡ instalado un sensor
+	//Método para obtener la zona en la que está instalado un sensor
 	public String getZona() {
 		return zona;
 	}
 
-	//MÃ©todo para analizar el entorno y asignar un valor al sensor
+	//Método para analizar el entorno y asignar un valor al sensor
 	@Override
 	public ItfSensor analizarEntorno() throws Exception {
 		Random rand = new Random();
@@ -128,7 +128,7 @@ public class Sensor implements ItfSensor {
 		switch (tipoSensor) {
 			case HUMO:
 			case PRESENCIA:
-				// Genera un entero en [0, 2), esto es, un 0 ï¿½ un 1
+				// Genera un entero en [0, 2), esto es, un 0 o un 1
 				nuevoValor = (float) rand.nextInt(2);
 				break;
 			case CALOR:
@@ -158,7 +158,7 @@ public class Sensor implements ItfSensor {
 		return this;
 	}
 
-	//MÃ©todo para disparar una alarma
+	//Método para disparar una alarma
 	@Override
 	public Alarma dispararAlarma() throws Exception {
 		return GestorAlarmas.getInstancia().activarAlarma(this);
@@ -212,7 +212,7 @@ public class Sensor implements ItfSensor {
 		}
 	}
 
-	/**SOBREESCRITURA DE MÃ‰TODOS**/
+	/**SOBREESCRITURA DE MÉTODOS**/
 	@Override
 	public int hashCode() {
 		return Objects.hash(idSensor);
@@ -227,5 +227,5 @@ public class Sensor implements ItfSensor {
 		Sensor other = (Sensor) obj;
 		return Objects.equals(idSensor, other.idSensor);
 	}
-	/** FIN SOBREESCRITURA DE MÃ‰TODOS**/
+	/** FIN SOBREESCRITURA DE MÉTODOS**/
 }

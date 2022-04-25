@@ -4,15 +4,15 @@ import java.util.Random;
 
 public interface ItfGestorId {
 
-    // Todos los mï¿½todos estï¿½ticos se pueden implementar directamente
+    // Todos los métodos estáticos se pueden implementar directamente
     // en la interfaz desde Java 8
 
 
-    //TODO Aï¿½ADIR AL DICCIONARIO LOS FORMATOS
+    //TODO AÑADIR AL DICCIONARIO LOS FORMATOS
 
     /*
-     * LAS COMPROBACIONES A REALIZAR BUSCARï¿½N SER SIMILARES A LAS ESTABLECIDAS
-     * EN EL DICCIONARIO DE DATOS ASOCIADO A LA PRï¿½CTICA. POR ELLO, SE COMPROBARï¿½N:
+     * LAS COMPROBACIONES A REALIZAR BUSCARÍAN SER SIMILARES A LAS ESTABLECIDAS
+     * EN EL DICCIONARIO DE DATOS ASOCIADO A LA PRÁCTICA. POR ELLO, SE COMPROBARÍAN:
      * -> ID DISTINTO DE NULL
      * -> LONGITUD DEL IDENTIFICADOR
      * -> FORMATO DEL MISMO
@@ -26,7 +26,7 @@ public interface ItfGestorId {
         if (idSensor == null) {
             return false;
         }
-        // 2- LONGITUD (mï¿½ximo 15):
+        // 2- LONGITUD (maximo 15):
         if (idSensor.length() > 15) {
             return false;
         }
@@ -48,7 +48,7 @@ public interface ItfGestorId {
         if (idAlarma == null) {
             return false;
         }
-        // 2- LONGITUD (mï¿½ximo 15):
+        // 2- LONGITUD (maximo 15):
         if (idAlarma.length() > 15) {
             return false;
         }
@@ -70,7 +70,7 @@ public interface ItfGestorId {
         if (idCentro == null) {
             return false;
         }
-        // 2- LONGITUD (mÃ¡ximo 20):
+        // 2- LONGITUD (maximo 20):
         if (idCentro.length() > 20) {
             return false;
         }
@@ -92,7 +92,7 @@ public interface ItfGestorId {
         if (idUsuario == null) {
             return false;
         }
-        // 2- LONGITUD (mï¿½ximo 15):
+        // 2- LONGITUD (maximo 15):
         if (idUsuario.length() > 15) {
             return false;
         }
@@ -114,7 +114,7 @@ public interface ItfGestorId {
         if (idEquipo == null) {
             return false;
         }
-        // 2- LONGITUD (mï¿½ximo 15):
+        // 2- LONGITUD (maximo 15):
         if (idEquipo.length() > 15) {
             return false;
         }
@@ -136,7 +136,7 @@ public interface ItfGestorId {
         if (idAccion == null) {
             return false;
         }
-        // 2- LONGITUD (mï¿½ximo 15):
+        // 2- LONGITUD (maximo 15):
         if (idAccion.length() > 15) {
             return false;
         }
@@ -153,7 +153,6 @@ public interface ItfGestorId {
         return true;
     }
 
-    /*TODO Aï¿½ADIR AL DICCIONARIO DE DATOS*/
 
     /**
      * FORMATO ESPERADO: "V-XX...XX"
@@ -164,7 +163,7 @@ public interface ItfGestorId {
         if (idVerif == null) {
             return false;
         }
-        // 2- LONGITUD (mï¿½ximo 15):
+        // 2- LONGITUD (maximo 15):
         if (idVerif.length() > 15) {
             return false;
         }
@@ -187,7 +186,7 @@ public interface ItfGestorId {
         if (idProt == null) {
             return false;
         }
-        // 2- LONGITUD (mï¿½ximo 15):
+        // 2- LONGITUD (maximo 15):
         if (idProt.length() > 15) {
             return false;
         }

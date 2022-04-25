@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class GestorCentros implements ItfGestorCentros {
-    // DeclaraciÃ³n de variables
+    // Declaración de variables
     private static GestorCentros instancia;
     private final HashMap<String, Centro> centros;
 
@@ -13,7 +13,7 @@ public class GestorCentros implements ItfGestorCentros {
         centros = new HashMap<>();
     }
 
-    // MÃ©todo para comprobar si un centro estÃ¡ registrado
+    // Método para comprobar si un centro está registrado
     public boolean esCentroRegistrado(String idCentro) {
         if (idCentro == null) return false;
         if (!centros.containsKey(idCentro)) return false;
@@ -21,13 +21,13 @@ public class GestorCentros implements ItfGestorCentros {
         return true;
     }
 
-    // PatrÃ³n Singleton
+    // Patrón Singleton
     public static GestorCentros getInstancia() {
         if (instancia == null) instancia = new GestorCentros();
         return instancia;
     }
 
-    //Sobreescritura del mÃ©todo addCentro de la interfaz ItfGestorCentros
+    //Sobreescritura del método addCentro de la interfaz ItfGestorCentros
     @Override
     public Centro addCentro(Centro centro) throws Exception {
         if (centro == null) throw new Exception("Centro no valido: es inexistente");
@@ -40,7 +40,7 @@ public class GestorCentros implements ItfGestorCentros {
         return centro;
     }
 
-    //MÃ©todo para comprobar que los valores de un centro son correctos
+    //Método para comprobar que los valores de un centro son correctos
     private void comprobarValoresCentro(Centro centro) throws Exception {
         if (!ItfGestorId.checkIdCentro(centro.getIdCentro()))
             throw new Exception("El identificador del centro no es valido");
@@ -59,7 +59,7 @@ public class GestorCentros implements ItfGestorCentros {
         return centros;
     }
 
-    //Sobreescritura del mÃ©todo modificarCentro de la interfaz ItfGestorCentros
+    //Sobreescritura del método modificarCentro de la interfaz ItfGestorCentros
     @Override
     public Centro modificarCentro(Centro centro) throws Exception {
         if (centro == null) throw new Exception("Centro no valido: es inexistente");
@@ -71,10 +71,10 @@ public class GestorCentros implements ItfGestorCentros {
         return centro;
     }
 
-    //Sobreescritura del mÃ©todo borrarCentro de la interfaz ItfGestorCentros
+    //Sobreescritura del método borrarCentro de la interfaz ItfGestorCentros
     @Override
     public Centro borrarCentro(String idCentro) throws Exception {
-        // Corroboramos tanto que la key (idCentro) estï¿½ en el HashMap como que su valor asociado
+        // Corroboramos tanto que la key (idCentro) está en el HashMap como que su valor asociado
         // (el centro) no sea nulo
         Centro centro;
         if (idCentro == null) throw new Exception("Identificador no valido: es inexistente");
@@ -95,7 +95,7 @@ public class GestorCentros implements ItfGestorCentros {
         return centro;
     }
 
-    //Sobreescritura del mÃ©todo leerCentro de la interfaz ItfGestorCentros
+    //Sobreescritura del método leerCentro de la interfaz ItfGestorCentros
     @Override
     public Centro leerCentro(String idCentro) throws Exception {
         if (idCentro == null) throw new Exception("Identificador no valido: es inexistente");
@@ -105,7 +105,7 @@ public class GestorCentros implements ItfGestorCentros {
         return centros.get(idCentro);
     }
 
-    //Sobreescritura del mÃ©todo addSensor a la interfaz ItfGestorCentros
+    //Sobreescritura del método addSensor a la interfaz ItfGestorCentros
     @Override
     public Centro addSensor(Sensor sensor, String idCentro) throws Exception {
         Centro centro = leerCentro(idCentro);
@@ -114,7 +114,7 @@ public class GestorCentros implements ItfGestorCentros {
         return centro;
     }
 
-    //Sobreescritura del mÃ©todo getCentroDeSensor de la interfaz ItfGestorCentros
+    //Sobreescritura del método getCentroDeSensor de la interfaz ItfGestorCentros
     private Centro getCentroDeSensor(String idSensor) throws Exception {
         Centro centro = centros.values().stream()
                 .filter(cen -> cen.getListaSensores().stream().anyMatch(sensor -> sensor.getIdSensor().equals(idSensor)))
@@ -123,38 +123,38 @@ public class GestorCentros implements ItfGestorCentros {
         return centro;
     }
 
-    //Sobreescritura del mÃ©todo modificarSensor de la interfaz ItfGestorCentros
+    //Sobreescritura del método modificarSensor de la interfaz ItfGestorCentros
     @Override
     public Sensor modificarSensor(Sensor sensor) throws Exception {
         if (sensor == null) throw new Exception("El sensor pasado como argumento no existe");
-        // No tenemos que comprobar que sensor.getIdSensor no sea null, porque no es posible modificarlo asï¿½ (tampoco tendrï¿½a repercusiones)
+        // No tenemos que comprobar que sensor.getIdSensor no sea null, porque no es posible modificarlo así (tampoco tendría repercusiones)
         Centro centro = getCentroDeSensor(sensor.getIdSensor());
         centro.modificarSensor(sensor);
         return null;
     }
 
-    //Sobreescritura del mÃ©todo eliminarSensor de la interfaz ItfGestorCentros
+    //Sobreescritura del método eliminarSensor de la interfaz ItfGestorCentros
     @Override
     public Sensor eliminarSensor(String idSensor) throws Exception {
         Centro centro = getCentroDeSensor(idSensor);
         return centro.borrarSensor(idSensor);
     }
 
-    //Sobreescritura del mÃ©todo leerSensor de la interfaz ItfGestorCentros
+    //Sobreescritura del método leerSensor de la interfaz ItfGestorCentros
     @Override
     public Sensor leerSensor(String idSensor) throws Exception {
         return getCentroDeSensor(idSensor).leerSensor(idSensor);
     }
 
-    //Sobreescritura del mÃ©todo cambiarCentroUsuario de la interfaz ItfGestorCentros
+    //Sobreescritura del método cambiarCentroUsuario de la interfaz ItfGestorCentros
     @Override
     public Usuario cambiarCentroUsuario(Usuario usuario, Centro nuevoCentro) throws Exception {
         if (usuario == null) throw new Exception("El usuario no existe");
         if (!GestorUsuarios.getInstancia().existeUsuario(usuario.getIdUsuario()))
-            throw new Exception("El usuario no estï¿½ registrado");
+            throw new Exception("El usuario no está registrado");
         if (nuevoCentro != null) {
 	        if (!GestorCentros.getInstancia().esCentroRegistrado(nuevoCentro.getIdCentro()))
-	            throw new Exception("El nuevo centro no estï¿½ registrado");
+	            throw new Exception("El nuevo centro no está registrado");
 	        comprobarValoresCentro(nuevoCentro);
         }
 

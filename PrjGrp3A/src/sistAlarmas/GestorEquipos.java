@@ -20,13 +20,13 @@ public class GestorEquipos implements ItfGestorEquipos{
 		verificaciones = new HashMap<>();
 	}
 
-	//Patrï¿½n Singleton
+	//Patrón Singleton
 	public static GestorEquipos getInstancia() {
 		if (instancia == null) instancia = new GestorEquipos();
 		return instancia;
 	}
 
-	//MÃ©todo para comprobar si un equipo existe
+	//Método para comprobar si un equipo existe
 	public boolean esEquipoRegistrado(String idEquipo) {
 		if (idEquipo == null) return false;
 		if (!equipos.containsKey(idEquipo)) return false;
@@ -35,7 +35,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 	}
 
 	//TODO: ESTO ESTA INCOMPLETO ENTIENDO YO NO?
-	//MÃ©todo para recibir los protocolos para los equipos
+	//Método para recibir los protocolos para los equipos
 	public Equipo buscarEquipo(Alarma al) throws Exception {
 		
 		if (al == null) throw new Exception("Debe indicarse una alarma");
@@ -67,7 +67,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		}  
 		
 		String idMax = puntuaciones.entrySet().stream().max((entry1, entry2) -> Integer.compare(entry1.getValue(), entry2.getValue())).get().getKey();
-		/* Para mayor claridad, se incluye comentado el cï¿½digo sin programaciï¿½n funcional
+		/* Para mayor claridad, se incluye comentado el código sin programación funcional
 		int max = 0;
 		String idMax = null;
 		for (String id : puntuaciones.keySet()) {
@@ -82,7 +82,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return GestorEquipos.getInstancia().leerEquipo(idMax);		
 	}
 
-	//MÃ©todo para enviar las acciones (Ã³rdenes) a un equipo
+	//Método para enviar las acciones (Órdenes) a un equipo
 	public GestorEquipos enviarAcciones(Equipo equipo, List<Accion> acciones, Alarma alarma) throws Exception {
 		for (Accion ac : acciones) {
 			ac.setDestinatario(equipo);
@@ -91,9 +91,9 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return this;
 	}
 
-	// MÃ©todo para recibir las verificaciones
+	// Método para recibir las verificaciones
 	public GestorEquipos recibirVerificacion(Equipo equipo, Verificacion verif) throws Exception {
-		// En caso de una aplicaciï¿½n con gui, se imprimirï¿½a el mensaje
+		// En caso de una aplicación con gui, se imprimiría el mensaje
 		String mensFinal = "Alarma gestionada";
 		if (mensFinal.equals(verif.getMensaje())){
 			GestorAlarmas.getInstancia().desactivarAlarma(verif.getAlarma().getIdAlarma());
@@ -102,7 +102,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return this;
 	}
 
-	// Sobreescritura del mÃ©todo addEquipo de la interfaz ItfGestorEquipos
+	// Sobreescritura del método addEquipo de la interfaz ItfGestorEquipos
 	@Override
 	public Equipo addEquipo(Equipo equipo) throws Exception {
 		if (equipo == null) throw new Exception("Equipo no valido: es inexistente");
@@ -114,7 +114,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return equipo;
 	}
 
-	// Sobreescritura del mÃ©todo modificarEquipo
+	// Sobreescritura del método modificarEquipo
 	@Override
 	public Equipo modificarEquipo(Equipo equipo) throws Exception {
 		if (equipo == null) throw new Exception("Equipo no valido: es inexistente");
@@ -124,7 +124,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return equipo;
 	}
 
-	// Sobreescritura del mÃ©todo eliminarEquipo de la interfaz ItfGestorEquipos
+	// Sobreescritura del método eliminarEquipo de la interfaz ItfGestorEquipos
 	@Override
 	public Equipo eliminarEquipo(String idEquipo) throws Exception {
 		Equipo equipo;
@@ -138,7 +138,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return equipo;
 	}
 
-	// Sobreescritura del mÃ©todo leerEquipo de la interfaz ItfGestorEquipos
+	// Sobreescritura del método leerEquipo de la interfaz ItfGestorEquipos
 	@Override
 	public Equipo leerEquipo(String idEquipo) throws Exception {
 		if (idEquipo == null) throw new Exception("Identificador no valido: es inexistente");
@@ -147,7 +147,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return equipos.get(idEquipo);
 	}
 
-	// Sobreescritura del mÃ©todo addVerificacion de la interfaz ItfGestorEquipos
+	// Sobreescritura del método addVerificacion de la interfaz ItfGestorEquipos
 	public Verificacion addVerificacion(Verificacion verif) throws Exception {
 		if (verif == null) throw new Exception("Verificacion no valida: es inexistente");
 		if (!ItfGestorId.checkIdVerificacion(verif.getIdVerif())) throw new Exception("El identificador de la verificacion no es valido");
@@ -169,7 +169,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return verificaciones.get(idVerif);
 	}
 
-	//Sobreescritura del mÃ©todo addAccion de la interfaz ItfGestorEquipos
+	//Sobreescritura del método addAccion de la interfaz ItfGestorEquipos
 	@Override
 	public Accion addAccion(Accion accion) throws Exception {
 		if (accion == null) throw new Exception("Accion no valida: es inexistente");
@@ -181,7 +181,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return accion;
 	}
 
-	//Sobreescritura del mÃ©todo modificarAccion de la interfaz ItfGestorEquipos
+	//Sobreescritura del método modificarAccion de la interfaz ItfGestorEquipos
 	@Override
 	public Accion modificarAccion(Accion accion) throws Exception {
 		if (accion == null) throw new Exception("Accion no valida: es inexistente");
@@ -194,7 +194,7 @@ public class GestorEquipos implements ItfGestorEquipos{
 	
 	// No se permite borrar acciones ni verificaciones
 
-	//MÃ©todo para leer las acciones a partir de un identificador
+	//Método para leer las acciones a partir de un identificador
 	public Accion leerAccion(String idAccion) throws Exception {
 		if (idAccion == null) throw new Exception("Identificador no valido: es inexistente");
 		if (!acciones.containsKey(idAccion)) 

@@ -1,11 +1,7 @@
 package sistAlarmas;
 
-//Si tenï¿½is dudas de por quï¿½ esta clase extiende/no extiende a
-//UsuarioRegistrado, preguntadle a Xiana, que no escribe aquï¿½
-//la justificaciï¿½n porque estï¿½ cambiando de opiniï¿½n al respecto
-//cada 5 minutos :)
 public class PersonalEquipo {
-	//DeclaraciÃ³n de variables
+	//Declaracion de variables
 	private String capacitacion;
 	private String nivelFormacion;
 	
@@ -15,7 +11,7 @@ public class PersonalEquipo {
 	//Constructor
 	public PersonalEquipo(){}
 
-	//MÃ©todo para aÃ±adir un usuario al personal de un equipo de emergencias
+	//MÃ©todo para añadir un usuario al personal de un equipo de emergencias
 	public PersonalEquipo setUsuarioRegistrado(UsuarioRegistrado usuario) throws Exception {
 		if (usuario == null) throw new Exception("Usuario no valido: no existe");
 		if (!GestorUsuarios.getInstancia().existeUsuario(usuario.getIdUsuario())) throw new Exception("No hay datos almacenados del usuario");
@@ -25,21 +21,21 @@ public class PersonalEquipo {
 		return this;
 	}
 
-	//MÃ©todo para establecer el nivel de formaciÃ³n del personal de un equipo de emergencias
+	//Método para establecer el nivel de formación del personal de un equipo de emergencias
 	public PersonalEquipo setNivelFormacion(String nivelFormacion) throws Exception {
 		if (nivelFormacion == null) throw new Exception("Nivel de formacion no valido: no existe");
 		this.nivelFormacion = nivelFormacion;
 		return this;
 	}
 
-	//MÃ©todo para aÃ±adir la capacitaciÃ³n del personal de un equipo de emergencias
+	//Método para añadir la capacitación del personal de un equipo de emergencias
 	public PersonalEquipo setCapacitacion(String capacitacion) throws Exception {
 		if (capacitacion == null) throw new Exception("Capacitacion no valida: no existe");
 		this.capacitacion = capacitacion;
 		return this;
 	}
 
-	//MÃ©todo para aÃ±adir un usuario a un equipo de emergencias
+	//Método para añadir un usuario a un equipo de emergencias
 	public PersonalEquipo setEquipo(Equipo equipo) throws Exception {
 		if (equipo != null) {
 			if (!estaDisponible()) throw new Exception("El usuario ya pertenece a un equipo");

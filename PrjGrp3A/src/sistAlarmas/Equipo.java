@@ -24,7 +24,7 @@ public class Equipo {
 		responsabilidades = new ArrayList<>();
 	}
 
-	//MÃ©todo para establecer el id del equipo
+	//Método para establecer el id del equipo
 	public Equipo setIdEquipo(String idEquipo) throws Exception {
 		if (this.idEquipo != null) throw new Exception("Este equipo ya tiene un identificador");
 		if (!ItfGestorId.checkIdEquipo(idEquipo)) throw new Exception("Identificador de equipo no valido");
@@ -32,7 +32,7 @@ public class Equipo {
 		return this;
 	}
 
-	//MÃ©todo para que un equipo reciba una lista de acciones asociadas a la alarma indicada
+	//Método para que un equipo reciba una lista de acciones asociadas a la alarma indicada
 	public Equipo recibirOrden(List<Accion> acciones, Alarma al) throws Exception {
 		if (al == null) throw new Exception("Alarma no indicada");
 		if (acciones.isEmpty()) throw new Exception("No hay acciones");
@@ -44,38 +44,38 @@ public class Equipo {
 		return this;
 	}
 
-	//MÃ©todo para la gestiÃ³n de una alarma
+	//Método para la gestión de una alarma
 	public Equipo gestionarAlarma() throws Exception {
-		// DeclaraciÃ³n de variables
+		// Declaración de variables
 		GestorEquipos ge = GestorEquipos.getInstancia();
 		boolean flag = false;
 		
 		List<Verificacion> verifs = new ArrayList<>();
 
-		//Para cada accion en ejecuciÃ³n:
+		//Para cada accion en ejecución:
 		for (Accion accion : accionesEnEjecucion) {
-			Verificacion verif = new Verificacion(); //Se crea una nueva verificaciÃ³n
+			Verificacion verif = new Verificacion(); //Se crea una nueva verificación
 
 			do {
-				verif.setIdVerif(ItfGestorId.generarId("Verificacion")); //Se genera un id para la verificaciÃ³n
+				verif.setIdVerif(ItfGestorId.generarId("Verificacion")); //Se genera un id para la verificación
 				try {
 					ge.leerVerif(verif.getIdVerif()); //Se intenta leer el id generado
 				} catch (Exception e) {
 					flag = true; //Se establece el flag en true para que se trate de generar un id nuevo (si falla)
 				}
 			} while (!flag);
-			verif.setMensaje("Verificacion de accion"); //Se establece el mensaje de la verificaciÃ³n
-			verif.setAccion(accion); //Se establece la acciÃ³n de la verificaciÃ³n
+			verif.setMensaje("Verificacion de accion"); //Se establece el mensaje de la verificación
+			verif.setAccion(accion); //Se establece la acciÃ³n de la verificación
 			verif.setAlarma(alarmaEnEjecucion);
-			verif.setEmisor(this); //Se establece el emisor de la verificaciÃ³n
-			ge.addVerificacion(verif); //Se aÃ±ade la verificaciÃ³n al gestor de equipos
-			verifs.add(verif); //Se aÃ±ade la verificaciÃ³n a la lista de verificaciones
+			verif.setEmisor(this); //Se establece el emisor de la verificación
+			ge.addVerificacion(verif); //Se añade la verificación al gestor de equipos
+			verifs.add(verif); //Se añade la verificación a la lista de verificaciones
 		}
 		
-		Verificacion verifFinal = new Verificacion(); //Se crea una nueva verificaciÃ³n
+		Verificacion verifFinal = new Verificacion(); //Se crea una nueva verificación
 		flag = false; //Se establece el flag a false
 		do {
-			verifFinal.setIdVerif(ItfGestorId.generarId("Verificacion")); //Se genera un id para la verificaciÃ³n
+			verifFinal.setIdVerif(ItfGestorId.generarId("Verificacion")); //Se genera un id para la verificación
 			try {
 				ge.leerVerif(verifFinal.getIdVerif()); //Se intenta leer el id generado
 			} catch (Exception e) {
@@ -83,25 +83,25 @@ public class Equipo {
 			}
 		} while (!flag);
 		verifFinal.setMensaje("Verificacion final; se cierra la gestion de la alarma");
-		verifFinal.setAlarma(alarmaEnEjecucion); //Se establece la alarma de la verificaciÃ³n final
-		verifFinal.setEmisor(this); //Se establece el emisor de la verificaciÃ³n final
-		ge.addVerificacion(verifFinal); //Se aÃ±ade la verificaciÃ³n final al gestor de equipos
-		verifs.add(verifFinal); //Se aÃ±ade la verificaciÃ³n final a la lista de verificaciones
+		verifFinal.setAlarma(alarmaEnEjecucion); //Se establece la alarma de la verificación final
+		verifFinal.setEmisor(this); //Se establece el emisor de la verificación final
+		ge.addVerificacion(verifFinal); //Se añade la verificación final al gestor de equipos
+		verifs.add(verifFinal); //Se añade la verificación final a la lista de verificaciones
 		
-		accionesEnEjecucion = new ArrayList<>(); //Se limpia la lista de acciones en ejecuciÃ³n
+		accionesEnEjecucion = new ArrayList<>(); //Se limpia la lista de acciones en ejecución
 		
-		for (Verificacion v : verifs) ge.recibirVerificacion(this, v);  //Se llama a la funciÃ³n recibirVerificacion del gestor de equipos
-		this.alarmaEnEjecucion = null; //Se establece la alarma en ejecuciÃ³n a null
+		for (Verificacion v : verifs) ge.recibirVerificacion(this, v);  //Se llama a la función recibirVerificacion del gestor de equipos
+		this.alarmaEnEjecucion = null; //Se establece la alarma en ejecución a null
 		
 		return this;
 	}
 
-	//MÃ©todo para establecer si un equipo estÃ¡ ocupado
+	//Método para establecer si un equipo está ocupado
 	public boolean estaOcupado() {
 		return !(alarmaEnEjecucion == null || accionesEnEjecucion.isEmpty());
 	}
 
-	//MÃ©todo para establecer las responsabilidades de un equipo
+	//Método para establecer las responsabilidades de un equipo
 	public Equipo setResponsabilidades(List<String> responsabilidades) throws Exception {
 		if (responsabilidades == null) throw new Exception("Lista de responsabilidades no valida: no existe");
 		if (responsabilidades.isEmpty()) throw new Exception("Lista de responsabilidades no valida: esta vacia");
@@ -111,14 +111,14 @@ public class Equipo {
 		return this;
 	}
 
-	//MÃ©todo para aÃ±adir una responsabilidad a la lista de responsabilidades
+	//Método para añadir una responsabilidad a la lista de responsabilidades
 	public Equipo addResponsabilidad(String resp) throws Exception {
 		if (resp == null) throw new Exception("Responsabilidad no valida: no existe");
 		responsabilidades.add(resp);
 		return this;
 	}
 
-	//MÃ©todo para eliminar una responsabilidad de la lista de responsabilidades
+	//Método para eliminar una responsabilidad de la lista de responsabilidades
 	public Equipo quitarResponsabilidad(String resp) throws Exception {
 		if (resp == null) throw new Exception("Responsabilidad no valida: no existe");
 		if (!responsabilidades.contains(resp)) throw new Exception("El equipo no tenia la responsabilidad indicada");
@@ -126,14 +126,14 @@ public class Equipo {
 		return this;
 	}
 	
-	//MÃ©todo para establecer los miembros de un equipo
+	//Método para establecer los miembros de un equipo
 	public Equipo setMiembros(List<UsuarioRegistrado> miembros) throws Exception {
 		if (miembros == null) throw new Exception("Lista de miembros no valida: no existe");
 		if (miembros.isEmpty()) throw new Exception("Lista de miembros no valida: esta vacia");		// Un equipo debe tener al menos un miembro
 		if (!miembros.stream().allMatch(user -> user.ayudaEnEmergencias()))
 			throw new Exception("No todos los usuarios de la lista son personal de equipo");
 		for (UsuarioRegistrado user : miembros) user.getPersonalEquipo().setEquipo(this);
-		// Al llamar a setEquipo comprobamos en este metodo que el usuario estï¿½ disponible y que la capacitacion y el nivel de formacion sean adecuados
+		// Al llamar a setEquipo comprobamos en este metodo que el usuario está disponible y que la capacitacion y el nivel de formacion sean adecuados
 		
 		this.miembros = miembros;
 		return this;
@@ -151,7 +151,7 @@ public class Equipo {
 		return transportePrimario;
 	}
 
-	//MÃ©todo para establecer para un equipo una alarma en ejecuciÃ³n
+	//Método para establecer para un equipo una alarma en ejecución
 	public Equipo setAlarmaEnEjecucion(Alarma alarmaEnEjecucion) throws Exception {
 		if (alarmaEnEjecucion != null && !GestorAlarmas.getInstancia().esAlarmaEnEjecucion(alarmaEnEjecucion.getIdAlarma()))
 			throw new Exception("La alarma indicada no esta siendo ejecutada");
@@ -159,7 +159,7 @@ public class Equipo {
 		return this;
 	}
 
-	//MÃ©todo para aÃ±adir un usuario a la lista de miembros de un equipo
+	//Método para añadir un usuario a la lista de miembros de un equipo
 	public Equipo addMiembro(UsuarioRegistrado miembro) throws Exception {
 		if (miembro == null || !miembro.ayudaEnEmergencias()) throw new Exception("El nuevo miembro no es valido");
 		miembro.getPersonalEquipo().setEquipo(this);
@@ -167,7 +167,7 @@ public class Equipo {
 		return this;
 	}
 
-	//MÃ©todo para eliminar un usuario de la lista de miembros de un equipo
+	//Método para eliminar un usuario de la lista de miembros de un equipo
 	public Equipo quitarMiembro(UsuarioRegistrado miembro) throws Exception{
 		if (miembro == null) throw new Exception("El usuario seleccionado no existe");
 		if (!miembros.contains(miembro)) throw new Exception("El usuario seleccionado no forma parte del equipo");
@@ -178,7 +178,7 @@ public class Equipo {
 		return this;
 	}
 
-	//MÃ©todo para eliminar los datos de un equipo
+	//Método para eliminar los datos de un equipo
 	public Equipo borrarDatosEquipo() throws Exception {
 		Iterator<UsuarioRegistrado> it = miembros.iterator(); 
 		while (it.hasNext()) {
@@ -212,7 +212,7 @@ public class Equipo {
 
 	/**FIN GETTERS**/
 
-	/**SOBREESCRITURA DE MÃ‰TODOS**/
+	/**SOBREESCRITURA DE MÉTODOS**/
 	@Override
 	public int hashCode() {
 		return Objects.hash(idEquipo);
@@ -227,5 +227,5 @@ public class Equipo {
 		Equipo other = (Equipo) obj;
 		return Objects.equals(idEquipo, other.idEquipo);
 	}
-	/**FIN SOBREESCRITURA DE MÃ‰TODOS**/
+	/**FIN SOBREESCRITURA DE MÉTODOS**/
 }

@@ -120,7 +120,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return alarma;
 	}
 
-	//MÃ©todo para despachar las alarmas pendientes en caso de que existan
+	//Método para despachar las alarmas pendientes en caso de que existan
 	@Override
 	public List<Alarma> despacharAlarmasPendientes() throws Exception {
 		if (alarmasPendientes.isEmpty()) throw new Exception("No hay alarmas pendientes");
@@ -137,11 +137,11 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return alarmasDespachadas;
 	}
 
-	//MÃ©todo para desactivar una alarma
+	//Método para desactivar una alarma
 	@Override
 	public Alarma desactivarAlarma(String idAlarma) throws Exception {
-		if (!ItfGestorId.checkIdAlarma(idAlarma)) throw new Exception("Identificador no vï¿½lido");
-		if (!alarmasEnEjecucion.containsKey(idAlarma)) throw new Exception("La alarma no estï¿½ en ejecuciï¿½n");
+		if (!ItfGestorId.checkIdAlarma(idAlarma)) throw new Exception("Identificador no válido");
+		if (!alarmasEnEjecucion.containsKey(idAlarma)) throw new Exception("La alarma no está en ejecución");
 		
 		Alarma al = alarmasEnEjecucion.get(idAlarma);
 		alarmasEnEjecucion.remove(idAlarma);
@@ -149,7 +149,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return al;
 	}
 
-	//MÃ©todo para leer una alarma
+	//Método para leer una alarma
 	@Override
 	public Alarma leerAlarma(String idAlarma) throws Exception {
 		if (idAlarma == null) throw new Exception("Identificador no valido: es inexistente");
@@ -163,7 +163,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return al;
 	}
 
-	//Sobreescritura del mÃ©todo addProtocolo de la clase ItfGestorAlarmas
+	//Sobreescritura del método addProtocolo de la clase ItfGestorAlarmas
 	@Override
 	public GestorAlarmas addProtocolo(Protocolo prot) throws Exception {
 		if (prot == null) throw new Exception("Protocolo no valido: es inexistente");
@@ -175,7 +175,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return this;
 	}
 
-	//Sobreescritura del mÃ©todo modificarProtocolo de la clase ItfGestorAlarmas
+	//Sobreescritura del método modificarProtocolo de la clase ItfGestorAlarmas
 	@Override
 	public GestorAlarmas modificarProtocolo(Protocolo prot) throws Exception {
 		if (prot == null) throw new Exception("Protocolo no valido: es inexistente");
@@ -186,10 +186,10 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return this;
 	}
 
-	//Sobreeescritura del mÃ©todo borrarProtocolo de la clase ItfGestorAlarmas
+	//Sobreeescritura del método borrarProtocolo de la clase ItfGestorAlarmas
 	@Override
 	public GestorAlarmas borrarProtocolo(String idProt) throws Exception {
-		// Corroboramos tanto que la key (idCentro) estï¿½ en el HashMap como que su valor asociado
+		// Corroboramos tanto que la key (idCentro) está en el HashMap como que su valor asociado
 		// (el centro) no sea nulo
 		Protocolo prot;
 		if (idProt == null) throw new Exception("Identificador no valido: es inexistente");
@@ -208,7 +208,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		return this;
 	}
 
-	//Sobreeescritura del mÃ©todo leerProtocolo de la clase ItfGestorAlarmas
+	//Sobreeescritura del método leerProtocolo de la clase ItfGestorAlarmas
 	@Override
 	public Protocolo leerProtocolo(String idProt) throws Exception {
 		if (idProt == null) throw new Exception("Identificador no valido: es inexistente");

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class GestorUsuarios implements ItfGestorUsuarios {
-	//DeclaraciÃ³n de variables
+	//Declaración de variables
 	private static GestorUsuarios instancia;
 	private final HashMap<String, Usuario> usuarios;
 
@@ -13,13 +13,13 @@ public class GestorUsuarios implements ItfGestorUsuarios {
 		usuarios = new HashMap<>();
 	}
 
-	//PatrÃ³n Singleton
+	//Patrón Singleton
 	public static GestorUsuarios getInstancia() {
 		if (instancia == null) instancia = new GestorUsuarios();
 		return instancia;
 	}
 
-	//MÃ©todo para comprobar si existe un usuario
+	//Método para comprobar si existe un usuario
 	public boolean existeUsuario(String idUsuario) {
 		if (idUsuario == null) return false;
 		if (!usuarios.containsKey(idUsuario)) return false;
@@ -27,7 +27,7 @@ public class GestorUsuarios implements ItfGestorUsuarios {
 		return true;
 	}
 	
-	//Sobreescritura del mÃ©todo addCentro de la interfaz ItfGestorCentros
+	//Sobreescritura del método addCentro de la interfaz ItfGestorCentros
 	@Override
 	public GestorUsuarios addUsuario(Usuario usuario) throws Exception {
 		if (usuario == null) throw new Exception("Usuario no valido: es inexistente");
@@ -38,7 +38,7 @@ public class GestorUsuarios implements ItfGestorUsuarios {
 		return this;
 	}
 
-	//Sobreescritura del mÃ©todo modificarCentro de la interfaz ItfGestorCentros
+	//Sobreescritura del método modificarCentro de la interfaz ItfGestorCentros
 	@Override
 	public GestorUsuarios modificarUsuario(Usuario usuario) throws Exception {
 		if (usuario == null) throw new Exception("Usuario no valido: es inexistente");
@@ -48,10 +48,10 @@ public class GestorUsuarios implements ItfGestorUsuarios {
 		return this;
 	}
 
-	//Sobreescritura del mÃ©todo borrarCentro de la interfaz ItfGestorCentros
+	//Sobreescritura del método borrarCentro de la interfaz ItfGestorCentros
 	@Override
 	public GestorUsuarios borrarUsuario(String idUsuario) throws Exception {
-		// Corroboramos tanto que la key (idCentro) estï¿½ en el HashMap como que su valor asociado
+		// Corroboramos tanto que la key (idCentro) está en el HashMap como que su valor asociado
 		// (el centro) no sea nulo
 		Usuario usuario;
 		if (idUsuario == null) throw new Exception("Identificador no valido: es inexistente");
@@ -62,7 +62,7 @@ public class GestorUsuarios implements ItfGestorUsuarios {
 		return this;
 	}
 
-	//Sobreescritura del mÃ©todo leerCentro de la interfaz ItfGestorCentros
+	//Sobreescritura del método leerCentro de la interfaz ItfGestorCentros
 	@Override
 	public Usuario leerUsuario(String idUsuario) throws Exception {
 		if (idUsuario == null) throw new Exception("Identificador no valido: es inexistente");

@@ -10,7 +10,7 @@ public class Usuario {
 	// Constructor
 	public Usuario(){}
 
-	//MÃ©todo para establecer el id del usuario
+	//Método para establecer el id del usuario
 	public Usuario setIdUsuario(String idUsuario) throws Exception{
 		if (this.idUsuario != null) throw new Exception("Este usuario ya tiene un identificador");
 		if (!ItfGestorId.checkIdUsuario(idUsuario)) throw new Exception("Identificador de usuario no valido");
@@ -18,7 +18,7 @@ public class Usuario {
 		return this;
 	}
 
-	//MÃ©todo para establecer el centro actual del usuario
+	//Método para establecer el centro actual del usuario
 	public Usuario setCentroActual(Centro centroActual) throws Exception {
 		if (centroActual != null)
 			if (!GestorCentros.getInstancia().esCentroRegistrado(centroActual.getIdCentro())) 

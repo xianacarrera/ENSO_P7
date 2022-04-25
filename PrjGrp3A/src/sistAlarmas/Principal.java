@@ -1,11 +1,12 @@
 package sistAlarmas;
 
+import java.util.Date;
 import java.util.List;
 
 /** Se trata de la clase principal en la que se incluye el main**/
 public class Principal {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// Interfaz ItfGestorId
 		String idAccion = null, idAlarma = null, idCentro = null, idEquipo = null, 
 				idProt = null, idSensor = null, idUsuario = null, idVerif = null;
@@ -92,6 +93,7 @@ public class Principal {
 			centro.setNumero(24);
 			centro.setCiudad("Santiago de Compostela");
 
+			
 			centro2.setIdCentro(idCentro);
 			centro2.setNombre("ETSE");
 			centro2.setCampus("Campus sur");
@@ -259,6 +261,89 @@ public class Principal {
 			System.out.println("Error en la interfaz ItfProtocolo");
 			e.printStackTrace();
 		}
+		
+		//Interfaz ItfGestorEstadisticas:
+		
+		/*AGREGAR 1º*/
+		GestorEstadisticas ge = GestorEstadisticas.getInstancia();
+		@SuppressWarnings("deprecation")
+		Date inicio = new Date(122, 0, 3);	
+		@SuppressWarnings("deprecation")
+		Date fin = new Date(122, 0, 30);
+		
+		/*AGREGAR 2º*/
+		@SuppressWarnings("deprecation")
+		Date inicio1 = new Date(122, 1, 4);	
+		@SuppressWarnings("deprecation")
+		Date fin1 = new Date(122, 1, 15);
+		String idAlarma1 = ItfGestorId.generarId("ALARMA");
+		
+		/*AGREGAMOS UN 3º*/
+		@SuppressWarnings("deprecation")
+		Date inicio2 = new Date(122, 2, 1);	
+		@SuppressWarnings("deprecation")
+		Date fin2 = new Date(122, 2, 11);
+		String idAlarma2 = ItfGestorId.generarId("ALARMA");
+		Centro c =new Centro();
+		c.setIdCentro(ItfGestorId.generarId("Centro")); //Con definir el identificador para esta prueba es suficiente
+		
+		try {
+			//Agregar:
+			Estadistica est= ge.agregar(inicio, fin, new Date(), idAlarma, centro.getIdCentro());
+			System.out.println("======================================================================");
+			System.out.println("Se ha agregado la estadística: " + est.getId());
+			System.out.println("-> Datos: ");
+			System.out.println("-TIPO: "+est.getTipo());
+			System.out.println("-DURACIÓN: "+est.getDuracion());
+			System.out.println("-CENTRO: "+est.getCentro());
+			System.out.println("-FECHA OCURRENCIA: "+est.getFechaOcurrencia().toString());
+			System.out.println("-FECHA INSERCIÓN: "+est.getFechaInsercion().toString());
+			System.out.println("======================================================================");
+			
+			//Agregamos otros para otras pruebas:
+			Estadistica est1= ge.agregar(inicio1, fin1, new Date(), idAlarma1, centro.getIdCentro());
+			System.out.println("Se ha agregado la estadística: " + est1.getId());
+			System.out.println("-> Datos: ");
+			System.out.println("-TIPO: "+est1.getTipo());
+			System.out.println("-DURACIÓN: "+est1.getDuracion());
+			System.out.println("-CENTRO: "+est1.getCentro());
+			System.out.println("-FECHA OCURRENCIA: "+est1.getFechaOcurrencia().toString());
+			System.out.println("-FECHA INSERCIÓN: "+est1.getFechaInsercion().toString());
+			System.out.println("======================================================================");
+			
+			Estadistica est2= ge.agregar(inicio2, fin2, new Date(), idAlarma2, c.getIdCentro());
+			System.out.println("Se ha agregado la estadística: " + est2.getId());
+			System.out.println("-> Datos: ");
+			System.out.println("-TIPO: "+est2.getTipo());
+			System.out.println("-DURACIÓN: "+est2.getDuracion());
+			System.out.println("-CENTRO: "+est2.getCentro());
+			System.out.println("-FECHA OCURRENCIA: "+est2.getFechaOcurrencia().toString());
+			System.out.println("-FECHA INSERCIÓN: "+est2.getFechaInsercion().toString());
+			System.out.println("======================================================================");
+
+			//Recuperar total (Sin filtrar):
+			int total = ge.recuperarTotal("Alarma");
+			System.out.println("Se ha encontrado un total de " + total + " estadísticos asociados a alarmas.");
+
+			//Calcular media sin filtrar:
+			float mediaTotal = ge.mediaDuracion("Alarma");
+			System.out.println("La media de estadísticos asociados a alarmas es: " + mediaTotal + ".");
+			
+			//PROCEDEMOS A FILTRAR POR CENTRO:
+			int totalConFiltro = ge.distribucionTotal(centro.getIdCentro(),"Alarma");
+			System.out.println("Se ha encontrado un total de " + totalConFiltro + " estadísticos asociados a alarmas en el centro "+ centro.getNombre() + " [" +centro.getIdCentro()+"].");
+
+			//Y POR ÚLTIMO LA MEDIA:
+			float mediaConFiltro = ge.distribucionMedia(centro.getIdCentro(),"Alarma");
+			System.out.println("La media de estadísticos asociados a alarmas en el centro "+ centro.getNombre()+ " [" +centro.getIdCentro()+"] " +"es:" + mediaConFiltro + ".");
+
+			
+		}catch(Exception e) {
+			System.out.println("Error en la interfaz ItfGestorEstadisticas");
+			e.printStackTrace();
+		}
+		
+
 	}
 
 }

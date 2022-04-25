@@ -7,7 +7,7 @@ public class Alarma {
 
 	//Declaracion de variables
 	private String idAlarma;
-	private Date fechaIncidencia;		// Se inicializa automï¿½ticamente cuando se crea la alarma
+	private Date fechaIncidencia;		// Se inicializa automáticamente cuando se crea la alarma
 	private Date fechaCierre;			// No se puede modificar manualmente, se cambia al transicionar al estado DESACTIVADA
 	private Centro centro;
 	private String zona;
@@ -48,7 +48,7 @@ public class Alarma {
 
 	//Metodo para establecer el valor de activacion de la alarma siempre que esta tenga tipo y no sea manual
 	public Alarma setValorActivacion(Float valorActivacion) throws Exception {
-		// El valor de activaciï¿½n, una vez establecido, es definitivo
+		// El valor de activación, una vez establecido, es definitivo
 		if (this.valorActivacion != null) throw new Exception("Ya se ha registrado un valor de activacion para esta alarma");
 		if (this.tipoAlarma == null) throw new Exception("Esta alarma aun no tiene un tipo");
 		switch (this.tipoAlarma) {

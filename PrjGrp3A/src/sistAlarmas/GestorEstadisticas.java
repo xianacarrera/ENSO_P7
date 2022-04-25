@@ -22,7 +22,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     }
 
     //Método para añadir una estadística: el tipo se obtendrá a partir del id
-    public void agregar(Date inicio, Date fin, Date fechaInsercion, String id, String centro) throws Exception {
+    public Estadistica agregar(Date inicio, Date fin, Date fechaInsercion, String id, String centro) throws Exception {
         if (id == null) throw new Exception("El id no puede ser nulo");
         String tipo = ItfGestorId.getTipo(id);
         if (tipo == null) throw new Exception("El id no es válido -> Tipo no encontrado");
@@ -32,6 +32,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
         Float duracion = (float) (fin.getTime() - inicio.getTime());
         Estadistica e = new Estadistica(tipo, duracion, fechaInsercion, id, centro, inicio);
         datos.put(e.getId(), e);
+        return e;
     }
 
     //Método para recuperar el total de valores asociadas a un tipo
@@ -84,8 +85,13 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
         return null;
     }
 
-    private Integer isYear(String filtro) {
-        int valor = Integer.parseInt(filtro);
+    private Integer isYear(String filtro) throws NumberFormatException {
+    	try {
+    		Integer.parseInt(filtro);
+    	}catch (NumberFormatException e) {
+    		return null;
+		}
+        Integer valor = Integer.parseInt(filtro);
         if (valor >= 1 && valor <= MAXIMO_ANO) {
             return valor;
         }
@@ -106,11 +112,22 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
 
         for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
-                if (isMonth(filtro) != null || isYear(filtro) != null || isCentro(filtro) != null) {
-                    if (e.getFechaOcurrencia().getMonth() == isMonth(filtro) || e.getFechaOcurrencia().getYear() == isYear(filtro) || e.getCentro().equals(filtro)) {
+                if (isMonth(filtro) != null) {
+                    if (e.getFechaOcurrencia().getMonth() == isMonth(filtro)) {
                         contador++;
                     }
-                } else {
+                } 
+                if(isYear(filtro) != null){
+                	if(e.getFechaOcurrencia().getYear() == isYear(filtro)) {
+                		contador++;
+                	}
+                }
+                if(isCentro(filtro) != null) {
+                	if(e.getCentro().equals(filtro)) {
+                		contador++;
+                	}
+                }
+                else {
                     throw new Exception("El filtro no es válido");
                 }
             }
@@ -124,12 +141,25 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
         int contador = 0;
         for (Estadistica e : datos.values()) {
             if (e.getTipo().equals(tipo)) {
-                if (isMonth(filtro) != null || isYear(filtro) != null || isCentro(filtro) != null) {
-                    if (e.getFechaOcurrencia().getMonth() == isMonth(filtro) || e.getFechaOcurrencia().getYear() == isYear(filtro) || e.getCentro().equals(filtro)) {
+                if (isMonth(filtro) != null) {
+                    if (e.getFechaOcurrencia().getMonth() == isMonth(filtro)) {
                         total += e.getDuracion();
                         contador++;
                     }
-                } else {
+                } 
+                if(isYear(filtro) != null){
+                	if(e.getFechaOcurrencia().getYear() == isYear(filtro)) {
+                        total += e.getDuracion();
+                		contador++;
+                	}
+                }
+                if(isCentro(filtro) != null) {
+                	if(e.getCentro().equals(filtro)) {
+                        total += e.getDuracion();
+                		contador++;
+                	}
+                }
+                else {
                     throw new Exception("El filtro no es válido");
                 }
             }

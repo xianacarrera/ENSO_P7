@@ -71,7 +71,7 @@ public class Verificacion implements ItfVerificacion {
 	}
 	
 	public Verificacion setIdVerif(String idVerif) throws Exception{
-		//Se emplea el mÃ©todo checkIdVerif para comprobar que el idVerif sea valido
+		//Se emplea el método checkIdVerif para comprobar que el idVerif sea valido
 		if (!ItfGestorId.checkIdVerificacion(idVerif)) throw new Exception("Identificador de verificacion no valido");
 		this.idVerif = idVerif;
 		return this;
