@@ -22,6 +22,7 @@ public class GestorEstadisticas implements ItfGestorEstadisticas {
     }
 
     //Método para añadir una estadística: el tipo se obtendrá a partir del id
+    // Metodo de elevada complejidad ciclomatica
     public Estadistica agregar(Date inicio, Date fin, Date fechaInsercion, String id, String centro) throws Exception {
         if (id == null) throw new Exception("El id no puede ser nulo");
         String tipo = ItfGestorId.getTipo(id);

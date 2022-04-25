@@ -39,6 +39,7 @@ public class PersonalEquipo {
 	public PersonalEquipo setEquipo(Equipo equipo) throws Exception {
 		if (equipo != null) {
 			if (!estaDisponible()) throw new Exception("El usuario ya pertenece a un equipo");
+			// El nivel de formacion del usuario no puede ser insuficiente si quiere pertenecer a un equipo
 			if ("Insuficiente".equals(this.nivelFormacion)) throw new Exception("El usuario no tiene el nivel de formacion suficiente");
 			if (this.capacitacion == null) throw new Exception("El usuario no esta capacitado");
 			if (this.nivelFormacion == null) throw new Exception("El usuario no tiene formacion");
@@ -46,6 +47,11 @@ public class PersonalEquipo {
 
 		this.equipo = equipo;
 		return this;
+	}
+	
+
+	public boolean estaDisponible() {
+		return this.equipo == null;
 	}
 
 	/**GETTERS**/
@@ -60,9 +66,6 @@ public class PersonalEquipo {
 	public Equipo getEquipo() {
 		return this.equipo;
 	}
-	
-	public boolean estaDisponible() {
-		return this.equipo == null;
-	}
+
 	/** FIN GETTERS**/
 }

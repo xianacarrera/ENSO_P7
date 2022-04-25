@@ -6,7 +6,7 @@ public class Estadistica {
     //Declaracion de variables
     private String tipo;
     private Float duracion;
-    private Date fechaInsercion, fechaOcurrencia;
+    private Date fechaInsercion, fechaOcurrencia;		
     private String id;
     private String centro;
 

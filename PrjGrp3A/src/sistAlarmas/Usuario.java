@@ -9,6 +9,14 @@ public class Usuario {
 
 	// Constructor
 	public Usuario(){}
+	
+	// Método de recepción de una acción por parte de un usuario
+	public Usuario recibirAccion(Accion accion) {
+		// En una aplicación real, el usuario recibiría una notificación y podría leer el contenido
+		// del mensaje de la acción.
+		// Tal funciondalidad no forma parte del alcance del incremento actual.
+		return this;
+	}
 
 	//Método para establecer el id del usuario
 	public Usuario setIdUsuario(String idUsuario) throws Exception{

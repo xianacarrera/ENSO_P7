@@ -11,8 +11,8 @@ public class Centro implements ItfCentro {
     private String idCentro;
     private String nombre;
     private String campus;
-    private String servicio;
-    private float[] coordenadas;
+    private String servicio;			// Puede ser nulo
+    private float[] coordenadas;		// Latitud y longitud, respectivamente
     private String ciudad;
     private String calle;
     private int numero;
@@ -98,7 +98,7 @@ public class Centro implements ItfCentro {
         return sensor;
     }
     
-    //Método para eliminar un sensor registrado
+    //Metodo para eliminar un sensor registrado
     @Override
     public Sensor borrarSensor(String idSensor) throws Exception {
         Sensor sensor;
@@ -113,14 +113,14 @@ public class Centro implements ItfCentro {
         return sensor;                 // Devuelve null si el mapping era null o idSensor era null
     }
 
-    //Método para eliminar todos los sensores registrados
+    //Metodo para eliminar todos los sensores registrados
     @Override
     public ItfCentro borrarTodosSensores() throws Exception {
         for (Sensor sensor : sensores.values()) borrarSensor(sensor.getIdSensor());
         return this;
     }
     
-    // Método para comprobar si en el centro hay un sensor de un tipo determinado
+    // Metodo para comprobar si en el centro hay un sensor de un tipo determinado
     @Override
 	public boolean tieneSensor(TipoSensor tipo) {
 		return sensores.values().stream().anyMatch(sensor -> sensor.getTipoSensor().equals(tipo));
@@ -159,6 +159,7 @@ public class Centro implements ItfCentro {
     //Método para establecer las coordenadas de un centro
     public Centro setCoordenadas(float[] coordenadas) throws Exception {
         if (coordenadas.length != 2) return null;
+        // La primera coordenada representa latitud; la segunda, longitud
         if (coordenadas[0] < -90 || coordenadas[0] > 90) throw new Exception("Latitud no valida");
         if (coordenadas[1] < -180 || coordenadas[1] > 180) throw new Exception("Longitud no valida");
         this.coordenadas = coordenadas;
@@ -186,8 +187,14 @@ public class Centro implements ItfCentro {
         return this;
     }
 
-    //Método para establecer el cÃ³digo postal de un centro
+    //Método para establecer el codigo postal de un centro
     public Centro setCodigoPostal(int codigoPostal) throws Exception {
+    	/* Se verifica que:
+    	 *  - El codigo postal tenga longitud 5.
+    	 *  - Sea un entero no negativo.
+    	 *  - Los dos primeros dígitos se encuentren entre 1 y 52.
+    	 */
+    	
         if (String.valueOf(codigoPostal).length() != 5) throw new Exception("Codigo postal no valido");
         if (codigoPostal < 0) throw new Exception("Codigo postal no valido");
         int prov = Integer.parseInt(String.valueOf(codigoPostal).substring(0, 2));
@@ -245,6 +252,7 @@ public class Centro implements ItfCentro {
     }
     /**FIN GETTERS**/
 
+    // Patrón de diseño Builder
     public static class Builder {
         private Centro centro;
 

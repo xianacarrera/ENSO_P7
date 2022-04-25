@@ -35,6 +35,7 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 	}
 
 	//Método para activar una alarma: debe tener asignada un centro o una zona
+	// Metodo de elevada complejidad ciclomatica
 	@Override
 	public Alarma activarAlarma(Centro centro, String zona) throws Exception {
 		if (centro == null && zona == null) throw new Exception("Una alarma debe tener o bien un centro o bien una zona");
@@ -54,12 +55,13 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		} while (!flag);
 		alarma.setEstadoAlarma(EstadoAlarma.CREADA);
 		alarma.setTipoAlarma(TipoAlarma.MANUAL);
-		alarma.setCentro(centro);
+		if (centro != null) alarma.setCentro(centro);
 		alarma.setZona(zona);
 		
 		Equipo equipoEncargado = GestorEquipos.getInstancia().buscarEquipo(alarma);
+		// Si no se ha encontrado ningun equipo que se pueda hacer cargo, la gestion de la alarma queda pospuesta
 		if (equipoEncargado == null) alarmasPendientes.put(alarma.getIdAlarma(), alarma);
-		else{ 
+		else{     // En caso contrario, se prepara la alarma para ser ejecutada
 			alarma.setEstadoAlarma(EstadoAlarma.ENEJECUCION);
 			alarmasEnEjecucion.put(alarma.getIdAlarma(), alarma);
 		}
@@ -74,6 +76,8 @@ public class GestorAlarmas implements ItfGestorAlarmas {
 		
 		List<Protocolo> prots = protocolos.values().stream().collect(Collectors.toList());
 		// Podemos hacer un getTipo().equals porque el tipo de un protocolo nunca es null
+		// Buscamos aquellos protocolos cuyo tipo coincida con el de la alarma y que, de tener una localizacion, esta coincida con
+		// el nombre del centro o la zona de ocurrencia de la alarma
 		prots = prots.stream().filter(prot -> prot.getTipo().equals(al.getTipoAlarma()) && (prot.getLocalizacion() == null || 
 				prot.getLocalizacion().equals(al.getCentro().getNombre()) || prot.getLocalizacion().equals(al.getZona())))
 				.collect(Collectors.toList());

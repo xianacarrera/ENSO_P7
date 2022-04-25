@@ -8,14 +8,12 @@ public interface ItfGestorId {
     // en la interfaz desde Java 8
 
 
-    //TODO AÑADIR AL DICCIONARIO LOS FORMATOS
-
     /*
-     * LAS COMPROBACIONES A REALIZAR BUSCARÍAN SER SIMILARES A LAS ESTABLECIDAS
-     * EN EL DICCIONARIO DE DATOS ASOCIADO A LA PRÁCTICA. POR ELLO, SE COMPROBARÍAN:
-     * -> ID DISTINTO DE NULL
-     * -> LONGITUD DEL IDENTIFICADOR
-     * -> FORMATO DEL MISMO
+     * Las comprobaciones a realizar implementan los requerimientos de informacion
+     * establecidos en el documento de analisis, disenho y planificacion. Por ello, se comprobara:
+     * -> que el id sea distinto de nulo
+     * -> la longitud del id
+     * -> su formato
      */
 
     /**
@@ -131,6 +129,7 @@ public interface ItfGestorId {
     /**
      * FORMATO ESPERADO: "AC-XX...XX"
      **/
+    // Metodo de elevada complejidad ciclomatica
     static boolean checkIdAccion(String idAccion) {
         // 1- IDENTIFICADOR NO NULO:
         if (idAccion == null) {
@@ -194,16 +193,20 @@ public interface ItfGestorId {
         if (idProt.charAt(0) != 'P') {
             return false;
         }
+        if (idProt.charAt(1) != '-') {
+        	return false;
+        }
         return true;
     }
 
-    static String getTipo(String tipo) {
-        if (tipo == null) return null;
-        switch (tipo.charAt(0)) {
+    // Comprueba la clase a la que pertenece un identificador determinado
+    static String getTipo(String id) {
+        if (id == null) return null;
+        switch (id.charAt(0)) {
             case 'S':
                 return "Sensor";
             case 'A':
-                if (tipo.charAt(1) == 'C') {
+                if (id.charAt(1) == 'C') {
                     return "Accion";
                 }
                 return "Alarma";

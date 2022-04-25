@@ -1,9 +1,7 @@
 package sistAlarmas;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class GestorEquipos implements ItfGestorEquipos{
@@ -34,8 +32,8 @@ public class GestorEquipos implements ItfGestorEquipos{
 		return true;
 	}
 
-	//TODO: ESTO ESTA INCOMPLETO ENTIENDO YO NO?
 	//Método para recibir los protocolos para los equipos
+	// Metodo de elevada complejidad ciclomatica
 	public Equipo buscarEquipo(Alarma al) throws Exception {
 		
 		if (al == null) throw new Exception("Debe indicarse una alarma");

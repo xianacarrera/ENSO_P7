@@ -29,6 +29,7 @@ public class Accion implements ItfAccion {
 
 	//Metodo para establecer el mensaje de una accion
 	public Accion setMensaje(String mensaje) throws Exception {
+		// El mensaje de una accion tiene caracter definitivo y no se puede sobreescribir
 		if (this.mensaje != null) throw new Exception("Esta accion ya tiene un mensaje");
 		if (mensaje == null) throw new Exception("Mensaje no valido");
 		this.mensaje = mensaje;
@@ -39,6 +40,8 @@ public class Accion implements ItfAccion {
 	@Override
 	public Accion recibir() throws Exception {
 		// Una alarma recibida no puede "desrecibirse"
+		// Las comprobaciones de que el emisor, la alarma, etc. esten bien establecidos se consideran precondiciones
+		// del metodo y quedan bajo gestion del programador
 		if (this.recibida) throw new Exception("La accion ya habia sido recibida");
 		this.recibida = true;
 		return this;
@@ -48,6 +51,7 @@ public class Accion implements ItfAccion {
 	public Accion setAlarma(Alarma alarma) throws Exception {
 		if (this.alarma != null) throw new Exception("Esta accion ya esta relacionada con una alarma");
 		if (alarma == null) throw new Exception("Alarma inexistente");
+		// Comprobamos si la alarma esta incluida dentro de las alarmas en ejecucion que guarda el GestorAlarmas
 		if (!GestorAlarmas.getInstancia().esAlarmaEnEjecucion(alarma.getIdAlarma())) throw new Exception("La alarma no se esta ejecutando");
 		
 		this.alarma = alarma;
@@ -56,8 +60,10 @@ public class Accion implements ItfAccion {
 
 	//Metodo para relacionae una accion con un equipo registrado
 	public Accion setDestinatario(Equipo destinatario) throws Exception {
+		// Un destinatario solamente se puede establecer una vez
 		if (this.destinatario != null) throw new Exception("Esta accion ya tenia un destinatario");
 		if (destinatario == null) throw new Exception("Equipo destinario inexistente");
+		// El equipo debe haber sido introducido oficialmente en el sistema
 		if (!GestorEquipos.getInstancia().esEquipoRegistrado(destinatario.getIdEquipo())) throw new Exception("El equipo no ha sido registrado");
 		
 		this.destinatario = destinatario;

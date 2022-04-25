@@ -49,6 +49,7 @@ public class Sensor implements ItfSensor {
 	}
 
 	//Método para establecer el umbral de activación de un sensor
+	// Metodo de elevada complejidad ciclomatica
 	public Sensor setUmbralActivacion(Float umbralActivacion) throws Exception {
 		if (tipoSensor == null) throw new Exception("No se puede asignar un umbral de activacion a un sensor sin tipo");
 		boolean esValido = true;

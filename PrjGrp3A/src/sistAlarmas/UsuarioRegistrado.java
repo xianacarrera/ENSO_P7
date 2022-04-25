@@ -42,11 +42,13 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	}
 
 	//Método para establecer el DNI del usuario: comprueba que el DNI sea correcto
+	// Metodo de elevada complejidad ciclomatica
 	public UsuarioRegistrado setDNI(String DNI) throws Exception {
 		if (DNI == null) throw new Exception("DNI no valido: no existe");
 		if (this.DNI != null) throw new Exception("Este usuario ya tiene registrado un DNI");
 		
 		boolean esValido = true;
+		// Secuencia prefijada. La letra del DNI debe coincidir con la letra en la posicion igual a los digitos del DNI en modulo 23
 		String letraSegunResto = "TRWAGMYFPDXBNJZSQVHLCKE";
 
 		if (DNI.length() != 9) esValido = false; //Comprueba que el DNI tenga 9 caracteres
@@ -71,13 +73,16 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 	}
 
 	//Método para establecer el correo del usuario: comprueba que el correo sea correcto
+	// Metodo de elevada complejidad ciclomatica
 	public UsuarioRegistrado setCorreo(String correo) throws Exception {
 		boolean esValido = true;
+		if (correo == null) throw new Exception("El correo no existe");
 		if (!correo.contains("@") || !correo.contains(".")) esValido = false;
 		int i = 0;
 		while (esValido && i < correo.length()) {
 			char c = correo.charAt(i);
-			if (Character.isDigit(c) || Character.isLetter(c) || c == '_' || c == '-' || c == '.') continue;
+			// Los unicos caracteres admitidos son digitos, letras, guiones bajos, guiones, puntos y @
+			if (Character.isDigit(c) || Character.isLetter(c) || c == '_' || c == '-' || c == '.' || c == '@') continue;
 			esValido = false;
 			i++;	
 		}
@@ -168,6 +173,7 @@ public class UsuarioRegistrado extends Usuario implements ItfUsuarioRegistrado {
 
 	/**fin de los setters y getters**/
 
+	// Patron Builder
 	public static class Builder {
 		private UsuarioRegistrado user;
 		

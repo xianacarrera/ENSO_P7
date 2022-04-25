@@ -7,7 +7,7 @@ public class Alarma {
 
 	//Declaracion de variables
 	private String idAlarma;
-	private Date fechaIncidencia;		// Se inicializa automáticamente cuando se crea la alarma
+	private Date fechaIncidencia;		// Se inicializa automaticamente cuando se crea la alarma
 	private Date fechaCierre;			// No se puede modificar manualmente, se cambia al transicionar al estado DESACTIVADA
 	private Centro centro;
 	private String zona;
@@ -30,9 +30,10 @@ public class Alarma {
 
 	//Metodo para establecer el centro vinculado a una alarma. Este ha de estar registrado
 	public Alarma setCentro(Centro centro) throws Exception {
+		if (centro == null) throw new Exception("El centro indicado no existe");
 		if (this.centro != null) throw new Exception("Esta alarma ya esta vinculada a un centro");
-		if (centro != null)
-			if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro())) throw new Exception("El centro no esta registrado");
+		// El nuevo centro, de no ser nulo, debe estar registrado oficialmente 
+		if (!GestorCentros.getInstancia().esCentroRegistrado(centro.getIdCentro())) throw new Exception("El centro no esta registrado");
 		
 		this.centro = centro;
 		return this;
